@@ -1,6 +1,16 @@
 if (typeof window !== 'undefined') throw new Error("You can't acssess server config in client")
 const env = process.env.NODE_ENV || 'dev'
 module.exports = {
+  local: {
+    // Avoid using "development" because nextjs will turn on hot reload
+    isDev: true,
+    assetPrefix: '',
+    secret: 'local',
+    api: {
+      host: 'localhost:3000/api',
+      protocol: 'http'
+    }
+  },
   dev: {
     // Avoid using "development" because nextjs will turn on hot reload
     isDev: true,

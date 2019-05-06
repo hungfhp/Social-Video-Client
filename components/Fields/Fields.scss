@@ -1,0 +1,246 @@
+@import "../../theme/variables";
+
+.select-field__control, .async-field__control {
+  border: 1px solid $gray-color;
+  background: $white-color;
+  background-color: $white-color !important;
+  box-shadow: none;
+  min-height: 36px !important;
+  height: 36px;
+}
+.select-field__value-container--has-value .select-field__single-value{
+  color: $text-color;
+}
+.select-field__indicator > {
+  svg {
+    color: $text-color;
+    width: 17px;
+    height: 17px;
+  }
+}
+.select-field__indicator-separator {
+  display: none;
+}
+.has-value {
+  .select-field__single-value {
+    color: $primary-color;
+  }
+  .select-field__indicator > svg {
+    color: #48A2D7;
+  }
+  .select-field__control, .async-field__control {
+    border: 1px solid $primary-color;
+  }
+}
+.select-field__control--is-focused {
+  box-shadow: none !important;
+}
+.select-field__option--is-selected {
+  background: $primary-color !important;
+}
+.select-field__menu,  .async-field__menu{
+  z-index: 999 !important;
+  color: $text-color;
+  margin-top: 0 !important;
+}
+
+.check-box-field {
+  position: relative;
+  margin-bottom: 0;
+  cursor: pointer;
+
+  .icon {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+  }
+
+  i {
+    display: none;
+    position: absolute;
+    font-size: 13px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .check-box-true {
+    position: relative;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+
+    i {
+      display: block !important;
+    }
+  }
+
+  .check-box-false {
+    border: 1px solid $gray-1-color;
+    color: $white-color;
+  }
+
+}
+
+.field__error-text {
+  color: $red-color;
+  text-align: left;
+  white-space: pre-wrap
+}
+.has-error {
+  .select-field__control, .async-field__control {
+    border: 1px solid $red-color;
+    background: $white-color;
+  }
+}
+
+.select-raw-container {
+  position: relative;
+  color: $text-color;
+  &.has-value {
+    color: $primary-color;
+    &:after {
+      color: $primary-color;
+    }
+    select {
+      border: 1px solid $primary-color;
+      option {
+        color: $text-color;
+      }
+    }
+  }
+  &:after {
+    content: "\f078";
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    pointer-events: none;
+    color: $text-color;
+    font-size: 1.2rem;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 36px;
+    padding: 0 2.2rem 0 1rem;
+    width: 100%;
+    background: $white-color;
+    border-color: $border-color;
+    outline: none;
+    border-radius: .4rem;
+  }
+}
+
+.select-radio-container {
+  .label-placeholder {
+    h2, h3 {
+      font-size: 1.4rem;
+      padding: 0;
+      margin: 0;
+      color: $strong-color;
+      font-weight: bold;
+    }
+  }
+}
+
+.multi-checkbox-wrap {
+  >div {
+    margin-right: 2rem;
+  }
+}
+
+.SelectMutilCheck {
+  position: relative;
+  color: $text-color;
+  &.has-value {
+    color: $primary-color;
+    &:after {
+      color: $primary-color;
+    }
+    .fake-select {
+      border: 1px solid $primary-color;
+    }
+  }
+  &:after {
+    content: "\f078";
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    pointer-events: none;
+    color: $text-color;
+    font-size: 1.2rem;
+  }
+  .fake-select {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 36px;
+    padding: 0 2.2rem 0 1rem;
+    width: 100%;
+    line-height: 36px;
+    background: $white-color;
+    border-color: $border-color;
+    outline: none;
+    border-radius: .4rem;
+    border: 1px solid $border-color;
+  }
+  .outer-menu {
+    position: absolute;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    margin: 0;
+    padding: 1rem;
+    top: 0;
+    left: 0;
+    background: $white-color;
+    color: $text-color;
+    list-style: none;
+    z-index: 2;
+    li {
+      margin: 5px 0;
+    }
+    .deliver {
+      height: 1px;
+      width: 100%;
+      background: $border-color;
+    }
+  }
+}
+.no-touch {
+  cursor: not-allowed;
+}
+.overflow-unset {
+  overflow: unset !important;
+}
+.control-class {
+  margin: 0 !important;
+}

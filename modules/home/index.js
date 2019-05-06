@@ -1,38 +1,69 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
+import { connect } from 'react-redux'
 import './styles.scss'
-// import image from '~/assets/img/bg7.jpg'
-import Button from '@material-ui/core/Button'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Radio'
+import Paper from '@material-ui/core/Paper'
+import SuggestMovies from './components/SuggestMovies'
+// import SuggestMovies from '../../containers/Movie/SuggestMovies'
 // import AppBar from '@material-ui/core/AppBar';
+import Loading from '../../components/Loading'
+import { getSuggestMovies } from './action'
 
-// eslint-disable-next-line react/display-name
-export default class extends Component {
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.primary
+  }
+})
+
+@connect(
+  state => ({
+    user: state.common.user,
+    isAuthenticated: state.common.isAuthenticated,
+    suggestMovies: state.home.suggestMovies
+  }),
+  {
+    getSuggestMovies
+  }
+)
+@withStyles(styles, { withTheme: true })
+export default class Home extends Component {
+  state = {}
+  componentWillMount() {
+    // this.props.getSuggestMovies()
+  }
   render() {
+    const { classes, theme, suggestMovies } = this.props
     return (
-      <div id="home">
+      <React.Fragment>
         <Head>
           <title>Home</title>
           <meta name="description" content="Home page" />
         </Head>
-        <div>
-          <h1>hihihihih</h1>
-          <Button variant="contained" color="primary">
-            Hello World
-          </Button>
-          <br />
-          <br />
-          <Button variant="contained" color="secondary">
-            Hello World
-          </Button>
-          <br />
-          <br />
-          <Button variant="contained" color="default">
-            Hello World
-          </Button>
-          <br />
-          <br />
+        <div id="home" className={classes.root}>
+          <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
+            <Grid item xs={9}>
+              <Loading loading={!suggestMovies.loaded} />
+              {suggestMovies.loaded && <SuggestMovies movies={suggestMovies} />}
+            </Grid>
+
+            <Grid item xs={3}>
+              <Paper className={classes.paper}>xs=12</Paper>
+            </Grid>
+          </Grid>
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }

@@ -3,9 +3,11 @@ import {
   openAlertAction,
   openForgotPasswordAction,
   openRegisterAction,
-  openLoginAction
+  openLoginAction,
+  openLeftSideAction
 } from './action'
 const defaultState = {
+  openLeftSide: true,
   openLogin: false,
   openRegister: false,
   openForgotPassword: false,
@@ -14,6 +16,10 @@ const defaultState = {
 }
 
 const handlers = {
+  [openLeftSideAction]: (state, action) => ({
+    ...state,
+    openLeftSide: action.payload
+  }),
   [openLoginAction]: (state, action) => ({
     ...state,
     openLogin: action.payload

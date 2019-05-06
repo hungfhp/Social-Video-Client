@@ -1,17 +1,30 @@
 import axios from 'axios'
 import getConfig from 'next/config'
-const privateConfig = getConfig().serverRuntimeConfig || {}
+// import config from '../../next.config.js'
+
+// const privateConfig = getConfig().serverRuntimeConfig || {}
+const publicConfig = getConfig().publicRuntimeConfig || {}
 
 export default function fetchApi(url, config = {}, req) {
-  console.log('fetchApi', url)
+  // console.log('req', req && req.headers)
   // TODO dispatch fetching status
-  let apiURL = ''
+  const apiConfig = publicConfig.api || {}
+  let apiURL = `${apiConfig.protocol}://${apiConfig.host}` + url
+
+  console.log(apiURL)
+  console.log(req && req.headers)
   if (req || typeof window === 'undefined') {
-    const apiConfig = privateConfig.api || {}
     const reqHeader = (req && req.headers) || {}
     config.headers = { ...reqHeader, host: apiConfig.host }
     delete config.headers.host // wating config ACAO
-    apiURL = `${apiConfig.protocol}://${apiConfig.host}`
   }
-  return axios({ ...config, url: apiURL + url })
+  // return axios({
+  //   url: apiURL + url,
+  //   headers: {
+  //     authorization:
+  //       'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzllZGIyZDZkN2IxYjJlYTA3ZmYzZmEiLCJpYXQiOjE1NTcxMjA2OTZ9.vroxhr76mtDvkvSK3raGFDM8aFn0SuvJ30h9E7pfLzA'
+  //   }
+  // })
+
+  return axios({ ...config, url: apiURL })
 }

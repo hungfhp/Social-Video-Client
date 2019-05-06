@@ -7,9 +7,9 @@ const theme = createMuiTheme({
   palette: {
     // type: 'dark',
     primary: {
-      light: '#757ce8',
-      main: '#48a2d7',
-      dark: '#002884',
+      light: '#4dabf5',
+      main: '#2196f3',
+      dark: '#1769aa',
       contrastText: '#fff'
     },
     secondary: {
@@ -18,8 +18,19 @@ const theme = createMuiTheme({
       dark: '#ba000d'
     }
   },
+  drawers: {
+    left: {
+      width: 240
+    }
+  },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    subtitle1: {
+      fontWeight: 500
+    },
+    subtitle2: {
+      fontWeight: 400
+    }
   }
 })
 

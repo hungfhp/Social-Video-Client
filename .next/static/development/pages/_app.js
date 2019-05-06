@@ -20133,9 +20133,9 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
   palette: {
     // type: 'dark',
     primary: {
-      light: '#757ce8',
-      main: '#48a2d7',
-      dark: '#002884',
+      light: '#4dabf5',
+      main: '#2196f3',
+      dark: '#1769aa',
       contrastText: '#fff'
     },
     secondary: {
@@ -20144,8 +20144,19 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
       dark: '#ba000d'
     }
   },
+  drawers: {
+    left: {
+      width: 240
+    }
+  },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    subtitle1: {
+      fontWeight: 500
+    },
+    subtitle2: {
+      fontWeight: 400
+    }
   }
 });
 

@@ -1,5 +1,67 @@
+
 body {
   background-color: red; }
+
+.spinner {
+  margin: 15px auto;
+  width: 70px;
+  text-align: center; }
+
+.spinner > div {
+  width: 14px;
+  height: 14px;
+  background-color: #48A2D7;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both; }
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s; }
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s; }
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1); } }
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+.place-holder-preload {
+  padding-top: 2rem; }
+  .place-holder-preload .preload-img {
+    width: 10rem;
+    height: 8.5rem; }
+  .place-holder-preload .preload-p {
+    height: 1.4rem; }
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0; }
+  100% {
+    background-position: 468px 0; } }
+
+.animated-placeholder {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #d9d9d9 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  position: relative; }
 
 
 /*# sourceMappingURL=styles.chunk.css.map*/

@@ -40,3 +40,35 @@
     transform: scale(1.0);
   }
 }
+
+
+.place-holder-preload{
+  padding-top: 2rem;
+  .preload-img{
+    width: 10rem;
+    height: 8.5rem;
+  }
+  .preload-p{
+    height: 1.4rem;
+  }
+}
+@keyframes placeHolderShimmer{
+  0%{
+      background-position: -468px 0
+  }
+  100%{
+      background-position: 468px 0
+  }
+}
+
+.animated-placeholder {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #d9d9d9 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  position: relative;
+}

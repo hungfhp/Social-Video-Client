@@ -18,20 +18,38 @@ import IconInput from '@material-ui/icons/Input'
 import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
-// import LoginDialog from '../Login/LoginDialog'
+import LoginDialog from '../Login/LoginDialog'
 import { connect } from 'react-redux'
-import { openLoginPopup } from '../../common/action'
+import { openLoginPopup, openLeftSideDrawer } from '../../common/action'
+import Link from '../../components/Link'
+import classNames from 'classnames'
 
 const styles = theme => ({
-  root: {
-    width: '100%'
-  },
   grow: {
     flexGrow: 1
   },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    boxShadow: theme.shadows[1],
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: theme.drawers.left.width,
+    width: `calc(100% - ${theme.drawers.left.width}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
   menuButton: {
-    marginLeft: -12,
+    marginLeft: -theme.spacing.unit * 2,
     marginRight: 20
+  },
+  hide: {
+    display: 'none'
   },
   title: {
     display: 'none',
@@ -94,15 +112,17 @@ const styles = theme => ({
 
 @connect(
   state => ({
-    user: state.common.user
+    user: state.common.user,
+    isAuthenticated: state.common.isAuthenticated,
+    openLeftSide: state.commonUIState.openLeftSide,
+    openLogin: state.commonUIState.openLogin
   }),
-  { openLoginPopup }
+  { openLoginPopup, openLeftSideDrawer }
 )
 class Header extends React.Component {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null,
-    openLoginDialog: false
+    mobileMoreAnchorEl: null
   }
 
   handleProfileMenuOpen = event => {
@@ -126,9 +146,13 @@ class Header extends React.Component {
     this.props.openLoginPopup(true)
   }
 
+  handleClickOpenLeftSideDrawer = () => {
+    this.props.openLeftSideDrawer(!this.props.openLeftSide)
+  }
+
   render() {
-    const { anchorEl, mobileMoreAnchorEl, openLoginDialog } = this.state
-    const { classes } = this.props
+    const { anchorEl, mobileMoreAnchorEl } = this.state
+    const { classes, user, isAuthenticated, openLogin } = this.props
     const isMenuOpen = Boolean(anchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -140,7 +164,9 @@ class Header extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>
+          <Link href="/profile/my">Profile</Link>
+        </MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
       </Menu>
     )
@@ -169,31 +195,43 @@ class Header extends React.Component {
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleClickOpenLoginDialog}>
-          <IconButton color="inherit">
-            <IconInput />
-          </IconButton>
-          <p>Login</p>
-        </MenuItem>
+        {isAuthenticated ? (
+          <MenuItem onClick={this.handleProfileMenuOpen}>
+            <IconButton color="inherit">
+              <AccountCircle />
+            </IconButton>
+            <p>
+              <Link href="/profile/my">Profile</Link>
+            </p>
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={this.handleClickOpenLoginDialog}>
+            <IconButton color="inherit">
+              <IconInput />
+            </IconButton>
+            <p>Login</p>
+          </MenuItem>
+        )}
       </Menu>
     )
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
+      <React.Fragment>
+        <AppBar position="fixed" color="default" className={classNames(classes.appBar, {})}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+            <IconButton
+              onClick={this.handleClickOpenLeftSideDrawer}
+              className={classNames(classes.menuButton, {})}
+              color="inherit"
+              aria-label="Open drawer"
+            >
               <MenuIcon />
             </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Home
-            </Typography>
+            {/* <Typography className={classes.title} variant="h6" color="inherit" noWrap> */}
+            <Button color="inherit">
+              <Link href="/home">Home</Link>
+            </Button>
+            {/* </Typography> */}
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -218,15 +256,20 @@ class Header extends React.Component {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Button onClick={this.handleClickOpenLoginDialog} color="inherit">Login</Button>
+              {isAuthenticated ? (
+                <IconButton
+                  aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              ) : (
+                <Button onClick={this.handleClickOpenLoginDialog} color="inherit">
+                  Login
+                </Button>
+              )}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
@@ -237,8 +280,8 @@ class Header extends React.Component {
         </AppBar>
         {renderMenu}
         {renderMobileMenu}
-        {/* <LoginDialog open={openLoginDialog} /> */}
-      </div>
+        <LoginDialog open={openLogin} />
+      </React.Fragment>
     )
   }
 }

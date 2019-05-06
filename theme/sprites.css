@@ -1,0 +1,1332 @@
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+.icon-about-us-bank__MIZUHO {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px 0px;
+  width: 200px;
+  height: 60px;
+}
+.icon-about-us-bank__RESONA {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -120px;
+  width: 200px;
+  height: 60px;
+}
+.icon-about-us-bank__SUMITOMO_MITSUI {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -60px;
+  width: 200px;
+  height: 60px;
+}
+.icon-about-us-our-story__signature {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -180px;
+  width: 157px;
+  height: 42px;
+}
+.icon-acura {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -140px;
+  width: 30px;
+  height: 20px;
+}
+.icon-alfa-romeo {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -60px;
+  width: 30px;
+  height: 20px;
+}
+.icon-aston-martin {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -418px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-audi {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -388px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-bentley {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -88px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-birkin {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -200px;
+  width: 30px;
+  height: 20px;
+}
+.icon-bmw {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -40px;
+  width: 30px;
+  height: 20px;
+}
+.icon-bodytype-bus {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -270px;
+  width: 67px;
+  height: 26px;
+}
+.icon-bodytype-convertible {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -59px -357px;
+  width: 63px;
+  height: 18px;
+}
+.icon-bodytype-coupe {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -150px -382px;
+  width: 57px;
+  height: 19px;
+}
+.icon-bodytype-hatchback {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -41px -412px;
+  width: 47px;
+  height: 21px;
+}
+.icon-bodytype-mini-van {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -93px -382px;
+  width: 57px;
+  height: 19px;
+}
+.icon-bodytype-mini {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -405px -270px;
+  width: 46px;
+  height: 24px;
+}
+.icon-bodytype-sedan {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -122px -357px;
+  width: 60px;
+  height: 17px;
+}
+.icon-bodytype-suv {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -200px -154px;
+  width: 63px;
+  height: 25px;
+}
+.icon-bodytype-truck {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -357px;
+  width: 59px;
+  height: 25px;
+}
+.icon-buick {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px 0px;
+  width: 30px;
+  height: 20px;
+}
+.icon-cadillac {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -298px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-camera {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -64px;
+  width: 20px;
+  height: 16px;
+}
+.icon-car-heart {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -408px -180px;
+  width: 40px;
+  height: 40px;
+}
+.icon-cargo-ship {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -408px -135px;
+  width: 40px;
+  height: 40px;
+}
+.icon-check-square {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -324px -154px;
+  width: 14px;
+  height: 14px;
+}
+.icon-chevrolet {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -100px;
+  width: 30px;
+  height: 20px;
+}
+.icon-chrysler {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -120px;
+  width: 30px;
+  height: 20px;
+}
+.icon-citroen {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -280px;
+  width: 30px;
+  height: 20px;
+}
+.icon-daewoo {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -120px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-daihatsu {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -210px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-daimler {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-dodge {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -148px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-ferrari {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -178px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-fiat {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -208px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-footer__bahamas {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -426px -296px;
+  width: 22px;
+  height: 15px;
+}
+.icon-footer__bank_transfer {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -47px -382px;
+  width: 46px;
+  height: 28px;
+}
+.icon-footer__bmw {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -140px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__bus {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -45px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__convertible {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px 0px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__coupe {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -115px -267px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__digicert_secure {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -412px;
+  width: 41px;
+  height: 30px;
+}
+.icon-footer__equity {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -263px -154px;
+  width: 61px;
+  height: 25px;
+}
+.icon-footer__ford {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -280px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__hatchback {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -267px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__honda {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -210px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__isuzu {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__jumvea_shield {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -300px -222px;
+  width: 35px;
+  height: 40px;
+}
+.icon-footer__jumvea {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -157px -180px;
+  width: 47px;
+  height: 32px;
+}
+.icon-footer__kenya {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -404px -296px;
+  width: 22px;
+  height: 15px;
+}
+.icon-footer__logo_footer {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -200px 0px;
+  width: 138px;
+  height: 64px;
+}
+.icon-footer__malawi {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -382px -296px;
+  width: 22px;
+  height: 15px;
+}
+.icon-footer__master_card {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -204px -180px;
+  width: 50px;
+  height: 30px;
+}
+.icon-footer__mazda {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -135px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__mercedes_benz {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -225px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__mozambique {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -360px -296px;
+  width: 22px;
+  height: 15px;
+}
+.icon-footer__nisan {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -230px -267px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__paypal {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -254px -180px;
+  width: 50px;
+  height: 30px;
+}
+.icon-footer__resona_bank {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -300px -267px;
+  width: 31px;
+  height: 40px;
+}
+.icon-footer__sabaru {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -350px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__sedan {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -222px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__suv {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -200px -109px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__suzuki {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -90px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__tanzania {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -296px;
+  width: 22px;
+  height: 15px;
+}
+.icon-footer__toyota {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -70px -312px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__truck_2 {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -200px -64px;
+  width: 115px;
+  height: 45px;
+}
+.icon-footer__visa {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -382px;
+  width: 47px;
+  height: 30px;
+}
+.icon-footer__volkswagen {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -230px -222px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__volvo {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -338px -180px;
+  width: 70px;
+  height: 45px;
+}
+.icon-footer__wagon {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -115px -222px;
+  width: 115px;
+  height: 45px;
+}
+.icon-ford {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -160px;
+  width: 30px;
+  height: 20px;
+}
+.icon-gm {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -180px;
+  width: 30px;
+  height: 20px;
+}
+.icon-gmc {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -360px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-hino {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -220px;
+  width: 30px;
+  height: 20px;
+}
+.icon-hitachi {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -240px;
+  width: 30px;
+  height: 20px;
+}
+.icon-honda {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -260px;
+  width: 30px;
+  height: 20px;
+}
+.icon-hummer {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -304px -180px;
+  width: 30px;
+  height: 22px;
+}
+.icon-hyundai {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -300px;
+  width: 30px;
+  height: 20px;
+}
+.icon-Infiniti {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -320px;
+  width: 30px;
+  height: 20px;
+}
+.icon-isuzu {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -340px;
+  width: 30px;
+  height: 20px;
+}
+.icon-jaguar {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -360px;
+  width: 30px;
+  height: 20px;
+}
+.icon-jeep {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -380px;
+  width: 30px;
+  height: 20px;
+}
+.icon-kia-motors {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -400px;
+  width: 30px;
+  height: 20px;
+}
+.icon-komatsu {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -420px;
+  width: 30px;
+  height: 20px;
+}
+.icon-lamborghini {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: 0px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-lancia {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -30px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-land-rover {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -60px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-lang-ar {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -121px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-bn {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -282px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-en {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -92px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-es {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -80px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-fr {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -262px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-ja {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -242px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-ka {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -222px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-my {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -202px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-pt {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -182px -357px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-ru {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -109px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lang-sw {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -315px -133px;
+  width: 20px;
+  height: 12px;
+}
+.icon-lexus {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -420px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-lincoln {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -450px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-login-icon-notification {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -408px -225px;
+  width: 40px;
+  height: 40px;
+}
+.icon-lotus {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -30px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-maserati {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -60px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-maybach {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -90px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mazda {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -120px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mercedes-benz {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -150px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mg {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -180px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mini {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -210px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mitsubishi-fuso {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -240px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mitsubishi {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -270px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-mitsuoka {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -300px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-nissan {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -330px -462px;
+  width: 30px;
+  height: 20px;
+}
+.icon-opel {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -390px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-others {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -360px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-peugeot {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -330px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-pontiac {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -300px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-porsche {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -270px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-renault {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -240px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-rolls-royce {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -420px -312px;
+  width: 30px;
+  height: 22px;
+}
+.icon-rover {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -180px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-saab {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -150px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-save-20 {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -408px -90px;
+  width: 40px;
+  height: 40px;
+}
+.icon-smart {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -90px -442px;
+  width: 30px;
+  height: 20px;
+}
+.icon-ssangyong {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -20px;
+  width: 30px;
+  height: 20px;
+}
+.icon-subaru {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -238px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-suzuki {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -118px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-tcm {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -420px -334px;
+  width: 30px;
+  height: 20px;
+}
+.icon-toyota {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -268px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-volkswagen {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -453px -80px;
+  width: 30px;
+  height: 20px;
+}
+.icon-volvo {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -328px -412px;
+  width: 30px;
+  height: 20px;
+}
+.icon-yanmar {
+  background-image: url(/public/next-desktop/images/sprites.png);
+  background-position: -358px -412px;
+  width: 30px;
+  height: 20px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+  .icon-about-us-bank__MIZUHO {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-about-us-bank__RESONA {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-about-us-bank__SUMITOMO_MITSUI {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-about-us-our-story__signature {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-acura {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-alfa-romeo {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-aston-martin {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-audi {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bentley {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-birkin {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bmw {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-bus {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-convertible {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-coupe {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-hatchback {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-mini-van {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-mini {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-sedan {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-suv {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-bodytype-truck {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-buick {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-cadillac {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-camera {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-car-heart {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-cargo-ship {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-check-square {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-chevrolet {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-chrysler {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-citroen {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-daewoo {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-daihatsu {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-daimler {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-dodge {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-ferrari {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-fiat {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__bahamas {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__bank_transfer {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__bmw {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__bus {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__convertible {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__coupe {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__digicert_secure {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__equity {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__ford {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__hatchback {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__honda {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__isuzu {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__jumvea_shield {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__jumvea {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__kenya {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__logo_footer {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__malawi {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__master_card {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__mazda {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__mercedes_benz {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__mozambique {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__nisan {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__paypal {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__resona_bank {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__sabaru {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__sedan {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__suv {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__suzuki {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__tanzania {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__toyota {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__truck_2 {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__visa {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__volkswagen {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__volvo {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-footer__wagon {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-ford {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-gm {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-gmc {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-hino {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-hitachi {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-honda {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-hummer {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-hyundai {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-Infiniti {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-isuzu {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-jaguar {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-jeep {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-kia-motors {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-komatsu {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lamborghini {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lancia {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-land-rover {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-ar {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-bn {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-en {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-es {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-fr {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-ja {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-ka {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-my {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-pt {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-ru {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lang-sw {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lexus {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lincoln {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-login-icon-notification {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-lotus {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-maserati {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-maybach {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mazda {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mercedes-benz {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mg {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mini {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mitsubishi-fuso {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mitsubishi {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-mitsuoka {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-nissan {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-opel {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-others {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-peugeot {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-pontiac {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-porsche {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-renault {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-rolls-royce {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-rover {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-saab {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-save-20 {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-smart {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-ssangyong {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-subaru {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-suzuki {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-tcm {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-toyota {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-volkswagen {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-volvo {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+  .icon-yanmar {
+    background-image: url(/public/next-desktop/images/sprites@2x.png);
+    background-size: 483px 482px;
+  }
+}
