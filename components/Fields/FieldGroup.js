@@ -6,10 +6,10 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 // import Error from './Error'
 import Input from '@material-ui/core/Input'
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField'
+import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import InputLabel from '@material-ui/core/InputLabel'
 
 export default class extends Component {
   getValidationState = meta => {
@@ -32,26 +32,28 @@ export default class extends Component {
       leftIcon,
       rightIcon,
       autoComplete,
-      classes={}
+      classes = {}
     } = this.props
     const isError = !!(meta.touched && meta.error)
     return (
       <FormControl className={classes.formControl} error={isError}>
-      <InputLabel className={classes.inputLabel}  htmlFor={isError ? "component-error" : type }>{label}</InputLabel>
-      <Input
-        {...input}
-        onKeyUp={onKeyUp}
-        type={type}
-        disabled={disabled}
-        autoFocus={autoFocus}
-        placeholder={placeholder}
-        className={classes.input}
-        autoComplete={autoComplete}
-        aria-describedby="component-error-text"
-      />
+        <InputLabel className={classes.inputLabel} htmlFor={type}>
+          {label}
+        </InputLabel>
+        <Input
+          {...input}
+          onKeyUp={onKeyUp}
+          type={type}
+          disabled={disabled}
+          autoFocus={autoFocus}
+          placeholder={placeholder}
+          className={classes.input}
+          autoComplete={autoComplete}
+          aria-describedby="component-error-text"
+        />
 
-      <FormHelperText className={classes.formHelperText} >{isError&& meta.error}</FormHelperText>
-    </FormControl>
+        <FormHelperText className={classes.formHelperText}>{isError && meta.error}</FormHelperText>
+      </FormControl>
     )
   }
 }

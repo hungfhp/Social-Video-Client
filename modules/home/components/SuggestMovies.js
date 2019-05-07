@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import MovieCard from '../../../components/Movie/MovieCard'
+import Link from '../../../components/Link'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   card: {
@@ -32,14 +34,14 @@ const styles = theme => ({
 export default class SuggestMovies extends Component {
   render() {
     const { classes, theme, movies } = this.props
-    console.log(movies)
     return (
       <React.Fragment>
         <Grid container spacing={theme.spacing.unit * 2}>
-          {movies.data.length &&
+          {movies.data &&
+            movies.data.length &&
             movies.data.map((movie, index) => {
               return (
-                <Grid key={index} item xs={3}>
+                <Grid key={index} item md={3}>
                   <MovieCard movie={movie} />
                 </Grid>
               )

@@ -7,6 +7,7 @@ const defaultImageMovie = '/static/images/default-movie.png'
 const defaultAvatar = '/static/images/default-avatar.png'
 
 export const getImageMovie = (movie, size = 'medium') => {
+  // size: enum[small, medium, large]
   if (movie.thumbnails && movie.thumbnails[size]) {
     return movie.thumbnails[size]
   }

@@ -5,6 +5,17 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import JssProvider from 'react-jss/lib/JssProvider'
 import getPageContext from './getPageContext'
+import NProgress from 'nprogress'
+import 'core-js/fn/object/entries'
+import Router, { withRouter } from 'next/router'
+import '../theme/main.scss'
+
+NProgress.configure({ showSpinner: false })
+Router.events.on('routeChangeStart', url => {
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 class MyApp extends App {
   constructor() {
@@ -48,4 +59,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp
+export default withRouter(MyApp)

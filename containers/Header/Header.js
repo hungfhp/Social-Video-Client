@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+// import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import Badge from '@material-ui/core/Badge'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -19,10 +19,17 @@ import MailIcon from '@material-ui/icons/Mail'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import LoginDialog from '../Login/LoginDialog'
+import RegisterDialog from '../Register/RegisterDialog'
 import { connect } from 'react-redux'
-import { openLoginPopup, openLeftSideDrawer } from '../../common/action'
+import { openLoginPopup, openRegisterPopup, openLeftSideDrawer, logout } from '../../common/action'
 import Link from '../../components/Link'
 import classNames from 'classnames'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
+import MenuList from '@material-ui/core/MenuList'
+import Avatar from '@material-ui/core/Avatar'
 
 const styles = theme => ({
   grow: {
@@ -47,6 +54,11 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -theme.spacing.unit * 2,
     marginRight: 20
+  },
+  avatar: {
+    marginRight: 10,
+    marginTop: 2,
+    marginLeft: 10
   },
   hide: {
     display: 'none'
@@ -115,9 +127,10 @@ const styles = theme => ({
     user: state.common.user,
     isAuthenticated: state.common.isAuthenticated,
     openLeftSide: state.commonUIState.openLeftSide,
-    openLogin: state.commonUIState.openLogin
+    openLogin: state.commonUIState.openLogin,
+    openRegister: state.commonUIState.openRegister
   }),
-  { openLoginPopup, openLeftSideDrawer }
+  { openLoginPopup, openRegisterPopup, openLeftSideDrawer, logout }
 )
 class Header extends React.Component {
   state = {
@@ -146,29 +159,54 @@ class Header extends React.Component {
     this.props.openLoginPopup(true)
   }
 
+  handleClickOpenRegisterDialog = () => {
+    this.props.openRegisterPopup(true)
+  }
+
   handleClickOpenLeftSideDrawer = () => {
     this.props.openLeftSideDrawer(!this.props.openLeftSide)
   }
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state
-    const { classes, user, isAuthenticated, openLogin } = this.props
+    const { classes, isAuthenticated, user, openLogin, openRegister } = this.props
     const isMenuOpen = Boolean(anchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
     const renderMenu = (
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={this.handleMenuClose}
-      >
-        <MenuItem onClick={this.handleMenuClose}>
-          <Link href="/profile/my">Profile</Link>
-        </MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-      </Menu>
+      // <Menu
+      //   anchorEl={anchorEl}
+      //   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      //   transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      //   open={true}
+      //   onClose={this.handleMenuClose}
+      // >
+      //   <MenuItem onClick={this.handleMenuClose}>
+      //     <Link href="/profile/my">Profile</Link>
+      //   </MenuItem>
+      //   <MenuItem onClick={this.props.logout}>Logout</MenuItem>
+      // </Menu>
+      <Popper open={isMenuOpen} anchorEl={anchorEl} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            id="menu-list-grow"
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={this.handleMenuClose}>
+                <MenuList>
+                  <MenuItem onClick={this.handleMenuClose}>
+                    <Link href="/profile/my">Profile</Link>
+                  </MenuItem>
+                  <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+                  <MenuItem onClick={this.props.logout}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     )
 
     const renderMobileMenu = (
@@ -257,18 +295,29 @@ class Header extends React.Component {
                 </Badge>
               </IconButton>
               {isAuthenticated ? (
-                <IconButton
-                  aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                <Avatar
+                  aria-owns={isMenuOpen ? 'menu-list-grow' : undefined}
                   aria-haspopup="true"
                   onClick={this.handleProfileMenuOpen}
                   color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
+                  alt={user.name}
+                  src={user.avatarUrl}
+                  className={classes.avatar + ' clickable'}
+                />
               ) : (
-                <Button onClick={this.handleClickOpenLoginDialog} color="inherit">
-                  Login
-                </Button>
+                // <IconButton color="inherit">
+                //   <Badge badgeContent={17} color="secondary">
+                //     <NotificationsIcon />
+                //   </Badge>
+                // </IconButton>
+                <React.Fragment>
+                  <Button color="primary" onClick={this.handleClickOpenLoginDialog}>
+                    Login
+                  </Button>
+                  <Button color="primary" onClick={this.handleClickOpenRegisterDialog}>
+                    Register
+                  </Button>
+                </React.Fragment>
               )}
             </div>
             <div className={classes.sectionMobile}>
@@ -281,6 +330,7 @@ class Header extends React.Component {
         {renderMenu}
         {renderMobileMenu}
         <LoginDialog open={openLogin} />
+        <RegisterDialog open={openRegister} />
       </React.Fragment>
     )
   }

@@ -905,6 +905,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-jss/lib/JssProvider */ "react-jss/lib/JssProvider");
 /* harmony import */ var react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _getPageContext__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./getPageContext */ "./pages/getPageContext.js");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! nprogress */ "nprogress");
+/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_fn_object_entries__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/fn/object/entries */ "core-js/fn/object/entries");
+/* harmony import */ var core_js_fn_object_entries__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_fn_object_entries__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../theme/main.scss */ "./theme/main.scss");
+/* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_theme_main_scss__WEBPACK_IMPORTED_MODULE_16__);
 
 
 
@@ -918,6 +926,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+nprogress__WEBPACK_IMPORTED_MODULE_13___default.a.configure({
+  showSpinner: false
+});
+next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeStart', function (url) {
+  nprogress__WEBPACK_IMPORTED_MODULE_13___default.a.start();
+});
+next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeComplete', function () {
+  return nprogress__WEBPACK_IMPORTED_MODULE_13___default.a.done();
+});
+next_router__WEBPACK_IMPORTED_MODULE_15___default.a.events.on('routeChangeError', function () {
+  return nprogress__WEBPACK_IMPORTED_MODULE_13___default.a.done();
+});
 
 var MyApp =
 /*#__PURE__*/
@@ -965,7 +989,7 @@ function (_App) {
   return MyApp;
 }(next_app__WEBPACK_IMPORTED_MODULE_7___default.a);
 
-/* harmony default export */ __webpack_exports__["default"] = (MyApp);
+/* harmony default export */ __webpack_exports__["default"] = (Object(next_router__WEBPACK_IMPORTED_MODULE_15__["withRouter"])(MyApp));
 
 /***/ }),
 
@@ -1010,6 +1034,9 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
       width: 240
     }
   },
+  spacing: {
+    unit: 8
+  },
   typography: {
     useNextVariants: true,
     subtitle1: {
@@ -1051,6 +1078,17 @@ function getPageContext() {
 
 /***/ }),
 
+/***/ "./theme/main.scss":
+/*!*************************!*\
+  !*** ./theme/main.scss ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ 0:
 /*!****************************************!*\
   !*** multi private-next-pages/_app.js ***!
@@ -1082,6 +1120,17 @@ module.exports = require("@material-ui/core/CssBaseline");
 /***/ (function(module, exports) {
 
 module.exports = require("@material-ui/core/styles");
+
+/***/ }),
+
+/***/ "core-js/fn/object/entries":
+/*!********************************************!*\
+  !*** external "core-js/fn/object/entries" ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("core-js/fn/object/entries");
 
 /***/ }),
 
@@ -1225,6 +1274,17 @@ module.exports = require("next/head");
 /***/ (function(module, exports) {
 
 module.exports = require("next/router");
+
+/***/ }),
+
+/***/ "nprogress":
+/*!****************************!*\
+  !*** external "nprogress" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("nprogress");
 
 /***/ }),
 

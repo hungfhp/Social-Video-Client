@@ -7,7 +7,7 @@ import {
   openLeftSideAction
 } from './action'
 const defaultState = {
-  openLeftSide: true,
+  openLeftSide: false,
   openLogin: false,
   openRegister: false,
   openForgotPassword: false,

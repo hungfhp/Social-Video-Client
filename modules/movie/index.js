@@ -10,11 +10,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import Paper from '@material-ui/core/Paper'
-import SuggestMovies from './components/SuggestMovies'
+import MovieInfo from './components/MovieInfo'
 // import SuggestMovies from '../../containers/Movie/SuggestMovies'
 // import AppBar from '@material-ui/core/AppBar';
 import Loading from '../../components/Loading'
-import { getSuggestMovies } from './action'
+// import { getSuggestMovies } from './action'
 
 const styles = theme => ({
   root: {
@@ -31,31 +31,29 @@ const styles = theme => ({
   state => ({
     user: state.common.user,
     isAuthenticated: state.common.isAuthenticated,
-    suggestMovies: state.home.suggestMovies
+    movie: state.movie
   }),
   {
-    getSuggestMovies
+    // getSuggestMovies
   }
 )
 @withStyles(styles, { withTheme: true })
-export default class Home extends Component {
+export default class Movie extends Component {
   state = {}
-  componentWillMount() {
-    // this.props.getSuggestMovies()
-  }
   render() {
-    const { classes, theme, suggestMovies } = this.props
+    const { classes, theme, movie } = this.props
+    console.log(movie)
     return (
       <React.Fragment>
         <Head>
-          <title>Home</title>
-          <meta name="description" content="Home page" />
+          <title>Movie</title>
+          <meta name="description" content="Movie page" />
         </Head>
         <div id="home" className={classes.root}>
           <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
             <Grid item md={9}>
-              <Loading loading={!suggestMovies.loaded} />
-              {suggestMovies.loaded && <SuggestMovies movies={suggestMovies} />}
+              <Loading loading={!movie.loaded} />
+              <MovieInfo movie={movie} />
             </Grid>
 
             <Grid item md={3}>

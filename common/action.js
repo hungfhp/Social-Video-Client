@@ -25,6 +25,7 @@ export const loadCommonData = createAction('common_loadCommonData')
 // export const getLikedCarsSuccess = createAction('common/GET_LIKED_CARS_SUCCESS')
 // export const likeCarsSuccess = createAction('common/LIKED_CAR_SUCCESS')
 export const loginSuccessAction = createAction('common/USER_LOGIN_SUCCESS')
+export const logoutSuccessAction = createAction('common/USER_LOGOUT_SUCCESS')
 
 export const openLeftSideAction = createAction('ui/OPEN_LEFT_SIDE_ACTION')
 export const openLoginAction = createAction('ui/OPEN_LOGIN_POPUP_ACTION')
@@ -218,17 +219,25 @@ export const register = registerResult => async (dispatch, getState, { fetchApi 
   loginAndRegister(dispatch, getState, fetchApi, registerResult.data)
 }
 export const registerAction = values => async (dispatch, getState, { fetchApi }) => {
-  return fetchApi('/api/users', {
+  return fetchApi('/users', {
     method: 'POST',
     data: values
   }).then(data => loginAndRegister(dispatch, getState, fetchApi, data.data))
 }
-export const openRegisterModal = state => dispatch => {
+export const openRegisterPopup = state => dispatch => {
   dispatch(openRegisterAction(state))
 }
 
 export const openForgotPasswordDialog = state => dispatch => {
   dispatch(openForgotPasswordAction(state))
+}
+
+export const logout = () => async dispatch => {
+  cookies.deleteCookie('token')
+  // eslint-disable-next-line no-restricted-globals
+  location.reload()
+  dispatch(logoutSuccessAction())
+  dispatch(loadCommonData({}))
 }
 
 export const openMessageAlert = state => dispatch => {

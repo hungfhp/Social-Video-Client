@@ -6,19 +6,26 @@ import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
-import Typography from '@material-ui/core/Typography'
-import MenuIcon from '@material-ui/icons/Menu'
+// import Typography from '@material-ui/core/Typography'
+// import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+// import InboxIcon from '@material-ui/icons/MoveToInbox'
+// import MailIcon from '@material-ui/icons/Whatshot'
+import Whatshot from '@material-ui/icons/Whatshot'
+import LocalMovies from '@material-ui/icons/LocalMovies'
+import Subscriptions from '@material-ui/icons/Subscriptions'
+import Group from '@material-ui/icons/Group'
+import History from '@material-ui/icons/History'
+import ThumbUpAlt from '@material-ui/icons/ThumbUpAlt'
+import VideoLibrary from '@material-ui/icons/VideoLibrary'
 
 import { connect } from 'react-redux'
 import { openLeftSideDrawer } from '../../common/action'
-import Link from '../../components/Link'
+// import Link from '../../components/Link'
 
 const styles = theme => ({
   toolbar: {
@@ -90,21 +97,52 @@ class LeftSide extends Component {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button key={1}>
+            <ListItemIcon>
+              <Whatshot />
+            </ListItemIcon>
+            <ListItemText primary={'Trending'} />
+          </ListItem>
+          <ListItem button key={2}>
+            <ListItemIcon>
+              <LocalMovies />
+            </ListItemIcon>
+            <ListItemText primary={'All Movies'} />
+          </ListItem>
+          <ListItem button key={3}>
+            <ListItemIcon>
+              <Subscriptions />
+            </ListItemIcon>
+            <ListItemText primary={'Subscriptions'} />
+          </ListItem>
+          <ListItem button key={4}>
+            <ListItemIcon>
+              <Group />
+            </ListItemIcon>
+            <ListItemText primary={'Groups'} />
+          </ListItem>
         </List>
         <Divider />
+
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button key={21}>
+            <ListItemIcon>
+              <VideoLibrary />
+            </ListItemIcon>
+            <ListItemText primary={'Library'} />
+          </ListItem>
+          <ListItem button key={22}>
+            <ListItemIcon>
+              <History />
+            </ListItemIcon>
+            <ListItemText primary={'History'} />
+          </ListItem>
+          <ListItem button key={23}>
+            <ListItemIcon>
+              <ThumbUpAlt />
+            </ListItemIcon>
+            <ListItemText primary={'Liked Movies'} />
+          </ListItem>
         </List>
       </Drawer>
     )

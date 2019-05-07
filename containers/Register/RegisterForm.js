@@ -6,19 +6,18 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+// import Input from '@material-ui/core/Input'
+// import InputLabel from '@material-ui/core/InputLabel'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import { connect } from 'react-redux'
-import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
 import FieldGroup from '../../components/Fields/FieldGroup'
-import { login, loginAction, openLoginPopup } from '../../common/action'
+import { register, openRegisterPopup } from '../../common/action'
 import fetchApi from '../../common/utils/fetchApi'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 const styles = theme => ({
   main: {
@@ -31,9 +30,6 @@ const styles = theme => ({
       marginLeft: 'auto',
       marginRight: 'auto'
     }
-  },
-  button: {
-    margin: theme.spacing.unit
   },
   paper: {
     // marginTop: theme.spacing.unit * 8,
@@ -57,77 +53,65 @@ const styles = theme => ({
 
 const validate = values => {
   let errors = {}
-  if (
-    !values.password ||
-    (values.password && (values.password.length < 6 || values.password.length > 50))
-  ) {
-    errors.password = 'ERROR_PASSWORD_LENGTH'
-  }
   if (!values.email) {
-    errors.email = 'ERR_EMAIL_REQUIRED'
+    errors.email = 'Nhập email'
   } else if (
     !/^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/.test(String(values.email.trim()))
   ) {
-    errors.email = 'ERROR_EMAIL_INVALID'
+    errors.email = 'Email không tồn tại'
+  } else {
+    if (!values.password) {
+      errors.password = 'Nhập mật khẩu'
+    } else if (values.password.length < 6 || values.password.length > 50) {
+      errors.password = 'Mật khẩu có độ dài từ 6 đến 50 kí tự'
+    } else {
+      if (!values.confirmPassword) {
+        errors.confirmPassword = 'Nhập mật khẩu'
+      } else {
+        if (values.confirmPassword !== values.password) {
+          errors.confirmPassword = 'Mật khẩu không khớp'
+        }
+      }
+    }
   }
   return errors
 }
 
 @reduxForm({
-  form: 'login',
+  form: 'register',
   touchOnBlur: false,
   validate,
   shouldError: () => true
 })
 @connect(
   state => ({}),
-  { login, loginAction, openLoginPopup }
+  { register, openRegisterPopup }
 )
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
   constructor(props) {
     super()
     this.state = {
       submitError: ''
     }
   }
-  onLocalLogin = values => {
+  _onSubmit = values => {
     values.email = values.email.trim()
     this.setState({ submitError: '' })
-    fetchApi('/users/login', {
+    fetchApi('/users/signup', {
       method: 'POST',
       data: values
     })
       .then(response => {
-        this.props.login(response)
-        this.props.openLoginPopup(false)
+        this.props.register(response)
+        this.props.openRegisterPopup(false)
       })
       .catch(error => {
+        console.log(error.response)
         this.setState({
           submitError: error.response && error.response.data && error.response.data.message
         })
         new SubmissionError({ email: 'element.message' })
       })
-  }
-
-  onFbLogin = fbData => {
-    fetchApi('/users/fb_login', {
-      method: 'POST',
-      data: fbData
-    })
-      .then(response => {
-        this.props.login(response)
-        this.props.openLoginPopup(false)
-      })
-      .catch(error => {
-        this.setState({
-          submitError: 'Xin vui lòng thử lại!'
-        })
-        new SubmissionError({ email: 'element.message' })
-      })
-  }
-
-  componentClicked = () => {
-    console.log('fb login')
   }
 
   render() {
@@ -138,86 +122,56 @@ class LoginForm extends React.Component {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <PersonAddIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Create Account
           </Typography>
-          <Typography component="h1" variant="h5">
-            <FacebookLogin
-              appId="329324544364004"
-              fields="name,email,picture,gender"
-              onClick={this.componentClicked}
-              callback={this.onFbLogin}
-              render={renderProps => (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={renderProps.onClick}
-                  className={classes.button}
-                >
-                  Facebook
-                </Button>
-              )}
-            />
-            <FacebookLogin
-              appId="329324544364004"
-              fields="name,email,picture,gender"
-              onClick={this.componentClicked}
-              callback={this.onFbLogin}
-              render={renderProps => (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={renderProps.onClick}
-                  className={classes.button}
-                >
-                  {' '}
-                  Google{' '}
-                </Button>
-              )}
-            />
-          </Typography>
-
           <Typography color="error" variant="body1">
             {this.state.submitError}
           </Typography>
           <form className={classes.form}>
             <FormControl margin="normal" required fullWidth>
-              {/* <InputLabel htmlFor="email">Email Address</InputLabel> */}
               <Field
                 label="Email Address"
                 name="email"
                 type="email"
-                autoComplete="email"
+                // autoComplete="email"
                 component={FieldGroup}
                 autoFocus
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              {/* <InputLabel htmlFor="password">Password</InputLabel> */}
               <Field
                 label="Password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                // autoComplete="current-password"
                 component={FieldGroup}
               />
             </FormControl>
-            <FormControlLabel
+            <FormControl margin="normal" required fullWidth>
+              <Field
+                label="Confirm Password"
+                name="confirmPassword"
+                type="password"
+                component={FieldGroup}
+              />
+            </FormControl>
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={handleSubmit(this.onLocalLogin)}
+              onClick={handleSubmit(this._onSubmit)}
               disabled={submitting}
               type="submit"
             >
-              Sign in
+              Create Account
             </Button>
           </form>
         </Paper>
@@ -226,8 +180,8 @@ class LoginForm extends React.Component {
   }
 }
 
-LoginForm.propTypes = {
+RegisterForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(LoginForm)
+export default withStyles(styles)(RegisterForm)

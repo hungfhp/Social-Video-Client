@@ -66,7 +66,7 @@ export default ({ Layout, reducers, routeName, translationNameSpaces }) => Page 
         const { token } = cookies(ctx)
         if (token && ctx.req && ctx.req.headers && ctx.req.headers.cookie) {
           ctx.req.headers.authorization = token
-          let res = await fetchApi('/users/current', {}, ctx.req)
+          let res = await fetchApi('/users/me', {}, ctx.req)
           let commonData = {
             isAuthenticated: true,
             user: res.data && res.data.data

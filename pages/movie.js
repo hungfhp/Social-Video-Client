@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 // import image from '~/assets/img/bg7.jpg'
 import main from '../common/main'
 import Layout from '../containers/Layout/Layout'
-import Content from '../modules/home'
-import reducer from '../modules/home/reducer'
-import { getSuggestMovies } from '../modules/home/action'
+import Content from '../modules/movie'
+import reducer from '../modules/movie/reducer'
+import { getMovieById } from '../modules/movie/action'
 import { openLeftSideAction } from '../common/action'
 
 // import { red } from '@material-ui/core/colors';
@@ -15,19 +15,15 @@ import { openLeftSideAction } from '../common/action'
 @main({
   Layout: Layout,
   reducers: {
-    home: reducer
+    movie: reducer
   },
-  translationNameSpaces: ['home'],
-  routeName: 'home'
+  translationNameSpaces: ['movie'],
+  routeName: 'movie'
 })
-export default class HomePage extends Component {
+export default class MoviePage extends Component {
   static async getInitialProps({ store, store: { dispatch }, query, req, ...rest }) {
-    // let promises = []
-    await dispatch(getSuggestMovies())
-    await dispatch(openLeftSideAction(true))
-
-    //
-    // await Promise.all(dispatch(getSuggestMovies()))
+    await dispatch(getMovieById(query.movieId))
+    await dispatch(openLeftSideAction(false))
     return {}
   }
   render() {

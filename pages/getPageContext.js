@@ -23,6 +23,9 @@ const theme = createMuiTheme({
       width: 240
     }
   },
+  spacing: {
+    unit: 8
+  },
   typography: {
     useNextVariants: true,
     subtitle1: {

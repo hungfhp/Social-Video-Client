@@ -86,7 +86,11 @@ class MovieCard extends Component {
           title="Shrimp and Chorizo Paella"
           subheader="September 14, 2016"
         /> */}
-        <CardMedia className={classes.media} image={getImageMovie(movie)} title="Paella dish" />
+        <CardMedia
+          className={classes.media + ' clickable'}
+          image={getImageMovie(movie)}
+          title={movie.name}
+        />
         <CardContent className={classes.cardContent}>
           <div>
             <Grid
@@ -99,7 +103,7 @@ class MovieCard extends Component {
             >
               <Grid item xs>
                 <Typography>
-                  <Link variant="subtitle1" href={`/movies/${movie._id}`} color="textPrimary">
+                  <Link variant="subtitle1" href={`/movie/${movie._id}`} color="textPrimary">
                     {movie.name}
                   </Link>
                 </Typography>

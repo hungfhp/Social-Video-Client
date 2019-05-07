@@ -7,6 +7,7 @@ import Layout from '../containers/Layout/Layout'
 import Content from '../modules/profile'
 import reducer from '../modules/profile/reducer'
 
+import { openLeftSideAction } from '../common/action'
 // import { red } from '@material-ui/core/colors';
 // import _ from 'lodash'
 
@@ -19,7 +20,8 @@ import reducer from '../modules/profile/reducer'
   routeName: 'profile'
 })
 export default class ProfilePage extends Component {
-  static async getInitialProps() {
+  static async getInitialProps({ store, store: { dispatch }, query, req, ...rest }) {
+    await dispatch(openLeftSideAction(false))
     return {}
   }
   render() {

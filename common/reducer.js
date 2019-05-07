@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { loadCommonData, loginSuccessAction } from './action'
+import { loadCommonData, loginSuccessAction, logoutSuccessAction } from './action'
 
 const defaultState = {
   isAuthenticated: false,
@@ -17,6 +17,9 @@ const handlers = {
     ...state,
     user: action.payload,
     isAuthenticated: true
+  }),
+  [logoutSuccessAction]: (state, action) => ({
+    ...state
   })
 }
 

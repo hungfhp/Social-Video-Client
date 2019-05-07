@@ -435,7 +435,7 @@ function (_React$Component) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Admin\Desktop\GR\client-next\pages\_error.js */"./pages/_error.js");
+module.exports = __webpack_require__(/*! C:\Users\Admin\Desktop\GR\client\pages\_error.js */"./pages/_error.js");
 
 
 /***/ }),
