@@ -1,0 +1,22 @@
+[req]
+distinguished_name = hung
+x509_extensions = v3_req
+prompt = no
+
+[hung]
+C=VI
+ST=Ha Noi
+L=Rochester
+O=End Point
+OU=Testing Domain
+emailAddress=hung96bk@gmail.com
+CN = thuyetminhphim.com
+
+[v3_req]
+keyUsage = critical, digitalSignature, keyAgreement
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = thuyetminhphim.com
+DNS.3 = localhost

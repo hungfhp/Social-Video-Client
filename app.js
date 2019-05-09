@@ -3,12 +3,14 @@ const next = require('next')
 const compression = require('compression')
 const helmet = require('helmet')
 const path = require('path')
+const fs = require('fs')
 
 const port = parseInt(process.env.PORT, 10) || 3001
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const routes = require('./routes')
 const handle = routes.getRequestHandler(app)
+var https = require('https')
 
 app.prepare().then(() => {
   const server = express()
@@ -31,8 +33,18 @@ app.prepare().then(() => {
     return handle(req, res)
   })
 
+  // https
+  //   .createServer(
+  //     {
+  //       key: fs.readFileSync('./config/server.key'),
+  //       cert: fs.readFileSync('./config/server.cert'),
+  //       ca: fs.readFileSync('./config/.rnd')
+  //     },
+  //     server
+  //   )
+
   server.listen(port, err => {
     if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
+    console.log(`> Ready on https://localhost:${port}`)
   })
 })

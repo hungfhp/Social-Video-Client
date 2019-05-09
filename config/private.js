@@ -8,7 +8,7 @@ module.exports = {
     secret: 'local',
     api: {
       host: 'localhost:3000/api',
-      protocol: 'http'
+      protocol: 'https'
     }
   },
   dev: {
@@ -18,7 +18,7 @@ module.exports = {
     secret: 'development',
     api: {
       host: 'api-social.thuyetminhphim.com/api',
-      protocol: 'http'
+      protocol: 'https'
     }
   },
   test: {
@@ -26,7 +26,7 @@ module.exports = {
     secret: 'test',
     api: {
       host: 'api-social.thuyetminhphim.com/api',
-      protocol: 'http'
+      protocol: 'https'
     }
   },
   production: {
@@ -34,7 +34,7 @@ module.exports = {
     secret: 'production',
     api: {
       host: 'api-social.thuyetminhphim.com/api',
-      protocol: 'http'
+      protocol: 'https'
     }
   }
 }[env]
