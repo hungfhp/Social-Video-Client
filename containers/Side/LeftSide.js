@@ -25,7 +25,7 @@ import VideoLibrary from '@material-ui/icons/VideoLibrary'
 
 import { connect } from 'react-redux'
 import { openLeftSideDrawer } from '../../common/action'
-// import Link from '../../components/Link'
+import Link from '../../components/Link'
 
 const styles = theme => ({
   toolbar: {
@@ -97,52 +97,71 @@ class LeftSide extends Component {
         </div>
         <Divider />
         <List>
-          <ListItem button key={1}>
-            <ListItemIcon>
-              <Whatshot />
-            </ListItemIcon>
-            <ListItemText primary={'Trending'} />
-          </ListItem>
-          <ListItem button key={2}>
-            <ListItemIcon>
-              <LocalMovies />
-            </ListItemIcon>
-            <ListItemText primary={'All Movies'} />
-          </ListItem>
-          <ListItem button key={3}>
-            <ListItemIcon>
-              <Subscriptions />
-            </ListItemIcon>
-            <ListItemText primary={'Subscriptions'} />
-          </ListItem>
-          <ListItem button key={4}>
-            <ListItemIcon>
-              <Group />
-            </ListItemIcon>
-            <ListItemText primary={'Groups'} />
-          </ListItem>
+          <Link href="/">
+            <ListItem button key={1}>
+              <ListItemIcon>
+                <Whatshot />
+              </ListItemIcon>
+              <ListItemText primary={'Trending'} />
+            </ListItem>
+          </Link>
+
+          <Link href="/movies">
+            <ListItem button key={2}>
+              <ListItemIcon>
+                <LocalMovies />
+              </ListItemIcon>
+              <ListItemText primary={'All Movies'} />
+            </ListItem>
+          </Link>
+
+          <Link href="/profile/me">
+            <ListItem button key={3}>
+              <ListItemIcon>
+                <Subscriptions />
+              </ListItemIcon>
+              <ListItemText primary={'Subscriptions'} />
+            </ListItem>
+          </Link>
+
+          <Link href="/profile/me">
+            <ListItem button key={4}>
+              <ListItemIcon>
+                <Group />
+              </ListItemIcon>
+              <ListItemText primary={'Groups'} />
+            </ListItem>
+          </Link>
         </List>
         <Divider />
 
         <List>
-          <ListItem button key={21}>
-            <ListItemIcon>
-              <VideoLibrary />
-            </ListItemIcon>
-            <ListItemText primary={'Library'} />
-          </ListItem>
-          <ListItem button key={22}>
-            <ListItemIcon>
-              <History />
-            </ListItemIcon>
-            <ListItemText primary={'History'} />
-          </ListItem>
-          <ListItem button key={23}>
-            <ListItemIcon>
-              <ThumbUpAlt />
-            </ListItemIcon>
-            <ListItemText primary={'Liked Movies'} />
-          </ListItem>
+          <Link href="/profile/me">
+            <ListItem button key={21}>
+              <ListItemIcon>
+                <VideoLibrary />
+              </ListItemIcon>
+              <ListItemText primary={'Library'} />
+            </ListItem>
+          </Link>
+
+          <Link href="/profile/me">
+            <ListItem button key={22}>
+              <ListItemIcon>
+                <History />
+              </ListItemIcon>
+              <ListItemText primary={'History'} />
+            </ListItem>
+          </Link>
+
+          <Link href="/profile/me">
+            <ListItem button key={23}>
+              <ListItemIcon>
+                <ThumbUpAlt />
+              </ListItemIcon>
+              <ListItemText primary={'Liked Movies'} />
+            </ListItem>
+          </Link>
         </List>
       </Drawer>
     )

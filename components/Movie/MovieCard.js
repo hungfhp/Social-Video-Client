@@ -16,7 +16,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import { getImageMovie } from '../../common/utils/helpers'
+import { getImageMovie, getMovieViewsCount } from '../../common/utils/helpers'
 import Link from '../../components/Link'
 import moment from 'moment'
 import List from '@material-ui/core/List'
@@ -69,7 +69,7 @@ class MovieCard extends Component {
 
   render() {
     const { classes, theme, movie } = this.props
-    const { uploader = {} } = movie
+    const uploader = movie.uploader || {}
     return (
       <Card className={classes.card}>
         {/* <CardHeader
@@ -102,7 +102,7 @@ class MovieCard extends Component {
               spacing={theme.spacing.unit}
             >
               <Grid item xs>
-                <Typography>
+                <Typography noWrap>
                   <Link variant="subtitle1" href={`/movie/${movie._id}`} color="textPrimary">
                     {movie.name}
                   </Link>
@@ -117,7 +117,7 @@ class MovieCard extends Component {
               </Grid>
               <Grid item xs>
                 <Typography variant="caption" color="textPrimary">
-                  Link
+                  {/* Link */}
                 </Typography>
               </Grid>
             </Grid>
@@ -132,7 +132,7 @@ class MovieCard extends Component {
           </IconButton> */}
           <Typography>
             <Typography inline={true} variant="caption" color="textPrimary">
-              {movie.viewsCount} views ・
+              {getMovieViewsCount(movie)} lượt xem ・
             </Typography>
             <Typography inline={true} variant="caption" color="textPrimary">
               {moment(movie.createdAt).fromNow()}

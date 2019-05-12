@@ -21050,7 +21050,7 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
       fontWeight: 500
     },
     subtitle2: {
-      fontWeight: 400
+      fontWeight: 500
     }
   }
 });

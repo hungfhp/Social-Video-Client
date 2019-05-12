@@ -6,7 +6,7 @@ import main from '../common/main'
 import Layout from '../containers/Layout/Layout'
 import Content from '../modules/home'
 import reducer from '../modules/home/reducer'
-import { getSuggestMovies } from '../modules/home/action'
+import { getSuggestMovies, getNewMovies } from '../modules/home/action'
 import { openLeftSideAction } from '../common/action'
 
 // import { red } from '@material-ui/core/colors';
@@ -22,13 +22,12 @@ import { openLeftSideAction } from '../common/action'
 })
 export default class HomePage extends Component {
   static async getInitialProps({ store, store: { dispatch }, query, req, ...rest }) {
-    // let promises = []
-    await dispatch(getSuggestMovies())
-    await dispatch(openLeftSideAction(true))
-
-    //
-    // await Promise.all(dispatch(getSuggestMovies()))
-    return {}
+    let promises = []
+    promises.push(dispatch(openLeftSideAction(true)))
+    promises.push(dispatch(getSuggestMovies()))
+    promises.push(dispatch(getNewMovies()))
+    await Promise.all(promises)
+    return { query }
   }
   render() {
     return <Content {...this.props} />

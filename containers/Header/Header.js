@@ -30,6 +30,10 @@ import Paper from '@material-ui/core/Paper'
 import Popper from '@material-ui/core/Popper'
 import MenuList from '@material-ui/core/MenuList'
 import Avatar from '@material-ui/core/Avatar'
+import { reduxForm } from 'redux-form'
+import { searchMovies } from '../../modules/movies/action'
+import { pushRoute } from '../../components/Link'
+import { updateUrlParameter } from '../../common/utils/url'
 
 const styles = theme => ({
   grow: {
@@ -55,6 +59,9 @@ const styles = theme => ({
     marginLeft: -theme.spacing.unit * 2,
     marginRight: 20
   },
+  buttonCreateMovie: {
+    margin: '5px 10px 5px 10px'
+  },
   avatar: {
     marginRight: 10,
     marginTop: 2,
@@ -72,20 +79,20 @@ const styles = theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: fade(theme.palette.common.white, 0.55),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.95)
     },
     marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
+      marginLeft: theme.spacing.unit * 8,
       width: 'auto'
     }
   },
   searchIcon: {
-    width: theme.spacing.unit * 9,
+    width: theme.spacing.unit * 7,
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -101,11 +108,11 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing.unit * 6,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 200
+      width: 300
     }
   },
   sectionDesktop: {
@@ -122,6 +129,20 @@ const styles = theme => ({
   }
 })
 
+const validate = values => {
+  let errors = {}
+  if (!values.keyword) {
+    errors.keyword = 'Nhập keyword'
+  }
+  return errors
+}
+
+@reduxForm({
+  form: 'search',
+  touchOnBlur: false,
+  validate,
+  shouldError: () => true
+})
 @connect(
   state => ({
     user: state.common.user,
@@ -130,12 +151,23 @@ const styles = theme => ({
     openLogin: state.commonUIState.openLogin,
     openRegister: state.commonUIState.openRegister
   }),
-  { openLoginPopup, openRegisterPopup, openLeftSideDrawer, logout }
+  { openLoginPopup, openRegisterPopup, openLeftSideDrawer, logout, searchMovies }
 )
 class Header extends React.Component {
   state = {
     anchorEl: null,
     mobileMoreAnchorEl: null
+  }
+
+  onSearch = values => {
+    const { keyword } = this.state
+    if (keyword) {
+      this.props.searchMovies(keyword)
+      pushRoute(updateUrlParameter(`/movies`, 'keyword', keyword))
+    }
+  }
+  onChangeKeyword = e => {
+    this.setState({ keyword: e.target.value })
   }
 
   handleProfileMenuOpen = event => {
@@ -169,23 +201,21 @@ class Header extends React.Component {
 
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state
-    const { classes, isAuthenticated, user, openLogin, openRegister } = this.props
+    const {
+      classes,
+      isAuthenticated,
+      user,
+      openLogin,
+      openRegister,
+      handleSubmit,
+      pristine,
+      reset,
+      submitting
+    } = this.props
     const isMenuOpen = Boolean(anchorEl)
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
     const renderMenu = (
-      // <Menu
-      //   anchorEl={anchorEl}
-      //   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      //   transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      //   open={true}
-      //   onClose={this.handleMenuClose}
-      // >
-      //   <MenuItem onClick={this.handleMenuClose}>
-      //     <Link href="/profile/my">Profile</Link>
-      //   </MenuItem>
-      //   <MenuItem onClick={this.props.logout}>Logout</MenuItem>
-      // </Menu>
       <Popper open={isMenuOpen} anchorEl={anchorEl} transition disablePortal>
         {({ TransitionProps, placement }) => (
           <Grow
@@ -197,7 +227,7 @@ class Header extends React.Component {
               <ClickAwayListener onClickAway={this.handleMenuClose}>
                 <MenuList>
                   <MenuItem onClick={this.handleMenuClose}>
-                    <Link href="/profile/my">Profile</Link>
+                    <Link href="/profile/me">Profile</Link>
                   </MenuItem>
                   <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
                   <MenuItem onClick={this.props.logout}>Logout</MenuItem>
@@ -239,7 +269,7 @@ class Header extends React.Component {
               <AccountCircle />
             </IconButton>
             <p>
-              <Link href="/profile/my">Profile</Link>
+              <Link href="/profile/me">Profile</Link>
             </p>
           </MenuItem>
         ) : (
@@ -267,23 +297,46 @@ class Header extends React.Component {
             </IconButton>
             {/* <Typography className={classes.title} variant="h6" color="inherit" noWrap> */}
             <Button color="inherit">
-              <Link href="/home">Home</Link>
+              <Link href="/home">Trang chủ</Link>
             </Button>
             {/* </Typography> */}
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-              />
+              <form onSubmit={handleSubmit(this.onSearch)}>
+                {/* <InputBase name="keyword" type="text" /> */}
+                {/* <Field
+                  name="keyword"
+                  type="text"
+                  component={FieldGroup}
+                  placeholder="Tìm kiếm phim…"
+                  classes={classes}
+                /> */}
+                <InputBase
+                  name="keyword"
+                  type="text"
+                  placeholder="Tìm kiếm phim…"
+                  onChange={e => this.onChangeKeyword(e)}
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                />
+              </form>
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
+              {isAuthenticated && (
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  size="small"
+                  className={classes.buttonCreateMovie}
+                >
+                  <Link href="/movie/create">Tạo phim </Link>
+                </Button>
+              )}
               <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
@@ -305,11 +358,6 @@ class Header extends React.Component {
                   className={classes.avatar + ' clickable'}
                 />
               ) : (
-                // <IconButton color="inherit">
-                //   <Badge badgeContent={17} color="secondary">
-                //     <NotificationsIcon />
-                //   </Badge>
-                // </IconButton>
                 <React.Fragment>
                   <Button color="primary" onClick={this.handleClickOpenLoginDialog}>
                     Login

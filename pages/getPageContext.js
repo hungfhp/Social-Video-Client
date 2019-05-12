@@ -32,7 +32,7 @@ const theme = createMuiTheme({
       fontWeight: 500
     },
     subtitle2: {
-      fontWeight: 400
+      fontWeight: 500
     }
   }
 })

@@ -17,7 +17,16 @@ export default class extends Component {
   }
   _onBlur = e => e.preventDefault()
   render() {
-    const { input, meta, template, templateVariable, required, options = [], fullValue, ...custom } = this.props
+    const {
+      input,
+      meta,
+      template,
+      templateVariable,
+      required,
+      options = [],
+      fullValue,
+      ...custom
+    } = this.props
     let formattedOptions = options.map(o => ({ ...o, value: o._id || o.value }))
     if (template) {
       formattedOptions = options.map(o => ({
@@ -30,7 +39,12 @@ export default class extends Component {
     if (fullValue) {
       value = _.find(formattedOptions, o => _.isEqual(o.value, _.get(input.value, 'value')))
     }
-    if (!value && formattedOptions[0] && !formattedOptions[0].value && formattedOptions[0].options) {
+    if (
+      !value &&
+      formattedOptions[0] &&
+      !formattedOptions[0].value &&
+      formattedOptions[0].options
+    ) {
       //Group options
       _.forEach(formattedOptions, o => {
         value = _.find(o.options, o => o.value === input.value)

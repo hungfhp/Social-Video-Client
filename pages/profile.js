@@ -8,6 +8,13 @@ import Content from '../modules/profile'
 import reducer from '../modules/profile/reducer'
 
 import { openLeftSideAction } from '../common/action'
+import {
+  getMoviesOwn,
+  getMoviesLiked,
+  getMoviesFollowed,
+  getGroupsOwn,
+  getProfile
+} from '../modules/profile/action'
 // import { red } from '@material-ui/core/colors';
 // import _ from 'lodash'
 
@@ -21,8 +28,18 @@ import { openLeftSideAction } from '../common/action'
 })
 export default class ProfilePage extends Component {
   static async getInitialProps({ store, store: { dispatch }, query, req, ...rest }) {
-    await dispatch(openLeftSideAction(false))
-    return {}
+    let promises = []
+    promises.push(dispatch(openLeftSideAction(false)))
+    let userId = query.userId
+
+    if (userId === 'me') {
+      userId = store.getState().common.user._id
+    }
+    promises.push(dispatch(getMoviesOwn(req, userId)))
+    promises.push(dispatch(getProfile(req, userId)))
+    await Promise.all(promises)
+
+    return { userId }
   }
   render() {
     return <Content {...this.props} />

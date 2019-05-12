@@ -15,14 +15,14 @@ import 'video-react/styles/scss/video-react.scss' // or import scss
 
 const styles = theme => ({
   wrapper: {
-    position: 'relative',
-    paddingTop: '56.25%' /* Player ratio: 100 / (1280 / 720) */,
-    background: '#090808'
+    // position: 'relative',
+    // paddingTop: '56.25%' /* Player ratio: 100 / (1280 / 720) */,
+    // background: '#090808'
   },
   player: {
-    position: 'absolute',
-    top: '0',
-    left: '0'
+    // position: 'absolute',
+    // top: '0',
+    // left: '0'
   }
 })
 @withStyles(styles, { withTheme: true })
@@ -48,77 +48,23 @@ export default class MoviePlayer extends Component {
       currentTime: state.currentTime,
       paused: state.paused
     })
-    console.log(this.state)
+    // console.log(this.state)
   }
   render() {
-    const { classes, theme, movie } = this.props
+    const { classes, theme, movie, play } = this.props
     const { player } = this.state
-    // console.log(player.getState())
-    return (
-      <div>
-        <Player ref="player">
-          <source src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
-        </Player>
-        {/* <ReactPlayer
-          className={classes.player}
-          url={movie.embeds && movie.embeds.length && movie.embeds[0].embedUrl}
-          playing
-          controls
-          width="100%"
-          height="100%"
-          config={{
-            file: {
-              tracks: [
-                {
-                  kind: 'subtitles',
-                  src: 'https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1',
-                  srcLang: 'vn',
-                  default: true
-                },
-                {
-                  kind: 'subtitles',
-                  src: 'https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1',
-                  srcLang: 'ja'
-                },
-                {
-                  kind: 'subtitles',
-                  src: 'https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1',
-                  srcLang: 'de'
-                }
-              ]
-            }
-          }}
-        /> */}
+    const embeds = movie.embeds || []
 
-        {/* <video id="video" controls preload="metadata">
-          <source
-            src={movie.embeds && movie.embeds.length && movie.embeds[0].embedUrl}
-            type="video/mp4"
-          />
-          <source
-            src={movie.embeds && movie.embeds.length && movie.embeds[0].embedUrl}
-            type="video/webm"
-          />
-          <track
-            label="English"
-            kind="subtitles"
-            srclang="en"
-            src="https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1"
-            default
-          />
-          <track
-            label="Deutsch"
-            kind="subtitles"
-            srclang="de"
-            src="https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1"
-          />
-          <track
-            label="Español"
-            kind="subtitles"
-            srclang="es"
-            src="https://www.studyphim.vn/movies/getSubtitle/vi/aquaman-2018/1"
-          />
-        </video> */}
+    // console.log(player.getState())
+
+    return (
+      <div className={classes.wrapper}>
+        <Player autoPlay ref="player" className={classes.player}>
+          {embeds.length &&
+            embeds.map((embed, index) => {
+              return <source key={index} src={embed.embedUrl} />
+            })}
+        </Player>
       </div>
     )
   }

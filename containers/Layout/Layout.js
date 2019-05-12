@@ -5,8 +5,10 @@ import LeftSide from '../../containers/Side/LeftSide'
 import Footer from '../../containers/Footer/Footer'
 import { withStyles } from '@material-ui/core/styles'
 import { autoSave } from '../../common/action'
-import PlaceholderLoading from '../../components/Loading/PlaceholderPreload'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Router, { withRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+import ContentLoader, { Facebook } from 'react-content-loader'
 
 export const LayoutContext = React.createContext()
 
@@ -35,6 +37,17 @@ const styles = theme => ({
 class Layout extends React.PureComponent {
   state = {
     routeChanging: false
+  }
+  loadingState = () => this.setState({ routeChanging: true })
+  renderState = () => this.setState({ routeChanging: false })
+  componentDidMount() {
+    // Router.router.events.on('routeChangeStart', this.loadingState)
+    // Router.router.events.on('routeChangeComplete', this.renderState)
+  }
+
+  componentWillUnmount() {
+    // Router.router.events.off('routeChangeComplete', this.renderState)
+    // Router.router.events.off('routeChangeStart', this.loadingState)
   }
   render() {
     const {
@@ -75,7 +88,25 @@ class Layout extends React.PureComponent {
           />
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            {this.state.routeChanging ? <PlaceholderLoading /> : this.props.children}
+
+            {this.state.routeChanging ? (
+              <ContentLoader height={200}>
+                {/* Only SVG shapes */}
+                <rect x="0" y="0" rx="2" ry="2" width="70" height="70" />
+                <rect x="0" y="80" rx="2" ry="2" width="70" height="70" />
+                <rect x="80" y="0" rx="2" ry="2" width="70" height="70" />
+                <rect x="80" y="80" rx="2" ry="2" width="70" height="70" />
+                <rect x="160" y="0" rx="2" ry="2" width="70" height="70" />
+                <rect x="160" y="80" rx="2" ry="2" width="70" height="70" />
+                <rect x="240" y="0" rx="2" ry="2" width="70" height="70" />
+                <rect x="240" y="80" rx="2" ry="2" width="70" height="70" />
+                <rect x="320" y="0" rx="2" ry="2" width="70" height="150" />
+                <rect x="0" y="160" rx="2" ry="2" width="390" height="10" />
+                <rect x="0" y="175" rx="2" ry="2" width="390" height="10" />
+              </ContentLoader>
+            ) : (
+              this.props.children
+            )}
           </main>
           <Footer />
         </div>

@@ -2,27 +2,18 @@ import React, { Component } from 'react'
 import Head from 'next/head'
 import { connect } from 'react-redux'
 import './styles.scss'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import FormLabel from '@material-ui/core/FormLabel'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
-import Paper from '@material-ui/core/Paper'
-import SuggestMovies from './components/SuggestMovies'
-// import SuggestMovies from '../../containers/Movie/SuggestMovies'
-// import AppBar from '@material-ui/core/AppBar';
+import SectionMovies from '../../containers/Movie/SectionMovies'
+import RightSideMovies from '../../containers/Movie/RightSideMovies'
 import Loading from '../../components/Loading'
-import { getSuggestMovies } from './action'
 
 const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  paper: {
+  sideRigthListMovies: {
     padding: theme.spacing.unit * 2,
-    textAlign: 'center',
     color: theme.palette.text.primary
   }
 })
@@ -31,20 +22,16 @@ const styles = theme => ({
   state => ({
     user: state.common.user,
     isAuthenticated: state.common.isAuthenticated,
-    suggestMovies: state.home.suggestMovies
+    suggestMovies: state.home.suggestMovies,
+    newMovies: state.home.newMovies
   }),
-  {
-    getSuggestMovies
-  }
+  {}
 )
 @withStyles(styles, { withTheme: true })
 export default class Home extends Component {
   state = {}
-  componentWillMount() {
-    // this.props.getSuggestMovies()
-  }
   render() {
-    const { classes, theme, suggestMovies } = this.props
+    const { classes, theme, suggestMovies, newMovies } = this.props
     return (
       <React.Fragment>
         <Head>
@@ -55,11 +42,14 @@ export default class Home extends Component {
           <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
             <Grid item md={9}>
               <Loading loading={!suggestMovies.loaded} />
-              {suggestMovies.loaded && <SuggestMovies movies={suggestMovies} />}
+              {suggestMovies.loaded && <SectionMovies movies={suggestMovies} />}
             </Grid>
 
             <Grid item md={3}>
-              <Paper className={classes.paper}>md=12</Paper>
+              <Loading loading={!newMovies.loaded} />
+              {newMovies.loaded && (
+                <RightSideMovies className={classes.sideRigthListMovies} movies={newMovies} />
+              )}
             </Grid>
           </Grid>
         </div>

@@ -59,16 +59,16 @@ const validate = values => {
   let errors = {}
   if (
     !values.password ||
-    (values.password && (values.password.length < 6 || values.password.length > 50))
+    (values.password && (values.password.length < 8 || values.password.length > 50))
   ) {
-    errors.password = 'ERROR_PASSWORD_LENGTH'
+    errors.password = 'Độ dài mật khẩu từ 8 - 50'
   }
   if (!values.email) {
-    errors.email = 'ERR_EMAIL_REQUIRED'
+    errors.email = 'Nhập email'
   } else if (
     !/^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/.test(String(values.email.trim()))
   ) {
-    errors.email = 'ERROR_EMAIL_INVALID'
+    errors.email = 'Email không hợp lệ'
   }
   return errors
 }
@@ -172,8 +172,7 @@ class LoginForm extends React.Component {
                   onClick={renderProps.onClick}
                   className={classes.button}
                 >
-                  {' '}
-                  Google{' '}
+                  Google
                 </Button>
               )}
             />
@@ -184,7 +183,6 @@ class LoginForm extends React.Component {
           </Typography>
           <form className={classes.form}>
             <FormControl margin="normal" required fullWidth>
-              {/* <InputLabel htmlFor="email">Email Address</InputLabel> */}
               <Field
                 label="Email Address"
                 name="email"
@@ -195,7 +193,6 @@ class LoginForm extends React.Component {
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              {/* <InputLabel htmlFor="password">Password</InputLabel> */}
               <Field
                 label="Password"
                 name="password"

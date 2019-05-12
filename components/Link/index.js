@@ -104,7 +104,7 @@ export default class extends React.Component {
         variant={variant}
         classes={classes}
       >
-        {this.props.children}
+        {this.props.children || ' '}
       </Link>
     )
   }

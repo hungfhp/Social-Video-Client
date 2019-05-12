@@ -6,10 +6,15 @@ const isDev = getConfig().publicRuntimeConfig.isDev
 const defaultImageMovie = '/static/images/default-movie.png'
 const defaultAvatar = '/static/images/default-avatar.png'
 
-export const getImageMovie = (movie, size = 'medium') => {
+export const getImageMovie = (movie = {}, size = 'medium') => {
   // size: enum[small, medium, large]
+  // return movie.thumbnails&&movie.thumbnails.medium
   if (movie.thumbnails && movie.thumbnails[size]) {
-    return movie.thumbnails[size]
+    return movie.thumbnails[size] || movie.thumbnails.medium
+  }
+
+  if (movie.thumbnails && movie.thumbnails.medium) {
+    return movie.thumbnails.medium
   }
 
   if (movie.photos && movie.photos.length) {
@@ -17,6 +22,14 @@ export const getImageMovie = (movie, size = 'medium') => {
   }
 
   return defaultImageMovie
+}
+
+export const getMovieViewsCount = movie => {
+  return movie.viewsCount + Math.floor((Date.now() - new Date(movie.createdAt).getTime()) / 100000)
+}
+
+export const getMovieSource = movie => {
+  return 'sf'
 }
 
 export const getAvatarCDN = (image, width = 0, height = 0, protocol = '') => {

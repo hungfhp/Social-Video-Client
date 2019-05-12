@@ -4,7 +4,7 @@ module.exports = Object.assign(
     local: {
       api: {
         host: 'localhost:3000/api',
-        protocol: 'https'
+        protocol: 'http'
       },
       assetPrefix: '',
       gtmId: 'GTM-M8FJ473',
@@ -14,7 +14,7 @@ module.exports = Object.assign(
       // Avoid using "development" because nextjs will turn on hot reload
       api: {
         host: 'api-social.thuyetminhphim.com/api',
-        protocol: 'https'
+        protocol: 'http'
       },
       assetPrefix: '',
       gtmId: 'GTM-M8FJ473',
@@ -23,7 +23,7 @@ module.exports = Object.assign(
     staging: {
       api: {
         host: 'api-social.thuyetminhphim.com/api',
-        protocol: 'https'
+        protocol: 'http'
       },
       assetPrefix: '',
       gtmId: 'GTM-KVMRCLX',
@@ -32,7 +32,7 @@ module.exports = Object.assign(
     production: {
       api: {
         host: 'api-social.thuyetminhphim.com/api',
-        protocol: 'https'
+        protocol: 'http'
       },
       assetPrefix: '',
       gtmId: 'GTM-KVMRCLX',

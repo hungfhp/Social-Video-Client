@@ -10,11 +10,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import Paper from '@material-ui/core/Paper'
-import MovieInfo from './components/MovieInfo'
+import MovieList from './components/MovieList'
 // import SuggestMovies from '../../containers/Movie/SuggestMovies'
 // import AppBar from '@material-ui/core/AppBar';
 import Loading from '../../components/Loading'
-// import { getSuggestMovies } from './action'
+import { getMovies } from './action'
+import RightSideMovies from '../../containers/Movie/RightSideMovies'
 
 const styles = theme => ({
   root: {
@@ -24,6 +25,10 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.primary
+  },
+  sideRigthListMovies: {
+    padding: theme.spacing.unit * 2,
+    color: theme.palette.text.primary
   }
 })
 
@@ -31,33 +36,37 @@ const styles = theme => ({
   state => ({
     user: state.common.user,
     isAuthenticated: state.common.isAuthenticated,
-    movie: state.movie
+    movies: state.movies,
+    suggestMovies: state.common.suggestMovies
   }),
   {
-    // getSuggestMovies
+    getMovies
   }
 )
 @withStyles(styles, { withTheme: true })
 export default class Movies extends Component {
   state = {}
   render() {
-    const { classes, theme, movie } = this.props
-    console.log(movie)
+    const { classes, theme, movies, suggestMovies } = this.props
+    console.log(movies)
     return (
       <React.Fragment>
         <Head>
-          <title>Movie</title>
+          <title>Danh sách phim</title>
           <meta name="description" content="Movie page" />
         </Head>
         <div id="home" className={classes.root}>
           <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
             <Grid item md={9}>
-              <Loading loading={!movie.loaded} />
-              <MovieInfo movie={movie} />
+              {movies.loaded ? <MovieList movies={movies} /> : <Loading loading={true} />}
             </Grid>
 
             <Grid item md={3}>
-              <Paper className={classes.paper}>md=12</Paper>
+              {suggestMovies.loaded ? (
+                <RightSideMovies className={classes.sideRigthListMovies} movies={suggestMovies} />
+              ) : (
+                <Loading loading={true} />
+              )}
             </Grid>
           </Grid>
         </div>

@@ -23,7 +23,7 @@ export const loadCommonData = createAction('common_loadCommonData')
 // export const findModelByMakeSuccess = createAction('common/FIND_MODEL_SUCCESS')
 
 // export const getLikedCarsSuccess = createAction('common/GET_LIKED_CARS_SUCCESS')
-// export const likeCarsSuccess = createAction('common/LIKED_CAR_SUCCESS')
+// export const getMoviesSuccess = createAction('common/LIKED_CAsfdfsdR_SUCCESS')
 export const loginSuccessAction = createAction('common/USER_LOGIN_SUCCESS')
 export const logoutSuccessAction = createAction('common/USER_LOGOUT_SUCCESS')
 
@@ -32,7 +32,9 @@ export const openLoginAction = createAction('ui/OPEN_LOGIN_POPUP_ACTION')
 export const openRegisterAction = createAction('ui/OPEN_REGISTER_POPUP_ACTION')
 export const openForgotPasswordAction = createAction('ui/OPEN_FORGOT_PASSWORD_ACTION')
 export const openAlertAction = createAction('ui/OPEN_ALERT_ACTION')
-// export const setBreadcrumbs = createAction('common/SET_BREADCRUMBS')
+
+export const getSuggestMoviesSuccess = createAction('common/GET_SUGGEST_MOVIES_SUCCESS')
+export const getNewMoviesSuccess = createAction('common/GET_NEW_MOVIES_SUCCESS')
 
 export const autoSave = (data = {}) => (dispatch, getState, { fetchApi }) => {
   // fetchApi('/api/user/autosave', { method: 'POST', data }).then(() => {
@@ -43,6 +45,37 @@ export const autoSave = (data = {}) => (dispatch, getState, { fetchApi }) => {
   return
   // })
 }
+
+export const getSuggestMovies = (params = { limit: 8, page: 1 }) => async (
+  dispatch,
+  getState,
+  { fetchApi }
+) => {
+  let loadedData = getState().common.suggestMovies || {}
+  if (!loadedData.loaded) {
+    const res = await fetchApi('/movies/suggests', {
+      method: 'GET',
+      params
+    })
+    return dispatch(getSuggestMoviesSuccess(res.data))
+  }
+}
+
+export const getNewMovies = (params = { limit: 8, page: 1 }) => async (
+  dispatch,
+  getState,
+  { fetchApi }
+) => {
+  let loadedData = getState().common.newMovies
+  if (!loadedData.loaded) {
+    const res = await fetchApi('/movies', {
+      method: 'GET',
+      params: { ...params, sort: '-createdAt' }
+    })
+    return dispatch(getNewMoviesSuccess(res.data))
+  }
+}
+
 // export const changeAvatar = (data = {}) => (dispatch, getState, { fetchApi }) =>
 //   fetchApi(`/api/user/${data._id}/profilepic`, {
 //     method: 'POST',
@@ -64,35 +97,32 @@ export const autoSave = (data = {}) => (dispatch, getState, { fetchApi }) => {
 //     return dispatch(loadCommonData(masterData))
 //   })
 // }
-// export const autoPort = data => (dispatch, getState, { fetchApi }) => {
-//   let common = getState().common
-//   const masterData = { ...common, user: { ...common.user, ...data } }
-//   wCache.updateCache('masterData', masterData)
-//   return dispatch(loadCommonData(masterData))
-// }
-// export const search = (data, options = {}) => async (dispatch, getState, { fetchApi }) => {
-//   try {
-//     if (!options.countOnly) {
-//       dispatch(searchStart())
-//     }
-//     const response = await fetchApi('/api/car/search', {
-//       method: 'GET',
-//       params: Object.assign({}, data, options, { facet: !options.countOnly }),
-//       paramsSerializer: function(params) {
-//         return qs.stringify(params, { arrayFormat: 'repeat' })
-//       }
-//     })
-//     if (options.facet) {
-//       dispatch(searchFacetSuccess(response.data && response.data.facet))
-//     }
-//     if (options.countOnly) {
-//       return response.data
-//     }
-//     return dispatch(searchSuccess(response.data))
-//   } catch (error) {
-//     return dispatch(searchError(error))
-//   }
-// }
+export const getOptionsGenres = () => (dispatch, getState, { fetchApi }) => {
+  let common = getState().common
+  if (!(common.options && common.options.genres && common.options.genres.length)) {
+    fetchApi('/genres', {
+      params: {
+        limit: 100
+      }
+    }).then(res => {
+      const genres =
+        res.data &&
+        res.data.data &&
+        res.data.data.map(genre => ({
+          value: genre.name,
+          label: genre.name
+        }))
+      const commonData = {
+        ...common,
+        options: { ...common.options, ...{ genres } }
+      }
+      console.log(commonData)
+      wCache.updateCache('commonData', commonData)
+      return dispatch(loadCommonData(commonData))
+    })
+  }
+}
+
 // export const getSearchFacet = () => async (dispatch, getState, { fetchApi }) => {
 //   try {
 //     const response = await fetchApi('/api/car/search', {
@@ -186,16 +216,10 @@ async function loginAndRegister(dispatch, getState, fetchApi, data) {
     //   data: likeCars.data
     // }
   }
+  console.log(dataUser)
   wCache.updateCache('commonData', commonData)
   cookies.setCookie('token', dataUser.token, 60)
   dispatch(loginSuccessAction(dataUser))
-  // update dataLayer
-  // tracking.push({
-  //   userId: data._id,
-  //   userEmail: data.email,
-  //   userFirstname: data.name,
-  //   service: 'nextdesktop'
-  // })
 }
 
 export const openLeftSideDrawer = state => (dispatch, getState, { fetchApi }) => {
@@ -233,9 +257,9 @@ export const openForgotPasswordDialog = state => dispatch => {
 }
 
 export const logout = () => async dispatch => {
-  cookies.deleteCookie('token')
+  cookies.setCookie('token', '', -1)
   // eslint-disable-next-line no-restricted-globals
-  location.reload()
+  document.location.href = '/'
   dispatch(logoutSuccessAction())
   dispatch(loadCommonData({}))
 }

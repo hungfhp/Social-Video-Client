@@ -1,12 +1,14 @@
 import { handleActions } from 'redux-actions'
-import { getMovieByIdSuccess } from './action'
+import { getMoviesSuccess } from './action'
 
 const defaultState = {
+  data: [],
+  pagination: {},
   loaded: false
 }
 export default handleActions(
   {
-    [getMovieByIdSuccess]: (state, action) => ({
+    [getMoviesSuccess]: (state, action) => ({
       ...state,
       ...action.payload,
       loaded: true

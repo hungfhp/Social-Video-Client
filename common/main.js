@@ -67,13 +67,16 @@ export default ({ Layout, reducers, routeName, translationNameSpaces }) => Page 
         if (token && ctx.req && ctx.req.headers && ctx.req.headers.cookie) {
           ctx.req.headers.authorization = token
           let res = await fetchApi('/users/me', {}, ctx.req)
-          let commonData = {
-            isAuthenticated: true,
-            user: res.data && res.data.data
+
+          return {
+            isAuthenticated: !!res.data,
+            user: (res.data && res.data.data) || {}
           }
-          return commonData
         }
-        return {}
+        return {
+          isAuthenticated: false,
+          user: {}
+        }
       } catch (err) {
         console.error(err.message)
         return null

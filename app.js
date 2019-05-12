@@ -10,7 +10,6 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const routes = require('./routes')
 const handle = routes.getRequestHandler(app)
-var https = require('https')
 
 app.prepare().then(() => {
   const server = express()
@@ -32,16 +31,6 @@ app.prepare().then(() => {
   server.get('*', (req, res) => {
     return handle(req, res)
   })
-
-  // https
-  //   .createServer(
-  //     {
-  //       key: fs.readFileSync('./config/server.key'),
-  //       cert: fs.readFileSync('./config/server.cert'),
-  //       ca: fs.readFileSync('./config/.rnd')
-  //     },
-  //     server
-  //   )
 
   server.listen(port, err => {
     if (err) throw err

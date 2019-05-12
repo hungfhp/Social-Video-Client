@@ -1,10 +1,23 @@
 import { createAction } from 'redux-actions'
-export const getMovieByIdSuccess = createAction('about-us/GET_SUGGEST_MOVIES_SUCCESS')
+export const getMoviesSuccess = createAction('movies/GET_SUGGEST_MOVIES_SUCCESS')
 
-export const getMovieById = movieId => async (dispatch, getState, { fetchApi }) => {
-  let loadedData = getState().movie
-  if (!loadedData || loadedData._id !== movieId) {
-    const res = await fetchApi(`/movies/${movieId}`, {})
-    return dispatch(getMovieByIdSuccess(res.data && res.data.data))
+export const getMovies = (params = { limit: 16, page: 1 }) => async (
+  dispatch,
+  getState,
+  { fetchApi }
+) => {
+  let loadedData = getState().movies
+  if (!loadedData.loaded) {
+    const res = await fetchApi(`/movies`, params)
+    return dispatch(getMoviesSuccess(res.data))
   }
+}
+
+export const searchMovies = (keyword, params = { limit: 16, page: 1 }) => async (
+  dispatch,
+  getState,
+  { fetchApi }
+) => {
+  const res = await fetchApi(`/movies/search`, { params: { ...params, search: keyword } })
+  return dispatch(getMoviesSuccess(res.data))
 }
