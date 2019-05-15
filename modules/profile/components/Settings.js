@@ -146,6 +146,7 @@ export default class Settings extends Component {
       handleSubmit,
       pristine,
       reset,
+      common,
       submitting
     } = this.props
     return (
@@ -206,15 +207,17 @@ export default class Settings extends Component {
                 </Grid>
                 <Grid item>
                   <Typography style={{ cursor: 'pointer' }} align="center">
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      className={classes.submit}
-                      onClick={handleSubmit(this.onSave)}
-                      disabled={submitting || pristine}
-                    >
-                      Lưu thay đổi
-                    </Button>
+                    {profile._id === common.user._id && (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={handleSubmit(this.onSave)}
+                        disabled={submitting || pristine}
+                      >
+                        Lưu thay đổi
+                      </Button>
+                    )}
                   </Typography>
                 </Grid>
               </Grid>

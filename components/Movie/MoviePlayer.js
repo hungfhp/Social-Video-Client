@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 // import Button from '@material-ui/core/Button'
 // import ReactPlayer from 'react-player'
 import { Player } from 'video-react'
+import ReactPlayer from 'react-player'
 
 import 'video-react/styles/scss/video-react.scss' // or import scss
 
@@ -38,7 +39,7 @@ export default class MoviePlayer extends Component {
   // }
   componentDidMount() {
     // subscribe state change
-    this.refs.player.subscribeToStateChange(this.handleStateChange)
+    // this.refs.player.subscribeToStateChange(this.handleStateChange)
   }
 
   handleStateChange = (state, prevState) => {
@@ -50,21 +51,58 @@ export default class MoviePlayer extends Component {
     })
     // console.log(this.state)
   }
+  onProgress = state => {
+    console.log('onProgress', state)
+    // We only want to update time slider if we are not currently seeking
+    if (!this.state.seeking) {
+      this.setState(state)
+    }
+  }
+  onProgressMp3 = state => {
+    console.log('onProgressMp3', state)
+    // We only want to update time slider if we are not currently seeking
+    if (!this.state.seeking) {
+      this.setState(state)
+    }
+  }
+
   render() {
     const { classes, theme, movie, play } = this.props
     const { player } = this.state
     const embeds = movie.embeds || []
 
     // console.log(player.getState())
+    // return (
+    //   <React.Fragment>
+    //     <ReactPlayer
+    //       url="hhttps://youtu.be/yr2tD9VXhpI"
+    //       playing
+    //       controls={true}
+    //       onProgress={this.onProgress}
+    //     />
+    //     <ReactPlayer
+    //       url="https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3"
+    //       playing
+    //       controls={true}
+    //       onProgress={this.onProgressMp3}
+    //     />
+    //   </React.Fragment>
+    // )
 
     return (
       <div className={classes.wrapper}>
-        <Player autoPlay ref="player" className={classes.player}>
+        <ReactPlayer
+          url={(embeds.length && embeds[0].embedUrl) || 'https://youtu.be/yr2tD9VXhpI'}
+          playing
+          controls={true}
+          // onProgress={this.onProgressMp3}
+        />
+        {/* <Player autoPlay ref="player" className={classes.player}>
           {embeds.length &&
             embeds.map((embed, index) => {
-              return <source key={index} src={embed.embedUrl} />
+              return <source key={index} src={'https://youtu.be/yr2tD9VXhpI' || embed.embedUrl} />
             })}
-        </Player>
+        </Player> */}
       </div>
     )
   }

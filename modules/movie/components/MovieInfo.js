@@ -36,6 +36,7 @@ export default class MovieInfo extends Component {
   render() {
     const { classes, theme, movie } = this.props
     const { play } = this.state
+    console.log(movie)
     return (
       <React.Fragment>
         <Grid container spacing={theme.spacing.unit * 5}>

@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -132,11 +133,11 @@ class MovieCard extends Component {
           </IconButton> */}
           <Typography>
             <Typography inline={true} variant="caption" color="textPrimary">
-              {getMovieViewsCount(movie)} lượt xem ・
+              {getMovieViewsCount(movie)} lượt xem
             </Typography>
-            <Typography inline={true} variant="caption" color="textPrimary">
-              {moment(movie.createdAt).fromNow()}
-            </Typography>
+            {/* <Typography inline={true} variant="caption" color="textPrimary"> */}
+            {/* {moment(movie.createdAt).fromNow()} */}
+            {/* </Typography> */}
           </Typography>
           <IconButton
             className={classes.moreVertIcon}

@@ -382,7 +382,7 @@ export default class MovieCreate extends Component {
                   type="text"
                   component={FieldGroup}
                 />
-                {this.state.uploadingMovie ? (
+                {/* {this.state.uploadingMovie ? (
                   <Loading loading={this.state.uploadingMovie} className={classes.buttonUpload} />
                 ) : (
                   <Dropzone
@@ -406,7 +406,7 @@ export default class MovieCreate extends Component {
                       )
                     }}
                   </Dropzone>
-                )}
+                )} */}
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <Field label="Phụ đề việt *" name="subUrl" type="text" component={FieldGroup} />
