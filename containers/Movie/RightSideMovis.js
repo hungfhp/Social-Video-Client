@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import MovieCardSm from '../../components/Movie/MovieCardSm'
-import Link from '../../components/Link'
-import Typography from '@material-ui/core/Typography'
+// import Link from '../../components/Link'
+// import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
