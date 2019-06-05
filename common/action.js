@@ -211,15 +211,12 @@ async function loginAndRegister(dispatch, getState, fetchApi, data) {
     ...common,
     isAuthenticated: true,
     user: { ...common.user, ...dataUser }
-    // likedCars: {
-    //   loaded: true,
-    //   data: likeCars.data
-    // }
   }
   console.log(dataUser)
   wCache.updateCache('commonData', commonData)
   cookies.setCookie('token', dataUser.token, 60)
   dispatch(loginSuccessAction(dataUser))
+  document.location.href = '/'
 }
 
 export const openLeftSideDrawer = state => (dispatch, getState, { fetchApi }) => {

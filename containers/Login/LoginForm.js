@@ -160,7 +160,7 @@ class LoginForm extends React.Component {
                 </Button>
               )}
             />
-            <FacebookLogin
+            {/* <FacebookLogin
               appId="329324544364004"
               fields="name,email,picture,gender"
               onClick={this.componentClicked}
@@ -175,7 +175,7 @@ class LoginForm extends React.Component {
                   Google
                 </Button>
               )}
-            />
+            /> */}
           </Typography>
 
           <Typography color="error" variant="body1">

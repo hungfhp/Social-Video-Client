@@ -4,6 +4,7 @@ import { getMoviesSuccess } from './action'
 const defaultState = {
   data: [],
   pagination: {},
+  keyword: '',
   loaded: false
 }
 export default handleActions(

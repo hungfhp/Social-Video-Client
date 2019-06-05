@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import IconInput from '@material-ui/icons/Input'
-import MailIcon from '@material-ui/icons/Mail'
+import IconGroupAdd from '@material-ui/icons/GroupAdd'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import LoginDialog from '../Login/LoginDialog'
@@ -34,6 +34,7 @@ import { reduxForm } from 'redux-form'
 import { searchMovies } from '../../modules/movies/action'
 import { pushRoute } from '../../components/Link'
 import { updateUrlParameter } from '../../common/utils/url'
+import fetchApi from '../../common/utils/fetchApi'
 
 const styles = theme => ({
   grow: {
@@ -132,7 +133,7 @@ const styles = theme => ({
 const validate = values => {
   let errors = {}
   if (!values.keyword) {
-    errors.keyword = 'Nhập keyword'
+    errors.keyword = 'Nhập từ khóa'
   }
   return errors
 }
@@ -156,7 +157,8 @@ const validate = values => {
 class Header extends React.Component {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    requestsCount: 0
   }
 
   onSearch = values => {
@@ -199,6 +201,12 @@ class Header extends React.Component {
     this.props.openLeftSideDrawer(!this.props.openLeftSide)
   }
 
+  componentDidMount() {
+    fetchApi(`/users/${this.props.user._id}/requests`).then(res => {
+      this.setState({ requestsCount: (res.data && res.data.data.length) || 0 })
+    })
+  }
+
   render() {
     const { anchorEl, mobileMoreAnchorEl } = this.state
     const {
@@ -227,10 +235,10 @@ class Header extends React.Component {
               <ClickAwayListener onClickAway={this.handleMenuClose}>
                 <MenuList>
                   <MenuItem onClick={this.handleMenuClose}>
-                    <Link href="/profile/me">Profile</Link>
+                    <Link href="/profile/me">Trang cá nhân</Link>
                   </MenuItem>
-                  <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-                  <MenuItem onClick={this.props.logout}>Logout</MenuItem>
+                  {/* <MenuItem onClick={this.handleMenuClose}>My account</MenuItem> */}
+                  <MenuItem onClick={this.props.logout}>Đăng xuất</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -249,20 +257,20 @@ class Header extends React.Component {
       >
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
+            <Badge badgeContent={this.state.requestsCount} color="secondary">
+              <IconGroupAdd />
             </Badge>
           </IconButton>
-          <p>Messages</p>
+          <p>Yêu cầu kết bạn</p>
         </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
+        {/* <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={11} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
           <p>Notifications</p>
-        </MenuItem>
+        </MenuItem> */}
         {isAuthenticated ? (
           <MenuItem onClick={this.handleProfileMenuOpen}>
             <IconButton color="inherit">
@@ -337,16 +345,20 @@ class Header extends React.Component {
                   <Link href="/movie/create">Tạo phim </Link>
                 </Button>
               )}
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
+              {isAuthenticated && (
+                <Link href="/profile/me">
+                  <IconButton color="inherit">
+                    <Badge badgeContent={this.state.requestsCount} color="secondary">
+                      <IconGroupAdd />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              )}
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               {isAuthenticated ? (
                 <Avatar
                   aria-owns={isMenuOpen ? 'menu-list-grow' : undefined}
@@ -360,10 +372,10 @@ class Header extends React.Component {
               ) : (
                 <React.Fragment>
                   <Button color="primary" onClick={this.handleClickOpenLoginDialog}>
-                    Login
+                    Đăng nhập
                   </Button>
                   <Button color="primary" onClick={this.handleClickOpenRegisterDialog}>
-                    Register
+                    Đăng ký
                   </Button>
                 </React.Fragment>
               )}

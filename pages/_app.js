@@ -9,6 +9,7 @@ import NProgress from 'nprogress'
 import 'core-js/fn/object/entries'
 import Router, { withRouter } from 'next/router'
 import '../theme/main.scss'
+import { SnackbarProvider } from 'notistack'
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', url => {
@@ -36,7 +37,7 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>My page</title>
+          <title>Home</title>
         </Head>
         {/* Wrap every page in Jss and Theme providers */}
         <JssProvider
@@ -51,9 +52,18 @@ class MyApp extends App {
             <CssBaseline />
             {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server-side. */}
-            <Component pageContext={this.pageContext} {...pageProps} />
+            <SnackbarProvider maxSnack={3}>
+              <Component pageContext={this.pageContext} {...pageProps} />
+            </SnackbarProvider>
           </MuiThemeProvider>
         </JssProvider>
+        <div id="fb-root" />
+        <script
+          async
+          defer
+          crossOrigin="anonymous"
+          src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.3&appId=329324544364004&autoLogAppEvents=1"
+        />
       </Container>
     )
   }

@@ -6,9 +6,15 @@ import main from '../common/main'
 import Layout from '../containers/Layout/Layout'
 import Content from '../modules/movie'
 import reducer from '../modules/movie/reducer'
-import reducerHome from '../modules/home/reducer'
-import { getMovieById } from '../modules/movie/action'
-import { getSuggestMovies } from '../modules/home/action'
+import commonReducer from '../common/reducer'
+import {
+  getMovieById,
+  checkOwn,
+  getLike,
+  getFollow,
+  getRate
+} from '../modules/movie/action'
+import { getSuggestMovies } from '../common/action'
 import { openLeftSideAction, getOptionsGenres } from '../common/action'
 
 // import { red } from '@material-ui/core/colors';
@@ -18,7 +24,7 @@ import { openLeftSideAction, getOptionsGenres } from '../common/action'
   Layout: Layout,
   reducers: {
     movie: reducer,
-    home: reducerHome
+    common: commonReducer
   },
   translationNameSpaces: ['movie'],
   routeName: 'movie'
@@ -29,6 +35,13 @@ export default class MoviePage extends Component {
     promises.push(dispatch(openLeftSideAction(false)))
     if (query.action !== 'create') {
       promises.push(dispatch(getMovieById(query.movieId)))
+      const userId = store.getState().common.user._id
+      if (userId) {
+        promises.push(dispatch(checkOwn(req, userId, query.movieId)))
+        promises.push(dispatch(getLike(userId, query.movieId)))
+        promises.push(dispatch(getFollow(userId, query.movieId)))
+        promises.push(dispatch(getRate(userId, query.movieId)))
+      }
     }
 
     promises.push(dispatch(getSuggestMovies()))

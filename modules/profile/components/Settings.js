@@ -25,6 +25,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Tooltip from '@material-ui/core/Tooltip'
 import { uploadFile } from '../../movie/action'
 import { updateProfile } from '../action'
+import ButtonFriend from '../../../components/User/ButtonFriend'
+import ButtonFollow from '../../../components/User/ButtonFollow'
 
 const styles = theme => ({
   root: {
@@ -96,11 +98,12 @@ const selector = formValueSelector('profile')
   form: 'profile',
   touchOnBlur: false,
   validate,
+  // enableReinitialize: true,
   shouldError: () => true
 })
 @connect(
   state => ({
-    ...selector(state, 'name', 'gender', 'avatarUrl'),
+    ...selector(state, '_id', 'name', 'gender', 'avatarUrl'),
     profileFromValues: getFormValues('profile')(state),
     common: state.common
     // avatarUrl: selector(state, 'name')
@@ -113,8 +116,8 @@ export default class Settings extends Component {
     uploadingAvatar: false
   }
   onSave = values => {
-    console.log(values)
     this.props.updateProfile(null, this.props.profile._id, values)
+    this.props.initialize(values)
   }
   uploadFile = async (path, file) => {
     let formData = new FormData()
@@ -133,10 +136,16 @@ export default class Settings extends Component {
   onUploadFileRejected = files => {
     console.error('onUploadFileRejected: ', files)
   }
-  UNSAFE_componentWillMount() {
+  handleInitValues = () => {
     const { profile = {} } = this.props
-
-    this.props.initialize(_.pick(profile, ['name', 'gender', 'avatarUrl']))
+    if (!_.isEmpty(profile)) {
+      this.props.initialize(_.pick(profile, ['_id', 'name', 'gender', 'avatarUrl']))
+    }
+  }
+  componentDidMount() {
+    if (_.isEmpty(this.props.profileFromValues)) {
+      this.handleInitValues()
+    }
   }
   render() {
     const {
@@ -144,8 +153,9 @@ export default class Settings extends Component {
       profile = {},
       profileFromValues = {},
       handleSubmit,
-      pristine,
+      dirty,
       reset,
+      pristine,
       common,
       submitting
     } = this.props
@@ -156,7 +166,6 @@ export default class Settings extends Component {
             <Grid item md={12}>
               <ButtonBase className={classes.image}>
                 <img className={classes.img} alt="complex" src={profileFromValues.avatarUrl} />
-
                 <Dropzone
                   onDrop={this.onUploadAvatar}
                   onDropRejected={this.onUploadFileRejected}
@@ -185,11 +194,11 @@ export default class Settings extends Component {
               <Grid item xs container direction="column" spacing={8}>
                 <Grid item xs>
                   <Typography gutterBottom variant="h6" align="center">
-                    Thông tin {profile.role}
+                    Thông tin {profile.role === 'user' ? 'người dùng' : profile.role}
                   </Typography>
 
                   <FormControl margin="normal" required fullWidth>
-                    <Field label="Tên" name="name" type="text" component={FieldGroup} creatable />
+                    <Field label="Tên" name="name" type="text" component={FieldGroup} />
                   </FormControl>
 
                   <FormControl margin="normal" required fullWidth>
@@ -205,20 +214,15 @@ export default class Settings extends Component {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item>
-                  <Typography style={{ cursor: 'pointer' }} align="center">
-                    {profile._id === common.user._id && (
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={handleSubmit(this.onSave)}
-                        disabled={submitting || pristine}
-                      >
-                        Lưu thay đổi
-                      </Button>
-                    )}
-                  </Typography>
+                <Grid item align="center">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleSubmit(this.onSave)}
+                    disabled={submitting || !dirty}
+                  >
+                    Lưu thay đổi
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>

@@ -18,6 +18,32 @@ const theme = createMuiTheme({
       dark: '#ba000d'
     }
   },
+  title: {
+    section: {
+      paddingBottom: '10px',
+      marginTop: '-24px'
+    }
+  },
+  text: {
+    wrapTwoLine: {
+      lineHeight: '16px',
+      height: '32px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '2' /* number of lines to show */
+    },
+    wrapThreeLine: {
+      lineHeight: '16px',
+      height: '48px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '3' /* number of lines to show */
+    }
+  },
   drawers: {
     left: {
       width: 240

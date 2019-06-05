@@ -5776,6 +5776,206 @@ module.exports = _typeof;
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/ClickAwayListener/ClickAwayListener.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@material-ui/core/ClickAwayListener/ClickAwayListener.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _reactDom = _interopRequireDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _reactEventListener = _interopRequireDefault(__webpack_require__(/*! react-event-listener */ "./node_modules/react-event-listener/dist/react-event-listener.cjs.js"));
+
+var _ownerDocument = _interopRequireDefault(__webpack_require__(/*! ../utils/ownerDocument */ "./node_modules/@material-ui/core/utils/ownerDocument.js"));
+
+// @inheritedComponent EventListener
+
+/**
+ * Listen for click events that occur somewhere in the document, outside of the element itself.
+ * For instance, if you need to hide a menu when people click anywhere else on your page.
+ */
+var ClickAwayListener =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(ClickAwayListener, _React$Component);
+
+  function ClickAwayListener() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, ClickAwayListener);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(ClickAwayListener)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.mounted = false;
+    _this.moved = false;
+
+    _this.handleClickAway = function (event) {
+      // Ignore events that have been `event.preventDefault()` marked.
+      if (event.defaultPrevented) {
+        return;
+      } // IE 11 support, which trigger the handleClickAway even after the unbind
+
+
+      if (!_this.mounted) {
+        return;
+      } // Do not act if user performed touchmove
+
+
+      if (_this.moved) {
+        _this.moved = false;
+        return;
+      } // The child might render null.
+
+
+      if (!_this.node) {
+        return;
+      }
+
+      var doc = (0, _ownerDocument.default)(_this.node);
+
+      if (doc.documentElement && doc.documentElement.contains(event.target) && !_this.node.contains(event.target)) {
+        _this.props.onClickAway(event);
+      }
+    };
+
+    _this.handleTouchMove = function () {
+      _this.moved = true;
+    };
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(ClickAwayListener, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      // Finds the first child when a component returns a fragment.
+      // https://github.com/facebook/react/blob/036ae3c6e2f056adffc31dfb78d1b6f0c63272f0/packages/react-dom/src/__tests__/ReactDOMFiber-test.js#L105
+      this.node = _reactDom.default.findDOMNode(this);
+      this.mounted = true;
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.mounted = false;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          children = _this$props.children,
+          mouseEvent = _this$props.mouseEvent,
+          touchEvent = _this$props.touchEvent,
+          onClickAway = _this$props.onClickAway,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["children", "mouseEvent", "touchEvent", "onClickAway"]);
+      var listenerProps = {};
+
+      if (mouseEvent !== false) {
+        listenerProps[mouseEvent] = this.handleClickAway;
+      }
+
+      if (touchEvent !== false) {
+        listenerProps[touchEvent] = this.handleClickAway;
+        listenerProps.onTouchMove = this.handleTouchMove;
+      }
+
+      return _react.default.createElement(_react.default.Fragment, null, children, _react.default.createElement(_reactEventListener.default, (0, _extends2.default)({
+        target: "document"
+      }, listenerProps, other)));
+    }
+  }]);
+  return ClickAwayListener;
+}(_react.default.Component);
+
+ true ? ClickAwayListener.propTypes = {
+  /**
+   * The wrapped element.
+   */
+  children: _propTypes.default.element.isRequired,
+
+  /**
+   * The mouse event to listen to. You can disable the listener by providing `false`.
+   */
+  mouseEvent: _propTypes.default.oneOf(['onClick', 'onMouseDown', 'onMouseUp', false]),
+
+  /**
+   * Callback fired when a "click away" event is detected.
+   */
+  onClickAway: _propTypes.default.func.isRequired,
+
+  /**
+   * The touch event to listen to. You can disable the listener by providing `false`.
+   */
+  touchEvent: _propTypes.default.oneOf(['onTouchStart', 'onTouchEnd', false])
+} : undefined;
+ClickAwayListener.defaultProps = {
+  mouseEvent: 'onMouseUp',
+  touchEvent: 'onTouchEnd'
+};
+var _default = ClickAwayListener;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/ClickAwayListener/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@material-ui/core/ClickAwayListener/index.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _ClickAwayListener.default;
+  }
+});
+
+var _ClickAwayListener = _interopRequireDefault(__webpack_require__(/*! ./ClickAwayListener */ "./node_modules/@material-ui/core/ClickAwayListener/ClickAwayListener.js"));
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/CssBaseline/CssBaseline.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@material-ui/core/CssBaseline/CssBaseline.js ***!
@@ -5917,6 +6117,2012 @@ var _CssBaseline = _interopRequireDefault(__webpack_require__(/*! ./CssBaseline 
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/Paper/Paper.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Paper/Paper.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _warning = _interopRequireDefault(__webpack_require__(/*! warning */ "./node_modules/warning/warning.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var styles = function styles(theme) {
+  var elevations = {};
+  theme.shadows.forEach(function (shadow, index) {
+    elevations["elevation".concat(index)] = {
+      boxShadow: shadow
+    };
+  });
+  return (0, _extends2.default)({
+    /* Styles applied to the root element. */
+    root: {
+      backgroundColor: theme.palette.background.paper
+    },
+
+    /* Styles applied to the root element if `square={false}`. */
+    rounded: {
+      borderRadius: theme.shape.borderRadius
+    }
+  }, elevations);
+};
+
+exports.styles = styles;
+
+function Paper(props) {
+  var classes = props.classes,
+      classNameProp = props.className,
+      Component = props.component,
+      square = props.square,
+      elevation = props.elevation,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "square", "elevation"]);
+   true ? (0, _warning.default)(elevation >= 0 && elevation < 25, "Material-UI: this elevation `".concat(elevation, "` is not implemented.")) : undefined;
+  var className = (0, _classnames.default)(classes.root, classes["elevation".concat(elevation)], (0, _defineProperty2.default)({}, classes.rounded, !square), classNameProp);
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: className
+  }, other));
+}
+
+ true ? Paper.propTypes = {
+  /**
+   * The content of the component.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * Shadow depth, corresponds to `dp` in the spec.
+   * It's accepting values between 0 and 24 inclusive.
+   */
+  elevation: _propTypes.default.number,
+
+  /**
+   * If `true`, rounded corners are disabled.
+   */
+  square: _propTypes.default.bool
+} : undefined;
+Paper.defaultProps = {
+  component: 'div',
+  elevation: 2,
+  square: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiPaper'
+})(Paper);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Paper/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Paper/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _Paper.default;
+  }
+});
+
+var _Paper = _interopRequireDefault(__webpack_require__(/*! ./Paper */ "./node_modules/@material-ui/core/Paper/Paper.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/RootRef/RootRef.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/RootRef/RootRef.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _reactDom = _interopRequireDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _reactHelpers = __webpack_require__(/*! ../utils/reactHelpers */ "./node_modules/@material-ui/core/utils/reactHelpers.js");
+
+/**
+ * Helper component to allow attaching a ref to a
+ * wrapped element to access the underlying DOM element.
+ *
+ * It's highly inspired by https://github.com/facebook/react/issues/11401#issuecomment-340543801.
+ * For example:
+ * ```jsx
+ * import React from 'react';
+ * import RootRef from '@material-ui/core/RootRef';
+ *
+ * class MyComponent extends React.Component {
+ *   constructor() {
+ *     super();
+ *     this.domRef = React.createRef();
+ *   }
+ *
+ *   componentDidMount() {
+ *     console.log(this.domRef.current); // DOM node
+ *   }
+ *
+ *   render() {
+ *     return (
+ *       <RootRef rootRef={this.domRef}>
+ *         <SomeChildComponent />
+ *       </RootRef>
+ *     );
+ *   }
+ * }
+ * ```
+ */
+var RootRef =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(RootRef, _React$Component);
+
+  function RootRef() {
+    (0, _classCallCheck2.default)(this, RootRef);
+    return (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(RootRef).apply(this, arguments));
+  }
+
+  (0, _createClass2.default)(RootRef, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.ref = _reactDom.default.findDOMNode(this);
+      (0, _reactHelpers.setRef)(this.props.rootRef, this.ref);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var ref = _reactDom.default.findDOMNode(this);
+
+      if (prevProps.rootRef !== this.props.rootRef || this.ref !== ref) {
+        if (prevProps.rootRef !== this.props.rootRef) {
+          (0, _reactHelpers.setRef)(prevProps.rootRef, null);
+        }
+
+        this.ref = ref;
+        (0, _reactHelpers.setRef)(this.props.rootRef, this.ref);
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.ref = null;
+      (0, _reactHelpers.setRef)(this.props.rootRef, null);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return this.props.children;
+    }
+  }]);
+  return RootRef;
+}(_react.default.Component);
+
+ true ? RootRef.propTypes = {
+  /**
+   * The wrapped element.
+   */
+  children: _propTypes.default.element.isRequired,
+
+  /**
+   * Provide a way to access the DOM node of the wrapped element.
+   * You can provide a callback ref or a `React.createRef()` ref.
+   */
+  rootRef: _propTypes.default.oneOfType([_propTypes.default.func, _propTypes.default.object]).isRequired
+} : undefined;
+
+if (true) {
+   true ? RootRef.propTypes = (0, _utils.exactProp)(RootRef.propTypes) : undefined;
+}
+
+var _default = RootRef;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/RootRef/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@material-ui/core/RootRef/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _RootRef.default;
+  }
+});
+
+var _RootRef = _interopRequireDefault(__webpack_require__(/*! ./RootRef */ "./node_modules/@material-ui/core/RootRef/RootRef.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Slide/Slide.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Slide/Slide.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setTranslateValue = setTranslateValue;
+exports.default = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _reactDom = _interopRequireDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
+
+var _reactEventListener = _interopRequireDefault(__webpack_require__(/*! react-event-listener */ "./node_modules/react-event-listener/dist/react-event-listener.cjs.js"));
+
+var _debounce = _interopRequireDefault(__webpack_require__(/*! debounce */ "./node_modules/debounce/index.js"));
+
+var _Transition = _interopRequireDefault(__webpack_require__(/*! react-transition-group/Transition */ "./node_modules/react-transition-group/Transition.js"));
+
+var _ownerWindow = _interopRequireDefault(__webpack_require__(/*! ../utils/ownerWindow */ "./node_modules/@material-ui/core/utils/ownerWindow.js"));
+
+var _withTheme = _interopRequireDefault(__webpack_require__(/*! ../styles/withTheme */ "./node_modules/@material-ui/core/styles/withTheme.js"));
+
+var _transitions = __webpack_require__(/*! ../styles/transitions */ "./node_modules/@material-ui/core/styles/transitions.js");
+
+var _utils = __webpack_require__(/*! ../transitions/utils */ "./node_modules/@material-ui/core/transitions/utils.js");
+
+// @inheritedComponent Transition
+// < 1kb payload overhead when lodash/debounce is > 3kb.
+var GUTTER = 24; // Translate the node so he can't be seen on the screen.
+// Later, we gonna translate back the node to his original location
+// with `translate3d(0, 0, 0)`.`
+
+function getTranslateValue(props, node) {
+  var direction = props.direction;
+  var rect = node.getBoundingClientRect();
+  var transform;
+
+  if (node.fakeTransform) {
+    transform = node.fakeTransform;
+  } else {
+    var computedStyle = (0, _ownerWindow.default)(node).getComputedStyle(node);
+    transform = computedStyle.getPropertyValue('-webkit-transform') || computedStyle.getPropertyValue('transform');
+  }
+
+  var offsetX = 0;
+  var offsetY = 0;
+
+  if (transform && transform !== 'none' && typeof transform === 'string') {
+    var transformValues = transform.split('(')[1].split(')')[0].split(',');
+    offsetX = parseInt(transformValues[4], 10);
+    offsetY = parseInt(transformValues[5], 10);
+  }
+
+  if (direction === 'left') {
+    return "translateX(100vw) translateX(-".concat(rect.left - offsetX, "px)");
+  }
+
+  if (direction === 'right') {
+    return "translateX(-".concat(rect.left + rect.width + GUTTER - offsetX, "px)");
+  }
+
+  if (direction === 'up') {
+    return "translateY(100vh) translateY(-".concat(rect.top - offsetY, "px)");
+  } // direction === 'down'
+
+
+  return "translateY(-".concat(rect.top + rect.height + GUTTER - offsetY, "px)");
+}
+
+function setTranslateValue(props, node) {
+  var transform = getTranslateValue(props, node);
+
+  if (transform) {
+    node.style.webkitTransform = transform;
+    node.style.transform = transform;
+  }
+}
+/**
+ * The Slide transition is used by the [Snackbar](/demos/snackbars/) component.
+ * It uses [react-transition-group](https://github.com/reactjs/react-transition-group) internally.
+ */
+
+
+var Slide =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(Slide, _React$Component);
+
+  function Slide() {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, Slide);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(Slide).call(this));
+    _this.mounted = false;
+
+    _this.handleEnter = function (node) {
+      setTranslateValue(_this.props, node);
+      (0, _utils.reflow)(node);
+
+      if (_this.props.onEnter) {
+        _this.props.onEnter(node);
+      }
+    };
+
+    _this.handleEntering = function (node) {
+      var theme = _this.props.theme;
+      var transitionProps = (0, _utils.getTransitionProps)(_this.props, {
+        mode: 'enter'
+      });
+      node.style.webkitTransition = theme.transitions.create('-webkit-transform', (0, _extends2.default)({}, transitionProps, {
+        easing: theme.transitions.easing.easeOut
+      }));
+      node.style.transition = theme.transitions.create('transform', (0, _extends2.default)({}, transitionProps, {
+        easing: theme.transitions.easing.easeOut
+      }));
+      node.style.webkitTransform = 'translate(0, 0)';
+      node.style.transform = 'translate(0, 0)';
+
+      if (_this.props.onEntering) {
+        _this.props.onEntering(node);
+      }
+    };
+
+    _this.handleExit = function (node) {
+      var theme = _this.props.theme;
+      var transitionProps = (0, _utils.getTransitionProps)(_this.props, {
+        mode: 'exit'
+      });
+      node.style.webkitTransition = theme.transitions.create('-webkit-transform', (0, _extends2.default)({}, transitionProps, {
+        easing: theme.transitions.easing.sharp
+      }));
+      node.style.transition = theme.transitions.create('transform', (0, _extends2.default)({}, transitionProps, {
+        easing: theme.transitions.easing.sharp
+      }));
+      setTranslateValue(_this.props, node);
+
+      if (_this.props.onExit) {
+        _this.props.onExit(node);
+      }
+    };
+
+    _this.handleExited = function (node) {
+      // No need for transitions when the component is hidden
+      node.style.webkitTransition = '';
+      node.style.transition = '';
+
+      if (_this.props.onExited) {
+        _this.props.onExited(node);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      _this.handleResize = (0, _debounce.default)(function () {
+        // Skip configuration where the position is screen size invariant.
+        if (_this.props.in || _this.props.direction === 'down' || _this.props.direction === 'right') {
+          return;
+        }
+
+        if (_this.transitionRef) {
+          setTranslateValue(_this.props, _this.transitionRef);
+        }
+      }, 166); // Corresponds to 10 frames at 60 Hz.
+    }
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(Slide, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.mounted = true; // state.mounted handle SSR, once the component is mounted, we need
+      // to properly hide it.
+
+      if (!this.props.in) {
+        // We need to set initial translate values of transition element
+        // otherwise component will be shown when in=false.
+        this.updatePosition();
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.direction !== this.props.direction && !this.props.in) {
+        // We need to update the position of the drawer when the direction change and
+        // when it's hidden.
+        this.updatePosition();
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.handleResize.clear();
+    }
+  }, {
+    key: "updatePosition",
+    value: function updatePosition() {
+      if (this.transitionRef) {
+        this.transitionRef.style.visibility = 'inherit';
+        setTranslateValue(this.props, this.transitionRef);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          children = _this$props.children,
+          direction = _this$props.direction,
+          onEnter = _this$props.onEnter,
+          onEntering = _this$props.onEntering,
+          onExit = _this$props.onExit,
+          onExited = _this$props.onExited,
+          styleProp = _this$props.style,
+          theme = _this$props.theme,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["children", "direction", "onEnter", "onEntering", "onExit", "onExited", "style", "theme"]);
+      var style = {}; // We use this state to handle the server-side rendering.
+      // We don't know the width of the children ahead of time.
+      // We need to render it.
+
+      if (!this.props.in && !this.mounted) {
+        style.visibility = 'hidden';
+      }
+
+      style = (0, _extends2.default)({}, style, styleProp, _react.default.isValidElement(children) ? children.props.style : {});
+      return _react.default.createElement(_reactEventListener.default, {
+        target: "window",
+        onResize: this.handleResize
+      }, _react.default.createElement(_Transition.default, (0, _extends2.default)({
+        onEnter: this.handleEnter,
+        onEntering: this.handleEntering,
+        onExit: this.handleExit,
+        onExited: this.handleExited,
+        appear: true,
+        style: style,
+        ref: function ref(_ref) {
+          _this2.transitionRef = _reactDom.default.findDOMNode(_ref);
+        }
+      }, other), children));
+    }
+  }]);
+  return Slide;
+}(_react.default.Component);
+
+ true ? Slide.propTypes = {
+  /**
+   * A single child content element.
+   */
+  children: _propTypes.default.oneOfType([_propTypes.default.element, _propTypes.default.func]),
+
+  /**
+   * Direction the child node will enter from.
+   */
+  direction: _propTypes.default.oneOf(['left', 'right', 'up', 'down']),
+
+  /**
+   * If `true`, show the component; triggers the enter or exit animation.
+   */
+  in: _propTypes.default.bool,
+
+  /**
+   * @ignore
+   */
+  onEnter: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onEntering: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onExit: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onExited: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  style: _propTypes.default.object,
+
+  /**
+   * @ignore
+   */
+  theme: _propTypes.default.object.isRequired,
+
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  timeout: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.shape({
+    enter: _propTypes.default.number,
+    exit: _propTypes.default.number
+  })])
+} : undefined;
+Slide.defaultProps = {
+  direction: 'down',
+  timeout: {
+    enter: _transitions.duration.enteringScreen,
+    exit: _transitions.duration.leavingScreen
+  }
+};
+
+var _default = (0, _withTheme.default)()(Slide);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Slide/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Slide/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _Slide.default;
+  }
+});
+
+var _Slide = _interopRequireDefault(__webpack_require__(/*! ./Slide */ "./node_modules/@material-ui/core/Slide/Slide.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Snackbar/Snackbar.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@material-ui/core/Snackbar/Snackbar.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _extends8 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _reactEventListener = _interopRequireDefault(__webpack_require__(/*! react-event-listener */ "./node_modules/react-event-listener/dist/react-event-listener.cjs.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _transitions = __webpack_require__(/*! ../styles/transitions */ "./node_modules/@material-ui/core/styles/transitions.js");
+
+var _ClickAwayListener = _interopRequireDefault(__webpack_require__(/*! ../ClickAwayListener */ "./node_modules/@material-ui/core/ClickAwayListener/index.js"));
+
+var _helpers = __webpack_require__(/*! ../utils/helpers */ "./node_modules/@material-ui/core/utils/helpers.js");
+
+var _Slide = _interopRequireDefault(__webpack_require__(/*! ../Slide */ "./node_modules/@material-ui/core/Slide/index.js"));
+
+var _SnackbarContent = _interopRequireDefault(__webpack_require__(/*! ../SnackbarContent */ "./node_modules/@material-ui/core/SnackbarContent/index.js"));
+
+var styles = function styles(theme) {
+  var gutter = 24;
+  var top = {
+    top: 0
+  };
+  var bottom = {
+    bottom: 0
+  };
+  var right = {
+    justifyContent: 'flex-end'
+  };
+  var left = {
+    justifyContent: 'flex-start'
+  };
+  var topSpace = {
+    top: gutter
+  };
+  var bottomSpace = {
+    bottom: gutter
+  };
+  var rightSpace = {
+    right: gutter
+  };
+  var leftSpace = {
+    left: gutter
+  };
+  var center = {
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)'
+  };
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      zIndex: theme.zIndex.snackbar,
+      position: 'fixed',
+      display: 'flex',
+      left: 0,
+      right: 0,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'center' }}`. */
+    anchorOriginTopCenter: (0, _extends8.default)({}, top, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({}, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'center' }}`. */
+    anchorOriginBottomCenter: (0, _extends8.default)({}, bottom, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({}, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }}`. */
+    anchorOriginTopRight: (0, _extends8.default)({}, top, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({
+      left: 'auto'
+    }, topSpace, rightSpace))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }}`. */
+    anchorOriginBottomRight: (0, _extends8.default)({}, bottom, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({
+      left: 'auto'
+    }, bottomSpace, rightSpace))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }}`. */
+    anchorOriginTopLeft: (0, _extends8.default)({}, top, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({
+      right: 'auto'
+    }, topSpace, leftSpace))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }}`. */
+    anchorOriginBottomLeft: (0, _extends8.default)({}, bottom, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('md'), (0, _extends8.default)({
+      right: 'auto'
+    }, bottomSpace, leftSpace)))
+  };
+};
+/* istanbul ignore if */
+
+
+exports.styles = styles;
+
+if ( true && !_react.default.createContext) {
+  throw new Error('Material-UI: react@16.3.0 or greater is required.');
+}
+
+var Snackbar =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(Snackbar, _React$Component);
+
+  function Snackbar() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, Snackbar);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(Snackbar)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.state = {};
+
+    _this.handleMouseEnter = function (event) {
+      if (_this.props.onMouseEnter) {
+        _this.props.onMouseEnter(event);
+      }
+
+      _this.handlePause();
+    };
+
+    _this.handleMouseLeave = function (event) {
+      if (_this.props.onMouseLeave) {
+        _this.props.onMouseLeave(event);
+      }
+
+      _this.handleResume();
+    };
+
+    _this.handleClickAway = function (event) {
+      if (_this.props.onClose) {
+        _this.props.onClose(event, 'clickaway');
+      }
+    };
+
+    _this.handlePause = function () {
+      clearTimeout(_this.timerAutoHide);
+    };
+
+    _this.handleResume = function () {
+      if (_this.props.autoHideDuration != null) {
+        if (_this.props.resumeHideDuration != null) {
+          _this.setAutoHideTimer(_this.props.resumeHideDuration);
+
+          return;
+        }
+
+        _this.setAutoHideTimer(_this.props.autoHideDuration * 0.5);
+      }
+    };
+
+    _this.handleExited = function () {
+      _this.setState({
+        exited: true
+      });
+    };
+
+    return _this;
+  }
+
+  (0, _createClass2.default)(Snackbar, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.open) {
+        this.setAutoHideTimer();
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.open !== this.props.open) {
+        if (this.props.open) {
+          this.setAutoHideTimer();
+        } else {
+          clearTimeout(this.timerAutoHide);
+        }
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearTimeout(this.timerAutoHide);
+    }
+  }, {
+    key: "setAutoHideTimer",
+    // Timer that controls delay before snackbar auto hides
+    value: function setAutoHideTimer(autoHideDuration) {
+      var _this2 = this;
+
+      var autoHideDurationBefore = autoHideDuration != null ? autoHideDuration : this.props.autoHideDuration;
+
+      if (!this.props.onClose || autoHideDurationBefore == null) {
+        return;
+      }
+
+      clearTimeout(this.timerAutoHide);
+      this.timerAutoHide = setTimeout(function () {
+        var autoHideDurationAfter = autoHideDuration != null ? autoHideDuration : _this2.props.autoHideDuration;
+
+        if (!_this2.props.onClose || autoHideDurationAfter == null) {
+          return;
+        }
+
+        _this2.props.onClose(null, 'timeout');
+      }, autoHideDurationBefore);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          action = _this$props.action,
+          _this$props$anchorOri = _this$props.anchorOrigin,
+          vertical = _this$props$anchorOri.vertical,
+          horizontal = _this$props$anchorOri.horizontal,
+          autoHideDuration = _this$props.autoHideDuration,
+          children = _this$props.children,
+          classes = _this$props.classes,
+          className = _this$props.className,
+          ClickAwayListenerProps = _this$props.ClickAwayListenerProps,
+          ContentProps = _this$props.ContentProps,
+          disableWindowBlurListener = _this$props.disableWindowBlurListener,
+          message = _this$props.message,
+          onClose = _this$props.onClose,
+          onEnter = _this$props.onEnter,
+          onEntered = _this$props.onEntered,
+          onEntering = _this$props.onEntering,
+          onExit = _this$props.onExit,
+          onExited = _this$props.onExited,
+          onExiting = _this$props.onExiting,
+          onMouseEnter = _this$props.onMouseEnter,
+          onMouseLeave = _this$props.onMouseLeave,
+          open = _this$props.open,
+          resumeHideDuration = _this$props.resumeHideDuration,
+          TransitionComponent = _this$props.TransitionComponent,
+          transitionDuration = _this$props.transitionDuration,
+          TransitionProps = _this$props.TransitionProps,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["action", "anchorOrigin", "autoHideDuration", "children", "classes", "className", "ClickAwayListenerProps", "ContentProps", "disableWindowBlurListener", "message", "onClose", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "onMouseEnter", "onMouseLeave", "open", "resumeHideDuration", "TransitionComponent", "transitionDuration", "TransitionProps"]); // So we only render active snackbars.
+
+      if (!open && this.state.exited) {
+        return null;
+      }
+
+      return _react.default.createElement(_ClickAwayListener.default, (0, _extends8.default)({
+        onClickAway: this.handleClickAway
+      }, ClickAwayListenerProps), _react.default.createElement("div", (0, _extends8.default)({
+        className: (0, _classnames.default)(classes.root, classes["anchorOrigin".concat((0, _helpers.capitalize)(vertical)).concat((0, _helpers.capitalize)(horizontal))], className),
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave
+      }, other), _react.default.createElement(_reactEventListener.default, {
+        target: "window",
+        onFocus: disableWindowBlurListener ? undefined : this.handleResume,
+        onBlur: disableWindowBlurListener ? undefined : this.handlePause
+      }), _react.default.createElement(TransitionComponent, (0, _extends8.default)({
+        appear: true,
+        in: open,
+        onEnter: onEnter,
+        onEntered: onEntered,
+        onEntering: onEntering,
+        onExit: onExit,
+        onExited: (0, _helpers.createChainedFunction)(this.handleExited, onExited),
+        onExiting: onExiting,
+        timeout: transitionDuration,
+        direction: vertical === 'top' ? 'down' : 'up'
+      }, TransitionProps), children || _react.default.createElement(_SnackbarContent.default, (0, _extends8.default)({
+        message: message,
+        action: action
+      }, ContentProps)))));
+    }
+  }], [{
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(nextProps, prevState) {
+      if (typeof prevState.exited === 'undefined') {
+        return {
+          exited: !nextProps.open
+        };
+      }
+
+      if (nextProps.open) {
+        return {
+          exited: false
+        };
+      }
+
+      return null;
+    }
+  }]);
+  return Snackbar;
+}(_react.default.Component);
+
+ true ? Snackbar.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * The anchor of the `Snackbar`.
+   */
+  anchorOrigin: _propTypes.default.shape({
+    horizontal: _propTypes.default.oneOf(['left', 'center', 'right']).isRequired,
+    vertical: _propTypes.default.oneOf(['top', 'bottom']).isRequired
+  }),
+
+  /**
+   * The number of milliseconds to wait before automatically calling the
+   * `onClose` function. `onClose` should then set the state of the `open`
+   * prop to hide the Snackbar. This behavior is disabled by default with
+   * the `null` value.
+   */
+  autoHideDuration: _propTypes.default.number,
+
+  /**
+   * Replace the `SnackbarContent` component.
+   */
+  children: _propTypes.default.element,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * Properties applied to the `ClickAwayListener` element.
+   */
+  ClickAwayListenerProps: _propTypes.default.object,
+
+  /**
+   * Properties applied to the [`SnackbarContent`](/api/snackbar-content/) element.
+   */
+  ContentProps: _propTypes.default.object,
+
+  /**
+   * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
+   */
+  disableWindowBlurListener: _propTypes.default.bool,
+
+  /**
+   * When displaying multiple consecutive Snackbars from a parent rendering a single
+   * <Snackbar/>, add the key property to ensure independent treatment of each message.
+   * e.g. <Snackbar key={message} />, otherwise, the message may update-in-place and
+   * features such as autoHideDuration may be canceled.
+   */
+  key: _propTypes.default.any,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node,
+
+  /**
+   * Callback fired when the component requests to be closed.
+   * Typically `onClose` is used to set state in the parent component,
+   * which is used to control the `Snackbar` `open` prop.
+   * The `reason` parameter can optionally be used to control the response to `onClose`,
+   * for example ignoring `clickaway`.
+   *
+   * @param {object} event The event source of the callback
+   * @param {string} reason Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`
+   */
+  onClose: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is entering.
+   */
+  onEnter: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has entered.
+   */
+  onEntered: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is entering.
+   */
+  onEntering: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is exiting.
+   */
+  onExit: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has exited.
+   */
+  onExited: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is exiting.
+   */
+  onExiting: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseEnter: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseLeave: _propTypes.default.func,
+
+  /**
+   * If true, `Snackbar` is open.
+   */
+  open: _propTypes.default.bool,
+
+  /**
+   * The number of milliseconds to wait before dismissing after user interaction.
+   * If `autoHideDuration` property isn't specified, it does nothing.
+   * If `autoHideDuration` property is specified but `resumeHideDuration` isn't,
+   * we default to `autoHideDuration / 2` ms.
+   */
+  resumeHideDuration: _propTypes.default.number,
+
+  /**
+   * The component used for the transition.
+   */
+  TransitionComponent: _utils.componentPropType,
+
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  transitionDuration: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.shape({
+    enter: _propTypes.default.number,
+    exit: _propTypes.default.number
+  })]),
+
+  /**
+   * Properties applied to the `Transition` element.
+   */
+  TransitionProps: _propTypes.default.object
+} : undefined;
+Snackbar.defaultProps = {
+  anchorOrigin: {
+    vertical: 'bottom',
+    horizontal: 'center'
+  },
+  disableWindowBlurListener: false,
+  TransitionComponent: _Slide.default,
+  transitionDuration: {
+    enter: _transitions.duration.enteringScreen,
+    exit: _transitions.duration.leavingScreen
+  }
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  flip: false,
+  name: 'MuiSnackbar'
+})(Snackbar);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Snackbar/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@material-ui/core/Snackbar/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _Snackbar.default;
+  }
+});
+
+var _Snackbar = _interopRequireDefault(__webpack_require__(/*! ./Snackbar */ "./node_modules/@material-ui/core/Snackbar/Snackbar.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/SnackbarContent/SnackbarContent.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@material-ui/core/SnackbarContent/SnackbarContent.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _Paper = _interopRequireDefault(__webpack_require__(/*! ../Paper */ "./node_modules/@material-ui/core/Paper/index.js"));
+
+var _Typography = _interopRequireDefault(__webpack_require__(/*! ../Typography */ "./node_modules/@material-ui/core/Typography/index.js"));
+
+var _colorManipulator = __webpack_require__(/*! ../styles/colorManipulator */ "./node_modules/@material-ui/core/styles/colorManipulator.js");
+
+// @inheritedComponent Paper
+var styles = function styles(theme) {
+  var _root;
+
+  var emphasis = theme.palette.type === 'light' ? 0.8 : 0.98;
+  var backgroundColor = (0, _colorManipulator.emphasize)(theme.palette.background.default, emphasis);
+  return {
+    /* Styles applied to the root element. */
+    root: (_root = {
+      color: theme.palette.getContrastText(backgroundColor),
+      backgroundColor: backgroundColor,
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      padding: '6px 24px'
+    }, (0, _defineProperty2.default)(_root, theme.breakpoints.up('md'), {
+      minWidth: 288,
+      maxWidth: 568,
+      borderRadius: theme.shape.borderRadius
+    }), (0, _defineProperty2.default)(_root, theme.breakpoints.down('sm'), {
+      flexGrow: 1
+    }), _root),
+
+    /* Styles applied to the message wrapper element. */
+    message: {
+      padding: '8px 0'
+    },
+
+    /* Styles applied to the action wrapper element if `action` is provided. */
+    action: {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: 'auto',
+      paddingLeft: 24,
+      marginRight: -8
+    }
+  };
+};
+
+exports.styles = styles;
+
+function SnackbarContent(props) {
+  var action = props.action,
+      classes = props.classes,
+      className = props.className,
+      message = props.message,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "classes", "className", "message"]);
+  return _react.default.createElement(_Paper.default, (0, _extends2.default)({
+    component: _Typography.default,
+    headlineMapping: {
+      body1: 'div',
+      body2: 'div'
+    },
+    role: "alertdialog",
+    square: true,
+    elevation: 6,
+    className: (0, _classnames.default)(classes.root, className)
+  }, other), _react.default.createElement("div", {
+    className: classes.message
+  }, message), action ? _react.default.createElement("div", {
+    className: classes.action
+  }, action) : null);
+}
+
+ true ? SnackbarContent.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node
+} : undefined;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiSnackbarContent'
+})(SnackbarContent);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/SnackbarContent/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/SnackbarContent/index.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _SnackbarContent.default;
+  }
+});
+
+var _SnackbarContent = _interopRequireDefault(__webpack_require__(/*! ./SnackbarContent */ "./node_modules/@material-ui/core/SnackbarContent/SnackbarContent.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/SvgIcon/SvgIcon.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/SvgIcon/SvgIcon.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _helpers = __webpack_require__(/*! ../utils/helpers */ "./node_modules/@material-ui/core/utils/helpers.js");
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      userSelect: 'none',
+      width: '1em',
+      height: '1em',
+      display: 'inline-block',
+      fill: 'currentColor',
+      flexShrink: 0,
+      fontSize: 24,
+      transition: theme.transitions.create('fill', {
+        duration: theme.transitions.duration.shorter
+      })
+    },
+
+    /* Styles applied to the root element if `color="primary"`. */
+    colorPrimary: {
+      color: theme.palette.primary.main
+    },
+
+    /* Styles applied to the root element if `color="secondary"`. */
+    colorSecondary: {
+      color: theme.palette.secondary.main
+    },
+
+    /* Styles applied to the root element if `color="action"`. */
+    colorAction: {
+      color: theme.palette.action.active
+    },
+
+    /* Styles applied to the root element if `color="error"`. */
+    colorError: {
+      color: theme.palette.error.main
+    },
+
+    /* Styles applied to the root element if `color="disabled"`. */
+    colorDisabled: {
+      color: theme.palette.action.disabled
+    },
+
+    /* Styles applied to the root element if `fontSize="inherit"`. */
+    fontSizeInherit: {
+      fontSize: 'inherit'
+    },
+
+    /* Styles applied to the root element if `fontSize="small"`. */
+    fontSizeSmall: {
+      fontSize: 20
+    },
+
+    /* Styles applied to the root element if `fontSize="large"`. */
+    fontSizeLarge: {
+      fontSize: 35
+    }
+  };
+};
+
+exports.styles = styles;
+
+function SvgIcon(props) {
+  var _classNames;
+
+  var children = props.children,
+      classes = props.classes,
+      className = props.className,
+      color = props.color,
+      Component = props.component,
+      fontSize = props.fontSize,
+      nativeColor = props.nativeColor,
+      titleAccess = props.titleAccess,
+      viewBox = props.viewBox,
+      other = (0, _objectWithoutProperties2.default)(props, ["children", "classes", "className", "color", "component", "fontSize", "nativeColor", "titleAccess", "viewBox"]);
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: (0, _classnames.default)(classes.root, (_classNames = {}, (0, _defineProperty2.default)(_classNames, classes["color".concat((0, _helpers.capitalize)(color))], color !== 'inherit'), (0, _defineProperty2.default)(_classNames, classes["fontSize".concat((0, _helpers.capitalize)(fontSize))], fontSize !== 'default'), _classNames), className),
+    focusable: "false",
+    viewBox: viewBox,
+    color: nativeColor,
+    "aria-hidden": titleAccess ? 'false' : 'true',
+    role: titleAccess ? 'img' : 'presentation'
+  }, other), children, titleAccess ? _react.default.createElement("title", null, titleAccess) : null);
+}
+
+ true ? SvgIcon.propTypes = {
+  /**
+   * Node passed into the SVG element.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   * You can use the `nativeColor` property to apply a color attribute to the SVG element.
+   */
+  color: _propTypes.default.oneOf(['inherit', 'primary', 'secondary', 'action', 'error', 'disabled']),
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * The fontSize applied to the icon. Defaults to 24px, but can be configure to inherit font size.
+   */
+  fontSize: _propTypes.default.oneOf(['inherit', 'default', 'small', 'large']),
+
+  /**
+   * Applies a color attribute to the SVG element.
+   */
+  nativeColor: _propTypes.default.string,
+
+  /**
+   * The shape-rendering attribute. The behavior of the different options is described on the
+   * [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering).
+   * If you are having issues with blurry icons you should investigate this property.
+   */
+  shapeRendering: _propTypes.default.string,
+
+  /**
+   * Provides a human-readable title for the element that contains it.
+   * https://www.w3.org/TR/SVG-access/#Equivalent
+   */
+  titleAccess: _propTypes.default.string,
+
+  /**
+   * Allows you to redefine what the coordinates without units mean inside an SVG element.
+   * For example, if the SVG element is 500 (width) by 200 (height),
+   * and you pass viewBox="0 0 50 20",
+   * this means that the coordinates inside the SVG will go from the top left corner (0,0)
+   * to bottom right (50,20) and each unit will be worth 10px.
+   */
+  viewBox: _propTypes.default.string
+} : undefined;
+SvgIcon.defaultProps = {
+  color: 'inherit',
+  component: 'svg',
+  fontSize: 'default',
+  viewBox: '0 0 24 24'
+};
+SvgIcon.muiName = 'SvgIcon';
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiSvgIcon'
+})(SvgIcon);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/SvgIcon/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@material-ui/core/SvgIcon/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _SvgIcon.default;
+  }
+});
+
+var _SvgIcon = _interopRequireDefault(__webpack_require__(/*! ./SvgIcon */ "./node_modules/@material-ui/core/SvgIcon/SvgIcon.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Typography/Typography.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/Typography/Typography.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _helpers = __webpack_require__(/*! ../utils/helpers */ "./node_modules/@material-ui/core/utils/helpers.js");
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'block',
+      margin: 0
+    },
+
+    /* Styles applied to the root element if `variant="display4"`. */
+    display4: theme.typography.display4,
+
+    /* Styles applied to the root element if `variant="display3"`. */
+    display3: theme.typography.display3,
+
+    /* Styles applied to the root element if `variant="display2"`. */
+    display2: theme.typography.display2,
+
+    /* Styles applied to the root element if `variant="display1"`. */
+    display1: theme.typography.display1,
+
+    /* Styles applied to the root element if `variant="headline"`. */
+    headline: theme.typography.headline,
+
+    /* Styles applied to the root element if `variant="title"`. */
+    title: theme.typography.title,
+
+    /* Styles applied to the root element if `variant="subheading"`. */
+    subheading: theme.typography.subheading,
+
+    /* Styles applied to the root element if `variant="body2"`. */
+    body2: theme.typography.body2,
+
+    /* Styles applied to the root element if `variant="body1"`. */
+    body1: theme.typography.body1,
+
+    /* Styles applied to the root element if `variant="caption"`. */
+    caption: theme.typography.caption,
+
+    /* Styles applied to the root element if `variant="button"`. */
+    button: theme.typography.button,
+
+    /* Styles applied to the root element if `variant="h1"`. */
+    h1: theme.typography.h1,
+
+    /* Styles applied to the root element if `variant="h2"`. */
+    h2: theme.typography.h2,
+
+    /* Styles applied to the root element if `variant="h3"`. */
+    h3: theme.typography.h3,
+
+    /* Styles applied to the root element if `variant="h4"`. */
+    h4: theme.typography.h4,
+
+    /* Styles applied to the root element if `variant="h5"`. */
+    h5: theme.typography.h5,
+
+    /* Styles applied to the root element if `variant="h6"`. */
+    h6: theme.typography.h6,
+
+    /* Styles applied to the root element if `variant="subtitle1"`. */
+    subtitle1: theme.typography.subtitle1,
+
+    /* Styles applied to the root element if `variant="subtitle2"`. */
+    subtitle2: theme.typography.subtitle2,
+
+    /* Styles applied to the root element if `variant="overline"`. */
+    overline: theme.typography.overline,
+
+    /* Styles applied to the root element if `variant="srOnly"`. Only accessible to screen readers. */
+    srOnly: {
+      position: 'absolute',
+      height: 1,
+      width: 1,
+      overflow: 'hidden'
+    },
+
+    /* Styles applied to the root element if `align="left"`. */
+    alignLeft: {
+      textAlign: 'left'
+    },
+
+    /* Styles applied to the root element if `align="center"`. */
+    alignCenter: {
+      textAlign: 'center'
+    },
+
+    /* Styles applied to the root element if `align="right"`. */
+    alignRight: {
+      textAlign: 'right'
+    },
+
+    /* Styles applied to the root element if `align="justify"`. */
+    alignJustify: {
+      textAlign: 'justify'
+    },
+
+    /* Styles applied to the root element if `align="nowrap"`. */
+    noWrap: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    },
+
+    /* Styles applied to the root element if `gutterBottom={true}`. */
+    gutterBottom: {
+      marginBottom: '0.35em'
+    },
+
+    /* Styles applied to the root element if `paragraph={true}`. */
+    paragraph: {
+      marginBottom: 16
+    },
+
+    /* Styles applied to the root element if `color="inherit"`. */
+    colorInherit: {
+      color: 'inherit'
+    },
+
+    /* Styles applied to the root element if `color="primary"`. */
+    colorPrimary: {
+      color: theme.palette.primary.main
+    },
+
+    /* Styles applied to the root element if `color="secondary"`. */
+    colorSecondary: {
+      color: theme.palette.secondary.main
+    },
+
+    /* Styles applied to the root element if `color="textPrimary"`. */
+    colorTextPrimary: {
+      color: theme.palette.text.primary
+    },
+
+    /* Styles applied to the root element if `color="textSecondary"`. */
+    colorTextSecondary: {
+      color: theme.palette.text.secondary
+    },
+
+    /* Styles applied to the root element if `color="error"`. */
+    colorError: {
+      color: theme.palette.error.main
+    },
+
+    /* Styles applied to the root element if `inline={true}`. */
+    inline: {
+      display: 'inline'
+    }
+  };
+};
+
+exports.styles = styles;
+var nextVariants = {
+  display4: 'h1',
+  display3: 'h2',
+  display2: 'h3',
+  display1: 'h4',
+  headline: 'h5',
+  title: 'h6',
+  subheading: 'subtitle1'
+};
+
+function getVariant(theme, variantProp) {
+  var typography = theme.typography;
+  var variant = variantProp;
+
+  if (!variant) {
+    variant = typography.useNextVariants ? 'body2' : 'body1';
+  } // complete v2 switch
+
+
+  if (typography.useNextVariants) {
+    variant = nextVariants[variant] || variant;
+  }
+
+  return variant;
+}
+
+var defaultHeadlineMapping = {
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6',
+  subtitle1: 'h6',
+  subtitle2: 'h6',
+  body1: 'p',
+  body2: 'p',
+  // deprecated
+  display4: 'h1',
+  display3: 'h1',
+  display2: 'h1',
+  display1: 'h1',
+  headline: 'h1',
+  title: 'h2',
+  subheading: 'h3'
+};
+
+function Typography(props) {
+  var _classNames;
+
+  var align = props.align,
+      classes = props.classes,
+      classNameProp = props.className,
+      color = props.color,
+      componentProp = props.component,
+      gutterBottom = props.gutterBottom,
+      headlineMapping = props.headlineMapping,
+      inline = props.inline,
+      internalDeprecatedVariant = props.internalDeprecatedVariant,
+      noWrap = props.noWrap,
+      paragraph = props.paragraph,
+      theme = props.theme,
+      variantProp = props.variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["align", "classes", "className", "color", "component", "gutterBottom", "headlineMapping", "inline", "internalDeprecatedVariant", "noWrap", "paragraph", "theme", "variant"]);
+  var variant = getVariant(theme, variantProp);
+  var className = (0, _classnames.default)(classes.root, (_classNames = {}, (0, _defineProperty2.default)(_classNames, classes[variant], variant !== 'inherit'), (0, _defineProperty2.default)(_classNames, classes["color".concat((0, _helpers.capitalize)(color))], color !== 'default'), (0, _defineProperty2.default)(_classNames, classes.noWrap, noWrap), (0, _defineProperty2.default)(_classNames, classes.gutterBottom, gutterBottom), (0, _defineProperty2.default)(_classNames, classes.paragraph, paragraph), (0, _defineProperty2.default)(_classNames, classes["align".concat((0, _helpers.capitalize)(align))], align !== 'inherit'), (0, _defineProperty2.default)(_classNames, classes.inline, inline), _classNames), classNameProp);
+  var Component = componentProp || (paragraph ? 'p' : headlineMapping[variant] || defaultHeadlineMapping[variant]) || 'span';
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: className
+  }, other));
+}
+
+ true ? Typography.propTypes = {
+  /**
+   * Set the text-align on the component.
+   */
+  align: _propTypes.default.oneOf(['inherit', 'left', 'center', 'right', 'justify']),
+
+  /**
+   * The content of the component.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: _propTypes.default.oneOf(['default', 'error', 'inherit', 'primary', 'secondary', 'textPrimary', 'textSecondary']),
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   * By default, it maps the variant to a good default headline component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * If `true`, the text will have a bottom margin.
+   */
+  gutterBottom: _propTypes.default.bool,
+
+  /**
+   * We are empirically mapping the variant property to a range of different DOM element types.
+   * For instance, subtitle1 to `<h6>`.
+   * If you wish to change that mapping, you can provide your own.
+   * Alternatively, you can use the `component` property.
+   * The default mapping is the following:
+   */
+  headlineMapping: _propTypes.default.object,
+
+  /**
+   *  Controls whether the Typography is inline or not.
+   */
+  inline: _propTypes.default.bool,
+
+  /**
+   * A deprecated variant is used from an internal component. Users don't need
+   * a deprecation warning here if they switched to the v2 theme. They already
+   * get the mapping that will be applied in the next major release.
+   *
+   * @internal
+   */
+  internalDeprecatedVariant: _propTypes.default.bool,
+
+  /**
+   * If `true`, the text will not wrap, but instead will truncate with an ellipsis.
+   */
+  noWrap: _propTypes.default.bool,
+
+  /**
+   * If `true`, the text will have a bottom margin.
+   */
+  paragraph: _propTypes.default.bool,
+
+  /**
+   * @ignore
+   */
+  theme: _propTypes.default.object.isRequired,
+
+  /**
+   * Applies the theme typography styles.
+   * Use `body1` as the default value with the legacy implementation and `body2` with the new one.
+   */
+  variant: (0, _utils.chainPropTypes)(_propTypes.default.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2', 'caption', 'button', 'overline', 'srOnly', 'inherit', // deprecated
+  'display4', 'display3', 'display2', 'display1', 'headline', 'title', 'subheading']), function (props) {
+    var deprecatedVariants = ['display4', 'display3', 'display2', 'display1', 'headline', 'title', 'subheading'];
+
+    if (props.theme.typography.useNextVariants && !props.internalDeprecatedVariant && deprecatedVariants.indexOf(props.variant) !== -1) {
+      return new Error('Material-UI: you are using a deprecated typography variant: ' + "`".concat(props.variant, "` that will be removed in the next major release.\n") + 'Please read the migration guide under https://material-ui.com/style/typography#migration-to-typography-v2.');
+    }
+
+    return null;
+  })
+} : undefined;
+Typography.defaultProps = {
+  align: 'inherit',
+  color: 'default',
+  gutterBottom: false,
+  headlineMapping: defaultHeadlineMapping,
+  inline: false,
+  noWrap: false,
+  paragraph: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTypography',
+  withTheme: true
+})(Typography);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Typography/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@material-ui/core/Typography/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _Typography.default;
+  }
+});
+
+var _Typography = _interopRequireDefault(__webpack_require__(/*! ./Typography */ "./node_modules/@material-ui/core/Typography/Typography.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/colors/amber.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@material-ui/core/colors/amber.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var amber = {
+  50: '#fff8e1',
+  100: '#ffecb3',
+  200: '#ffe082',
+  300: '#ffd54f',
+  400: '#ffca28',
+  500: '#ffc107',
+  600: '#ffb300',
+  700: '#ffa000',
+  800: '#ff8f00',
+  900: '#ff6f00',
+  A100: '#ffe57f',
+  A200: '#ffd740',
+  A400: '#ffc400',
+  A700: '#ffab00'
+};
+var _default = amber;
+exports.default = _default;
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/colors/common.js":
 /*!*********************************************************!*\
   !*** ./node_modules/@material-ui/core/colors/common.js ***!
@@ -5936,6 +8142,41 @@ var common = {
   white: '#fff'
 };
 var _default = common;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/colors/green.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@material-ui/core/colors/green.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var green = {
+  50: '#e8f5e9',
+  100: '#c8e6c9',
+  200: '#a5d6a7',
+  300: '#81c784',
+  400: '#66bb6a',
+  500: '#4caf50',
+  600: '#43a047',
+  700: '#388e3c',
+  800: '#2e7d32',
+  900: '#1b5e20',
+  A100: '#b9f6ca',
+  A200: '#69f0ae',
+  A400: '#00e676',
+  A700: '#00c853'
+};
+var _default = green;
 exports.default = _default;
 
 /***/ }),
@@ -8528,6 +10769,246 @@ exports.default = _default;
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/transitions/utils.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@material-ui/core/transitions/utils.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getTransitionProps = getTransitionProps;
+exports.reflow = void 0;
+
+var reflow = function reflow(node) {
+  return node.scrollTop;
+};
+
+exports.reflow = reflow;
+
+function getTransitionProps(props, options) {
+  var timeout = props.timeout,
+      _props$style = props.style,
+      style = _props$style === void 0 ? {} : _props$style;
+  return {
+    duration: style.transitionDuration || typeof timeout === 'number' ? timeout : timeout[options.mode],
+    delay: style.transitionDelay
+  };
+}
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/utils/helpers.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@material-ui/core/utils/helpers.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.capitalize = capitalize;
+exports.contains = contains;
+exports.findIndex = findIndex;
+exports.find = find;
+exports.createChainedFunction = createChainedFunction;
+
+var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js"));
+
+var _warning = _interopRequireDefault(__webpack_require__(/*! warning */ "./node_modules/warning/warning.js"));
+
+// It should to be noted that this function isn't equivalent to `text-transform: capitalize`.
+//
+// A strict capitalization should uppercase the first letter of each word a the sentence.
+// We only handle the first word.
+function capitalize(string) {
+  if ( true && typeof string !== 'string') {
+    throw new Error('Material-UI: capitalize(string) expects a string argument.');
+  }
+
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function contains(obj, pred) {
+  return Object.keys(pred).every(function (key) {
+    return obj.hasOwnProperty(key) && obj[key] === pred[key];
+  });
+}
+
+function findIndex(arr, pred) {
+  var predType = (0, _typeof2.default)(pred);
+
+  for (var i = 0; i < arr.length; i += 1) {
+    if (predType === 'function' && !!pred(arr[i], i, arr) === true) {
+      return i;
+    }
+
+    if (predType === 'object' && contains(arr[i], pred)) {
+      return i;
+    }
+
+    if (['string', 'number', 'boolean'].indexOf(predType) !== -1) {
+      return arr.indexOf(pred);
+    }
+  }
+
+  return -1;
+}
+
+function find(arr, pred) {
+  var index = findIndex(arr, pred);
+  return index > -1 ? arr[index] : undefined;
+}
+/**
+ * Safe chained function
+ *
+ * Will only create a new function if needed,
+ * otherwise will pass back existing functions or null.
+ *
+ * @param {function} functions to chain
+ * @returns {function|null}
+ */
+
+
+function createChainedFunction() {
+  for (var _len = arguments.length, funcs = new Array(_len), _key = 0; _key < _len; _key++) {
+    funcs[_key] = arguments[_key];
+  }
+
+  return funcs.reduce(function (acc, func) {
+    if (func == null) {
+      return acc;
+    }
+
+     true ? (0, _warning.default)(typeof func === 'function', 'Material-UI: invalid Argument Type, must only provide functions, undefined, or null.') : undefined;
+    return function chainedFunction() {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      acc.apply(this, args);
+      func.apply(this, args);
+    };
+  }, function () {});
+}
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/utils/ownerDocument.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@material-ui/core/utils/ownerDocument.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function ownerDocument(node) {
+  return node && node.ownerDocument || document;
+}
+
+var _default = ownerDocument;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/utils/ownerWindow.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@material-ui/core/utils/ownerWindow.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _ownerDocument = _interopRequireDefault(__webpack_require__(/*! ./ownerDocument */ "./node_modules/@material-ui/core/utils/ownerDocument.js"));
+
+function ownerWindow(node) {
+  var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window;
+  var doc = (0, _ownerDocument.default)(node);
+  return doc.defaultView || doc.parentView || fallback;
+}
+
+var _default = ownerWindow;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/utils/reactHelpers.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@material-ui/core/utils/reactHelpers.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cloneElementWithClassName = cloneElementWithClassName;
+exports.cloneChildrenWithClassName = cloneChildrenWithClassName;
+exports.isMuiElement = isMuiElement;
+exports.setRef = setRef;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+function cloneElementWithClassName(child, className) {
+  return _react.default.cloneElement(child, {
+    className: (0, _classnames.default)(child.props.className, className)
+  });
+}
+
+function cloneChildrenWithClassName(children, className) {
+  return _react.default.Children.map(children, function (child) {
+    return _react.default.isValidElement(child) && cloneElementWithClassName(child, className);
+  });
+}
+
+function isMuiElement(element, muiNames) {
+  return _react.default.isValidElement(element) && muiNames.indexOf(element.type.muiName) !== -1;
+}
+
+function setRef(ref, value) {
+  if (typeof ref === 'function') {
+    ref(value);
+  } else if (ref) {
+    ref.current = value;
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/utils/chainPropTypes.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@material-ui/utils/chainPropTypes.js ***!
@@ -8826,6 +11307,68 @@ function createBroadcast (initialState) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (createBroadcast);
+
+
+/***/ }),
+
+/***/ "./node_modules/classnames/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/classnames/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
 
 
 /***/ }),
@@ -9515,6 +12058,87 @@ function supportedValue(property, value) {
 
   return cache[cacheKey];
 }
+
+/***/ }),
+
+/***/ "./node_modules/debounce/index.js":
+/*!****************************************!*\
+  !*** ./node_modules/debounce/index.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Returns a function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing. The function also has a property 'clear' 
+ * that is a function which will clear the timer to prevent previously scheduled executions. 
+ *
+ * @source underscore.js
+ * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+ * @param {Function} function to wrap
+ * @param {Number} timeout in ms (`100`)
+ * @param {Boolean} whether to execute at the beginning (`false`)
+ * @api public
+ */
+function debounce(func, wait, immediate){
+  var timeout, args, context, timestamp, result;
+  if (null == wait) wait = 100;
+
+  function later() {
+    var last = Date.now() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+    }
+  };
+
+  var debounced = function(){
+    context = this;
+    args = arguments;
+    timestamp = Date.now();
+    var callNow = immediate && !timeout;
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = args = null;
+    }
+
+    return result;
+  };
+
+  debounced.clear = function() {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+  
+  debounced.flush = function() {
+    if (timeout) {
+      result = func.apply(context, args);
+      context = args = null;
+      
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  return debounced;
+};
+
+// Adds compatibility for ES modules
+debounce.debounce = debounce;
+
+module.exports = debounce;
+
 
 /***/ }),
 
@@ -18070,6 +20694,1169 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./node_modules/notistack/build/SnackbarContext.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarContext.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _react2.default.createContext();
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarItem/SnackbarItem.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _styles = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
+
+var _RootRef = __webpack_require__(/*! @material-ui/core/RootRef */ "./node_modules/@material-ui/core/RootRef/index.js");
+
+var _RootRef2 = _interopRequireDefault(_RootRef);
+
+var _Snackbar = __webpack_require__(/*! @material-ui/core/Snackbar */ "./node_modules/@material-ui/core/Snackbar/index.js");
+
+var _Snackbar2 = _interopRequireDefault(_Snackbar);
+
+var _SnackbarContent = __webpack_require__(/*! @material-ui/core/SnackbarContent */ "./node_modules/@material-ui/core/SnackbarContent/index.js");
+
+var _SnackbarContent2 = _interopRequireDefault(_SnackbarContent);
+
+var _SnackbarItem = __webpack_require__(/*! ./SnackbarItem.styles */ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.styles.js");
+
+var _SnackbarItem2 = __webpack_require__(/*! ./SnackbarItem.util */ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.util.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SnackbarItem = function (_Component) {
+    _inherits(SnackbarItem, _Component);
+
+    function SnackbarItem(props) {
+        _classCallCheck(this, SnackbarItem);
+
+        var _this = _possibleConstructorReturn(this, (SnackbarItem.__proto__ || Object.getPrototypeOf(SnackbarItem)).call(this, props));
+
+        _this.handleClose = function (key) {
+            return function (event, reason) {
+                var _this$props = _this.props,
+                    onClose = _this$props.onClose,
+                    singleOnClose = _this$props.snack.onClose;
+
+                if (reason === 'clickaway') return;
+                if (singleOnClose) singleOnClose(event, reason, key);
+                onClose(event, reason, key);
+            };
+        };
+
+        _this.handleExited = function (key) {
+            return function (event) {
+                var _this$props2 = _this.props,
+                    onExited = _this$props2.onExited,
+                    singleOnExited = _this$props2.snack.onExited;
+
+                if (singleOnExited) singleOnExited(event, key);
+                onExited(event, key);
+            };
+        };
+
+        _this.componentDidMount = function () {
+            var _this$props3 = _this.props,
+                onSetHeight = _this$props3.onSetHeight,
+                snack = _this$props3.snack;
+
+            var height = _this.ref.current && _this.ref.current.clientHeight;
+            onSetHeight(snack.key, height);
+        };
+
+        _this.ref = _react2.default.createRef();
+        return _this;
+    }
+
+    _createClass(SnackbarItem, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                classes = _props.classes,
+                action = _props.action,
+                _props$anchorOrigin = _props.anchorOrigin,
+                anchorOrigin = _props$anchorOrigin === undefined ? _SnackbarItem2.defaultAnchorOrigin : _props$anchorOrigin,
+                _props$ContentProps = _props.ContentProps,
+                ContentProps = _props$ContentProps === undefined ? {} : _props$ContentProps,
+                hideIconVariant = _props.hideIconVariant,
+                iconVariant = _props.iconVariant,
+                offset = _props.offset,
+                snack = _props.snack,
+                style = _props.style,
+                preventDuplicate = _props.preventDuplicate,
+                onSetHeight = _props.onSetHeight,
+                other = _objectWithoutProperties(_props, ['classes', 'action', 'anchorOrigin', 'ContentProps', 'hideIconVariant', 'iconVariant', 'offset', 'snack', 'style', 'preventDuplicate', 'onSetHeight']);
+
+            var contentAction = ContentProps.action,
+                className = ContentProps.className,
+                otherContentProps = _objectWithoutProperties(ContentProps, ['action', 'className']);
+
+            var key = snack.key,
+                persist = snack.persist,
+                _snack$variant = snack.variant,
+                variant = _snack$variant === undefined ? 'default' : _snack$variant,
+                singleAction = snack.action,
+                _snack$ContentProps = snack.ContentProps,
+                singleContentProps = _snack$ContentProps === undefined ? {} : _snack$ContentProps,
+                singleSnackProps = _objectWithoutProperties(snack, ['key', 'persist', 'variant', 'action', 'ContentProps']);
+
+            var icon = iconVariant[variant];
+
+            var contentProps = _extends({}, otherContentProps, singleContentProps, {
+                action: singleAction || singleContentProps.action || contentAction || action
+            });
+
+            var anchOrigin = singleSnackProps.anchorOrigin || anchorOrigin;
+
+            var finalAction = contentProps.action;
+            if (typeof finalAction === 'function') {
+                finalAction = contentProps.action(key);
+            }
+
+            var snackChildren = snack.children;
+            if (snackChildren && typeof snackChildren === 'function') {
+                snackChildren = snackChildren(key);
+            }
+
+            return _react2.default.createElement(
+                _RootRef2.default,
+                { rootRef: this.ref },
+                _react2.default.createElement(
+                    _Snackbar2.default,
+                    _extends({
+                        autoHideDuration: 5000,
+                        anchorOrigin: anchOrigin,
+                        TransitionComponent: _SnackbarItem2.TransitionComponent,
+                        TransitionProps: {
+                            direction: (0, _SnackbarItem2.getTransitionDirection)(anchOrigin)
+                        },
+                        style: _extends({}, style, (0, _SnackbarItem.getTransitionStyles)(offset, anchOrigin))
+                    }, other, singleSnackProps, {
+                        open: snack.open,
+                        classes: (0, _SnackbarItem2.getMuiClasses)(classes),
+                        onClose: this.handleClose(key),
+                        onExited: this.handleExited(key)
+                    }),
+                    snackChildren || _react2.default.createElement(_SnackbarContent2.default, _extends({
+                        className: (0, _classnames2.default)(classes.base, classes['variant' + (0, _SnackbarItem2.capitalise)(variant)], !hideIconVariant && icon ? classes.lessPadding : null, className)
+                    }, contentProps, {
+                        'aria-describedby': 'client-snackbar',
+                        message: _react2.default.createElement(
+                            'span',
+                            { id: 'client-snackbar', className: classes.message },
+                            !hideIconVariant ? icon : null,
+                            snack.message
+                        ),
+                        action: finalAction
+                    }))
+                )
+            );
+        }
+    }]);
+
+    return SnackbarItem;
+}(_react.Component);
+
+SnackbarItem.propTypes = {
+    classes: _propTypes2.default.object.isRequired,
+    /**
+     * offset from top/bottom of the screen where a snakcbar should be displayed
+     * (when snackbars are stacked on top of eachother)
+     */
+    offset: _propTypes2.default.number.isRequired,
+    snack: _propTypes2.default.shape({
+        /**
+         * Text of the snackbar/notification.
+         */
+        message: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.node]).isRequired,
+        /**
+         * Type of snackbar. defaulted to 'default'.
+         */
+        variant: _propTypes2.default.oneOf(['default', 'error', 'success', 'warning', 'info']),
+        /**
+         * Identifier of a given snakcbar.
+         */
+        key: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]).isRequired,
+        /**
+         * Whether or not a snackbar is visible or hidden.
+         */
+        open: _propTypes2.default.bool.isRequired
+    }).isRequired,
+    /**
+     * Little icon that is displayed at left corner of a snackbar.
+     */
+    iconVariant: _propTypes2.default.shape({
+        /**
+         * Icon displayed when variant of a snackbar is set to `success`.
+         */
+        success: _propTypes2.default.any.isRequired,
+        /**
+         * Icon displayed when variant of a snackbar is set to `warning`.
+         */
+        warning: _propTypes2.default.any.isRequired,
+        /**
+         * Icon displayed when variant of a snackbar is set to `error`.
+         */
+        error: _propTypes2.default.any.isRequired,
+        /**
+         * Icon displayed when variant of a snackbar is set to `info`.
+         */
+        info: _propTypes2.default.any.isRequired
+    }),
+    /**
+     * iconVariant will not be rendered if set to `true`.
+     */
+    hideIconVariant: _propTypes2.default.bool,
+    preventDuplicate: _propTypes2.default.bool.isRequired,
+    onClose: _propTypes2.default.func.isRequired,
+    onExited: _propTypes2.default.func.isRequired,
+    onSetHeight: _propTypes2.default.func.isRequired
+};
+
+SnackbarItem.defaultProps = {
+    iconVariant: _SnackbarItem2.variantIcon,
+    hideIconVariant: false
+};
+
+exports.default = (0, _styles.withStyles)(_SnackbarItem.styles)(SnackbarItem);
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.styles.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarItem/SnackbarItem.styles.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getTransitionStyles = exports.styles = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _green = __webpack_require__(/*! @material-ui/core/colors/green */ "./node_modules/@material-ui/core/colors/green.js");
+
+var _green2 = _interopRequireDefault(_green);
+
+var _amber = __webpack_require__(/*! @material-ui/core/colors/amber */ "./node_modules/@material-ui/core/colors/amber.js");
+
+var _amber2 = _interopRequireDefault(_amber);
+
+var _SnackbarItem = __webpack_require__(/*! ./SnackbarItem.util */ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.util.js");
+
+var _constants = __webpack_require__(/*! ../utils/constants */ "./node_modules/notistack/build/utils/constants.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var styles = exports.styles = function styles(theme) {
+    return _extends({}, _SnackbarItem.muiClasses, {
+        base: {
+            fontSize: '0.875rem',
+            lineHeight: '1.46429em',
+            fontWeight: theme.typography.fontWeightRegular,
+            fontFamily: theme.typography.fontFamily
+        },
+        lessPadding: {
+            paddingLeft: 8 * 2.5
+        },
+        variantSuccess: {
+            backgroundColor: _green2.default[600]
+        },
+        variantError: {
+            backgroundColor: theme.palette.error.dark
+        },
+        variantInfo: {
+            backgroundColor: '#2979ff' // nice blue
+        },
+        variantWarning: {
+            backgroundColor: _amber2.default[700]
+        },
+        message: {
+            display: 'flex',
+            alignItems: 'center'
+        }
+    });
+};
+
+/**
+ * @param {object} anchorOrigin - how snack is postioned. e.g.
+ * { vertical: 'bottom', horizontal: 'left' }
+ * @param {number} level - Level on which snakcbar should be displayed
+ * (when snackbars are stacked on top of eachother)
+ * @returns {object}
+ */
+var getTransitionStyles = exports.getTransitionStyles = function getTransitionStyles(offset, anchorOrigin) {
+    return Object.assign(_defineProperty({}, anchorOrigin.vertical, offset), {
+        WebKitTransition: 'all ' + _constants.TRANSITION_DOWN_DURATION + 'ms',
+        MozTransition: 'all ' + _constants.TRANSITION_DOWN_DURATION + 'ms',
+        msTransition: 'all ' + _constants.TRANSITION_DOWN_DURATION + 'ms',
+        OTransition: 'all ' + _constants.TRANSITION_DOWN_DURATION + 'ms',
+        transition: 'all ' + _constants.TRANSITION_DOWN_DURATION + 'ms',
+        transitionDelay: _constants.TRANSITION_DELAY + 'ms'
+    });
+};
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.util.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarItem/SnackbarItem.util.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.variantIcon = exports.TransitionComponent = exports.muiClasses = exports.getMuiClasses = exports.getTransitionDirection = exports.defaultAnchorOrigin = exports.capitalise = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Slide = __webpack_require__(/*! @material-ui/core/Slide */ "./node_modules/@material-ui/core/Slide/index.js");
+
+var _Slide2 = _interopRequireDefault(_Slide);
+
+var _SvgIcon = __webpack_require__(/*! @material-ui/core/SvgIcon */ "./node_modules/@material-ui/core/SvgIcon/index.js");
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var CheckIcon = function CheckIcon(props) {
+    return _react2.default.createElement(
+        _SvgIcon2.default,
+        props,
+        _react2.default.createElement('path', { d: 'M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z'
+        })
+    );
+};
+
+var WarningIcon = function WarningIcon(props) {
+    return _react2.default.createElement(
+        _SvgIcon2.default,
+        props,
+        _react2.default.createElement('path', { d: 'M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z' })
+    );
+};
+
+var ErrorIcon = function ErrorIcon(props) {
+    return _react2.default.createElement(
+        _SvgIcon2.default,
+        props,
+        _react2.default.createElement('path', { d: 'M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41, 20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53, 2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16, 14.59L13.41,12L16,9.41L14.59,8Z'
+        })
+    );
+};
+
+var InfoIcon = function InfoIcon(props) {
+    return _react2.default.createElement(
+        _SvgIcon2.default,
+        props,
+        _react2.default.createElement('path', { d: 'M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z'
+        })
+    );
+};
+
+var TransitionComponent = function TransitionComponent(props) {
+    return _react2.default.createElement(_Slide2.default, props);
+};
+
+var iconStyles = {
+    opacity: 0.9,
+    fontSize: 20,
+    marginRight: 8
+};
+
+var variantIcon = {
+    success: _react2.default.createElement(CheckIcon, { style: iconStyles }),
+    warning: _react2.default.createElement(WarningIcon, { style: iconStyles }),
+    error: _react2.default.createElement(ErrorIcon, { style: iconStyles }),
+    info: _react2.default.createElement(InfoIcon, { style: iconStyles })
+};
+
+var DIRECTION = {
+    right: 'left',
+    left: 'right',
+    bottom: 'up',
+    top: 'down'
+};
+
+var defaultAnchorOrigin = {
+    vertical: 'bottom',
+    horizontal: 'left'
+};
+
+var muiClasses = {
+    root: {},
+    anchorOriginTopCenter: {},
+    anchorOriginBottomCenter: {},
+    anchorOriginTopRight: {},
+    anchorOriginBottomRight: {},
+    anchorOriginTopLeft: {},
+    anchorOriginBottomLeft: {}
+};
+
+/**
+ * returns transition direction according the the given anchor origin
+ * @param {object} anchorOrigin
+ */
+var getTransitionDirection = function getTransitionDirection() {
+    var anchorOrigin = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultAnchorOrigin;
+
+    if (anchorOrigin.horizontal !== 'center') {
+        return DIRECTION[anchorOrigin.horizontal];
+    }
+    return DIRECTION[anchorOrigin.vertical];
+};
+
+/**
+ * Capitalises a piece of string
+ * @param {string} text
+ */
+var capitalise = function capitalise(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
+/**
+ * Filteres classes object and returns the keys that are allowed
+ * in material-ui snackbar classes prop
+ * @param {object} classes
+ */
+var getMuiClasses = function getMuiClasses(classes) {
+    return Object.keys(classes).filter(function (key) {
+        return muiClasses[key] !== undefined;
+    }).reduce(function (obj, key) {
+        return _extends({}, obj, _defineProperty({}, key, classes[key]));
+    }, {});
+};
+
+exports.capitalise = capitalise;
+exports.defaultAnchorOrigin = defaultAnchorOrigin;
+exports.getTransitionDirection = getTransitionDirection;
+exports.getMuiClasses = getMuiClasses;
+exports.muiClasses = muiClasses;
+exports.TransitionComponent = TransitionComponent;
+exports.variantIcon = variantIcon;
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/SnackbarItem/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarItem/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _SnackbarItem = __webpack_require__(/*! ./SnackbarItem */ "./node_modules/notistack/build/SnackbarItem/SnackbarItem.js");
+
+var _SnackbarItem2 = _interopRequireDefault(_SnackbarItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _SnackbarItem2.default;
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/SnackbarProvider.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/notistack/build/SnackbarProvider.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _SnackbarContext = __webpack_require__(/*! ./SnackbarContext */ "./node_modules/notistack/build/SnackbarContext.js");
+
+var _SnackbarContext2 = _interopRequireDefault(_SnackbarContext);
+
+var _constants = __webpack_require__(/*! ./utils/constants */ "./node_modules/notistack/build/utils/constants.js");
+
+var _SnackbarItem = __webpack_require__(/*! ./SnackbarItem */ "./node_modules/notistack/build/SnackbarItem/index.js");
+
+var _SnackbarItem2 = _interopRequireDefault(_SnackbarItem);
+
+var _warning = __webpack_require__(/*! ./utils/warning */ "./node_modules/notistack/build/utils/warning.js");
+
+var _warning2 = _interopRequireDefault(_warning);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SnackbarProvider = function (_Component) {
+    _inherits(SnackbarProvider, _Component);
+
+    function SnackbarProvider(props) {
+        _classCallCheck(this, SnackbarProvider);
+
+        var _this = _possibleConstructorReturn(this, (SnackbarProvider.__proto__ || Object.getPrototypeOf(SnackbarProvider)).call(this, props));
+
+        _this.queue = [];
+
+        _this.handleEnqueueSnackbar = function (message) {
+            var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            var key = _ref.key,
+                preventDuplicate = _ref.preventDuplicate,
+                options = _objectWithoutProperties(_ref, ['key', 'preventDuplicate']);
+
+            if (preventDuplicate || _this.props.preventDuplicate) {
+                var inQueue = _this.queue.findIndex(function (item) {
+                    return item.message === message;
+                }) > -1;
+                var inView = _this.state.snacks.findIndex(function (item) {
+                    return item.message === message;
+                }) > -1;
+                if (inQueue || inView) {
+                    return null;
+                }
+            }
+
+            var id = key || new Date().getTime() + Math.random();
+            var snack = _extends({
+                key: id,
+                message: message
+            }, options, {
+                open: true
+            });
+
+            if (options.persist) {
+                snack.autoHideDuration = undefined;
+            }
+
+            _this.queue.push(snack);
+            _this.handleDisplaySnack();
+
+            return id;
+        };
+
+        _this.handleDisplaySnack = function () {
+            var maxSnack = _this.props.maxSnack;
+            var snacks = _this.state.snacks;
+
+            if (snacks.length >= maxSnack) {
+                return _this.handleDismissOldest();
+            }
+            return _this.processQueue();
+        };
+
+        _this.processQueue = function () {
+            if (_this.queue.length > 0) {
+                var newOne = _this.queue.shift();
+                _this.setState(function (_ref2) {
+                    var snacks = _ref2.snacks;
+                    return {
+                        snacks: [].concat(_toConsumableArray(snacks), [newOne])
+                    };
+                });
+            }
+        };
+
+        _this.handleDismissOldest = function () {
+            var popped = false;
+            var ignore = false;
+
+            var persistentCount = _this.state.snacks.reduce(function (acc, current) {
+                return acc + (current.open && current.persist ? 1 : 0);
+            }, 0);
+
+            if (persistentCount === _this.props.maxSnack) {
+                (0, _warning2.default)(_constants.MESSAGES.NO_PERSIST_ALL);
+                ignore = true;
+            }
+
+            _this.setState(function (_ref3) {
+                var snacks = _ref3.snacks;
+                return {
+                    snacks: snacks.filter(function (item) {
+                        return item.open === true;
+                    }).map(function (item) {
+                        if (!popped && (!item.persist || ignore)) {
+                            popped = true;
+                            if (item.onClose) item.onClose(null, 'maxsnack', item.key);
+                            if (_this.props.onClose) _this.props.onClose(null, 'maxsnack', item.key);
+
+                            return _extends({}, item, {
+                                open: false
+                            });
+                        }
+
+                        return _extends({}, item);
+                    })
+                };
+            });
+        };
+
+        _this.handleCloseSnack = function (event, reason, key) {
+            _this.setState(function (_ref4) {
+                var snacks = _ref4.snacks;
+                return {
+                    snacks: snacks.map(function (item) {
+                        return !key || item.key === key ? _extends({}, item, { open: false }) : _extends({}, item);
+                    })
+                };
+            });
+
+            if (_this.props.onClose) _this.props.onClose(event, reason, key);
+        };
+
+        _this.handleDismissSnack = function (key) {
+            _this.handleCloseSnack(null, null, key);
+        };
+
+        _this.handleExitedSnack = function (event, key) {
+            var enterDelay = _constants.TRANSITION_DELAY + _constants.TRANSITION_DOWN_DURATION + 40;
+            _this.setState(function (_ref5) {
+                var snacks = _ref5.snacks;
+                return {
+                    snacks: snacks.filter(function (item) {
+                        return item.key !== key;
+                    })
+                };
+            }, function () {
+                return setTimeout(_this.handleDisplaySnack, enterDelay);
+            });
+
+            if (_this.props.onExited) _this.props.onExited(event, key);
+        };
+
+        _this.handleSetHeight = function (key, height) {
+            _this.setState(function (_ref6) {
+                var snacks = _ref6.snacks;
+                return {
+                    snacks: snacks.map(function (item) {
+                        return item.key === key ? _extends({}, item, { height: height }) : _extends({}, item);
+                    })
+                };
+            });
+        };
+
+        _this.state = {
+            snacks: [],
+            contextValue: {
+                handleEnqueueSnackbar: _this.handleEnqueueSnackbar,
+                handleCloseSnackbar: _this.handleDismissSnack
+            }
+        };
+        return _this;
+    }
+
+    _createClass(SnackbarProvider, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                children = _props.children,
+                maxSnack = _props.maxSnack,
+                dense = _props.dense,
+                props = _objectWithoutProperties(_props, ['children', 'maxSnack', 'dense']);
+
+            var _state = this.state,
+                contextValue = _state.contextValue,
+                snacks = _state.snacks;
+
+
+            return _react2.default.createElement(
+                _SnackbarContext2.default.Provider,
+                { value: contextValue },
+                children,
+                snacks.map(function (snack, index) {
+                    return _react2.default.createElement(_SnackbarItem2.default, _extends({}, props, {
+                        key: snack.key,
+                        snack: snack,
+                        offset: _this2.offsets[index],
+                        onClose: _this2.handleCloseSnack,
+                        onExited: _this2.handleExitedSnack,
+                        onSetHeight: _this2.handleSetHeight
+                    }));
+                })
+            );
+        }
+    }, {
+        key: 'offsets',
+        get: function get() {
+            var _this3 = this;
+
+            var snacks = this.state.snacks;
+
+            return snacks.map(function (item, i) {
+                var index = i;
+
+                var _ref7 = _this3.props.dense ? { view: 0, snackbar: 4 } : { view: 20, snackbar: 12 },
+                    viewOffset = _ref7.view,
+                    snackbarOffset = _ref7.snackbar;
+
+                var offset = viewOffset;
+                while (snacks[index - 1]) {
+                    var snackHeight = snacks[index - 1].height || 48;
+                    offset += snackHeight + snackbarOffset;
+                    index -= 1;
+                }
+                return offset;
+            });
+        }
+
+        /**
+         * Adds a new snackbar to the queue to be presented.
+         * @param {string} message - text of the notification
+         * @param {object} options - additional options for the snackbar we want to enqueue.
+         * We can pass Material-ui Snackbar props for individual customisation.
+         * @param {string} options.key
+         * @param {string} options.variant - type of the snackbar. default value is 'default'.
+         * can be: (default, success, error, warning, info)
+         * @param {bool} options.persist
+         * @param {bool} options.preventDuplicate
+         * @returns generated or user defined key referencing the new snackbar or null
+         */
+
+
+        /**
+         * Display snack if there's space for it. Otherwise, immediately begin dismissing the
+         * oldest message to start showing the new one.
+         */
+
+
+        /**
+         * Display items (notifications) in the queue if there's space for them.
+         */
+
+
+        /**
+         * Hide oldest snackbar on the screen because there exists a new one which we have to display.
+         * (ignoring the one with 'persist' flag. i.e. explicitly told by user not to get dismissed).
+         */
+
+
+        /**
+         * Hide a snackbar after its timeout.
+         * @param {object} event - The event source of the callback
+         * @param {string} reason - can be timeout or clickaway
+         * @param {number} key - id of the snackbar we want to hide
+         */
+
+
+        /**
+         * Close snackbar with the given key
+         * @param {number} key - id of the snackbar we want to hide
+         */
+
+
+        /**
+         * When we set open attribute of a snackbar to false (i.e. after we hide a snackbar),
+         * it leaves the screen and immediately after leaving animation is done, this method
+         * gets called. We remove the hidden snackbar from state and then display notifications
+         * waiting in the queue (if any).
+         * @param {number} key - id of the snackbar we want to remove
+         * @param {object} event - The event source of the callback
+         */
+
+
+        /**
+         * Sets height for a given snackbar
+         * @param {number} height - height of snackbar after it's been rendered
+         * @param {number} key - id of the snackbar we want to remove
+         */
+
+    }]);
+
+    return SnackbarProvider;
+}(_react.Component);
+
+SnackbarProvider.propTypes = {
+    children: _propTypes2.default.node.isRequired,
+    /**
+     * Maximum snackbars that can be stacked on top of one another.
+     */
+    dense: _propTypes2.default.bool,
+    maxSnack: _propTypes2.default.number,
+    preventDuplicate: _propTypes2.default.bool,
+    onClose: _propTypes2.default.func,
+    onExited: _propTypes2.default.func
+};
+
+SnackbarProvider.defaultProps = {
+    maxSnack: 3,
+    dense: false,
+    preventDuplicate: false,
+    onClose: undefined,
+    onExited: undefined
+};
+
+exports.default = SnackbarProvider;
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/notistack/build/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _SnackbarProvider = __webpack_require__(/*! ./SnackbarProvider */ "./node_modules/notistack/build/SnackbarProvider.js");
+
+Object.defineProperty(exports, 'SnackbarProvider', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_SnackbarProvider).default;
+  }
+});
+
+var _withSnackbar = __webpack_require__(/*! ./withSnackbar */ "./node_modules/notistack/build/withSnackbar.js");
+
+Object.defineProperty(exports, 'withSnackbar', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_withSnackbar).default;
+  }
+});
+
+var _useSnackbar = __webpack_require__(/*! ./useSnackbar */ "./node_modules/notistack/build/useSnackbar.js");
+
+Object.defineProperty(exports, 'useSnackbar', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_useSnackbar).default;
+  }
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/useSnackbar.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/notistack/build/useSnackbar.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _SnackbarContext = __webpack_require__(/*! ./SnackbarContext */ "./node_modules/notistack/build/SnackbarContext.js");
+
+var _SnackbarContext2 = _interopRequireDefault(_SnackbarContext);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+    var _useContext = (0, _react.useContext)(_SnackbarContext2.default),
+        handleEnqueueSnackbar = _useContext.handleEnqueueSnackbar,
+        handleCloseSnackbar = _useContext.handleCloseSnackbar;
+
+    return {
+        enqueueSnackbar: handleEnqueueSnackbar,
+        closeSnackbar: handleCloseSnackbar
+    };
+};
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/utils/constants.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/notistack/build/utils/constants.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var TRANSITION_DELAY = exports.TRANSITION_DELAY = 150;
+
+var TRANSITION_DOWN_DURATION = exports.TRANSITION_DOWN_DURATION = 200;
+
+var MESSAGES = exports.MESSAGES = {
+    NO_PERSIST_ALL: 'WARNING - notistack: Reached maxSnack while all enqueued snackbars have \'persist\' flag. Notistack will dismiss the oldest snackbar anyway to allow other ones in the queue to be presented.'
+};
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/utils/getDisplayName.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/notistack/build/utils/getDisplayName.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _reactIs = __webpack_require__(/*! react-is */ "./node_modules/react-is/index.js");
+
+// https://github.com/JamesMGreene/Function.name/blob/58b314d4a983110c3682f1228f845d39ccca1817/Function.name.js#L3
+var fnNameMatchRegex = /^\s*function(?:\s|\s*\/\*.*\*\/\s*)+([^(\s/]*)\s*/;
+var getFunctionName = function getFunctionName(fn) {
+    var match = ('' + fn).match(fnNameMatchRegex);
+    var name = match && match[1];
+    return name || '';
+};
+
+/**
+ * @param {function} Component
+ * @param {string} fallback
+ * @returns {string | undefined}
+ */
+var getFunctionComponentName = function getFunctionComponentName(Component) {
+    var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    return Component.displayName || Component.name || getFunctionName(Component) || fallback;
+};
+
+var getWrappedName = function getWrappedName(outerType, innerType, wrapperName) {
+    var functionName = getFunctionComponentName(innerType);
+    return outerType.displayName || (functionName !== '' ? wrapperName + '(' + functionName + ')' : wrapperName);
+};
+
+/**
+ * https://github.com/facebook/react/blob/769b1f270e1251d9dbdce0fcbd9e92e502d059b8/packages/shared/getComponentName.js
+ *
+ * @param {React.ReactType} Component
+ * @returns {string | undefined}
+ */
+
+exports.default = function (Component) {
+    if (Component == null) {
+        return undefined;
+    }
+
+    if (typeof Component === 'string') {
+        return Component;
+    }
+
+    if (typeof Component === 'function') {
+        return getFunctionComponentName(Component, 'Component');
+    }
+
+    if ((typeof Component === 'undefined' ? 'undefined' : _typeof(Component)) === 'object') {
+        switch (Component.$$typeof) {
+            case _reactIs.ForwardRef:
+                return getWrappedName(Component, Component.render, 'ForwardRef');
+            default:
+                return undefined;
+        }
+    }
+
+    return undefined;
+};
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/utils/warning.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/notistack/build/utils/warning.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/* eslint-disable */
+var __DEV__ = "development" !== 'production';
+
+exports.default = function (message) {
+    if (!__DEV__) return;
+
+    if (typeof console !== 'undefined') {
+        console.error(message);
+    }
+    try {
+        throw new Error(message);
+    } catch (x) {};
+};
+
+/***/ }),
+
+/***/ "./node_modules/notistack/build/withSnackbar.js":
+/*!******************************************************!*\
+  !*** ./node_modules/notistack/build/withSnackbar.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _hoistNonReactStatics = __webpack_require__(/*! hoist-non-react-statics */ "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js");
+
+var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
+
+var _getDisplayName = __webpack_require__(/*! ./utils/getDisplayName */ "./node_modules/notistack/build/utils/getDisplayName.js");
+
+var _getDisplayName2 = _interopRequireDefault(_getDisplayName);
+
+var _SnackbarContext = __webpack_require__(/*! ./SnackbarContext */ "./node_modules/notistack/build/SnackbarContext.js");
+
+var _SnackbarContext2 = _interopRequireDefault(_SnackbarContext);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var withSnackbar = function withSnackbar(Component) {
+    var WrappedComponent = _react2.default.forwardRef(function (props, ref) {
+        return _react2.default.createElement(
+            _SnackbarContext2.default.Consumer,
+            null,
+            function (context) {
+                return _react2.default.createElement(Component, _extends({}, props, {
+                    ref: ref,
+                    enqueueSnackbar: context.handleEnqueueSnackbar,
+                    closeSnackbar: context.handleCloseSnackbar
+                }));
+            }
+        );
+    });
+
+    if (true) {
+        WrappedComponent.displayName = 'WithSnackbar(' + (0, _getDisplayName2.default)(Component) + ')';
+    }
+
+    (0, _hoistNonReactStatics2.default)(WrappedComponent, Component);
+
+    return WrappedComponent;
+};
+
+exports.default = withSnackbar;
+
+/***/ }),
+
 /***/ "./node_modules/nprogress/nprogress.js":
 /*!*********************************************!*\
   !*** ./node_modules/nprogress/nprogress.js ***!
@@ -19428,6 +23215,211 @@ exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ "./node
 
 /***/ }),
 
+/***/ "./node_modules/react-dom/index.js":
+/*!***********************************************************************************************!*\
+  !*** delegated ./node_modules/react-dom/index.js from dll-reference dll_7aff549c98b978433226 ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = (__webpack_require__(/*! dll-reference dll_7aff549c98b978433226 */ "dll-reference dll_7aff549c98b978433226"))("./node_modules/react-dom/index.js");
+
+/***/ }),
+
+/***/ "./node_modules/react-event-listener/dist/react-event-listener.cjs.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/react-event-listener/dist/react-event-listener.cjs.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var _classCallCheck = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+var _createClass = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+var _possibleConstructorReturn = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+var _getPrototypeOf = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+var _inherits = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+var _typeof = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js"));
+var _objectWithoutProperties = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+var _extends = _interopDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+var React = _interopDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var PropTypes = _interopDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+var warning = _interopDefault(__webpack_require__(/*! warning */ "./node_modules/warning/warning.js"));
+
+function defineProperty(object, property, attr) {
+  return Object.defineProperty(object, property, attr);
+} // Passive options
+// Inspired by https://github.com/Modernizr/Modernizr/blob/master/feature-detects/dom/passiveeventlisteners.js
+
+
+var passiveOption = function () {
+  var cache = null;
+  return function () {
+    if (cache !== null) {
+      return cache;
+    }
+
+    var supportsPassiveOption = false;
+
+    try {
+      window.addEventListener('test', null, defineProperty({}, 'passive', {
+        get: function get() {
+          supportsPassiveOption = true;
+        }
+      }));
+    } catch (err) {//
+    }
+
+    cache = supportsPassiveOption;
+    return supportsPassiveOption;
+  }();
+}();
+
+var defaultEventOptions = {
+  capture: false,
+  passive: false
+};
+
+function mergeDefaultEventOptions(options) {
+  return _extends({}, defaultEventOptions, options);
+}
+
+function getEventListenerArgs(eventName, callback, options) {
+  var args = [eventName, callback];
+  args.push(passiveOption ? options : options.capture);
+  return args;
+}
+
+function on(target, eventName, callback, options) {
+  // eslint-disable-next-line prefer-spread
+  target.addEventListener.apply(target, getEventListenerArgs(eventName, callback, options));
+}
+
+function off(target, eventName, callback, options) {
+  // eslint-disable-next-line prefer-spread
+  target.removeEventListener.apply(target, getEventListenerArgs(eventName, callback, options));
+}
+
+function forEachListener(props, iteratee) {
+  var children = props.children,
+      target = props.target,
+      eventProps = _objectWithoutProperties(props, ["children", "target"]);
+
+  Object.keys(eventProps).forEach(function (name) {
+    if (name.substring(0, 2) !== 'on') {
+      return;
+    }
+
+    var prop = eventProps[name];
+
+    var type = _typeof(prop);
+
+    var isObject = type === 'object';
+    var isFunction = type === 'function';
+
+    if (!isObject && !isFunction) {
+      return;
+    }
+
+    var capture = name.substr(-7).toLowerCase() === 'capture';
+    var eventName = name.substring(2).toLowerCase();
+    eventName = capture ? eventName.substring(0, eventName.length - 7) : eventName;
+
+    if (isObject) {
+      iteratee(eventName, prop.handler, prop.options);
+    } else {
+      iteratee(eventName, prop, mergeDefaultEventOptions({
+        capture: capture
+      }));
+    }
+  });
+}
+
+function withOptions(handler, options) {
+   true ? warning(options, 'react-event-listener: should be specified options in withOptions.') : undefined;
+  return {
+    handler: handler,
+    options: mergeDefaultEventOptions(options)
+  };
+}
+
+var EventListener =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  _inherits(EventListener, _React$PureComponent);
+
+  function EventListener() {
+    _classCallCheck(this, EventListener);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(EventListener).apply(this, arguments));
+  }
+
+  _createClass(EventListener, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.applyListeners(on);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      this.applyListeners(off, prevProps);
+      this.applyListeners(on);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.applyListeners(off);
+    }
+  }, {
+    key: "applyListeners",
+    value: function applyListeners(onOrOff) {
+      var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props;
+      var target = props.target;
+
+      if (target) {
+        var element = target;
+
+        if (typeof target === 'string') {
+          element = window[target];
+        }
+
+        forEachListener(props, onOrOff.bind(null, element));
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return this.props.children || null;
+    }
+  }]);
+
+  return EventListener;
+}(React.PureComponent);
+
+EventListener.propTypes =  true ? {
+  /**
+   * You can provide a single child too.
+   */
+  children: PropTypes.node,
+
+  /**
+   * The DOM target to listen to.
+   */
+  target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired
+} : undefined;
+
+exports.withOptions = withOptions;
+exports.default = EventListener;
+
+
+/***/ }),
+
 /***/ "./node_modules/react-is/cjs/react-is.development.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
@@ -19961,6 +23953,837 @@ exports['default'] = {
     toString: _propTypes.func.isRequired
   })
 };
+
+/***/ }),
+
+/***/ "./node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js ***!
+  \****************************************************************************/
+/*! exports provided: polyfill */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "polyfill", function() { return polyfill; });
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+function componentWillMount() {
+  // Call this.constructor.gDSFP to support sub-classes.
+  var state = this.constructor.getDerivedStateFromProps(this.props, this.state);
+  if (state !== null && state !== undefined) {
+    this.setState(state);
+  }
+}
+
+function componentWillReceiveProps(nextProps) {
+  // Call this.constructor.gDSFP to support sub-classes.
+  // Use the setState() updater to ensure state isn't stale in certain edge cases.
+  function updater(prevState) {
+    var state = this.constructor.getDerivedStateFromProps(nextProps, prevState);
+    return state !== null && state !== undefined ? state : null;
+  }
+  // Binding "this" is important for shallow renderer support.
+  this.setState(updater.bind(this));
+}
+
+function componentWillUpdate(nextProps, nextState) {
+  try {
+    var prevProps = this.props;
+    var prevState = this.state;
+    this.props = nextProps;
+    this.state = nextState;
+    this.__reactInternalSnapshotFlag = true;
+    this.__reactInternalSnapshot = this.getSnapshotBeforeUpdate(
+      prevProps,
+      prevState
+    );
+  } finally {
+    this.props = prevProps;
+    this.state = prevState;
+  }
+}
+
+// React may warn about cWM/cWRP/cWU methods being deprecated.
+// Add a flag to suppress these warnings for this special case.
+componentWillMount.__suppressDeprecationWarning = true;
+componentWillReceiveProps.__suppressDeprecationWarning = true;
+componentWillUpdate.__suppressDeprecationWarning = true;
+
+function polyfill(Component) {
+  var prototype = Component.prototype;
+
+  if (!prototype || !prototype.isReactComponent) {
+    throw new Error('Can only polyfill class components');
+  }
+
+  if (
+    typeof Component.getDerivedStateFromProps !== 'function' &&
+    typeof prototype.getSnapshotBeforeUpdate !== 'function'
+  ) {
+    return Component;
+  }
+
+  // If new component APIs are defined, "unsafe" lifecycles won't be called.
+  // Error if any of these lifecycles are present,
+  // Because they would work differently between older and newer (16.3+) versions of React.
+  var foundWillMountName = null;
+  var foundWillReceivePropsName = null;
+  var foundWillUpdateName = null;
+  if (typeof prototype.componentWillMount === 'function') {
+    foundWillMountName = 'componentWillMount';
+  } else if (typeof prototype.UNSAFE_componentWillMount === 'function') {
+    foundWillMountName = 'UNSAFE_componentWillMount';
+  }
+  if (typeof prototype.componentWillReceiveProps === 'function') {
+    foundWillReceivePropsName = 'componentWillReceiveProps';
+  } else if (typeof prototype.UNSAFE_componentWillReceiveProps === 'function') {
+    foundWillReceivePropsName = 'UNSAFE_componentWillReceiveProps';
+  }
+  if (typeof prototype.componentWillUpdate === 'function') {
+    foundWillUpdateName = 'componentWillUpdate';
+  } else if (typeof prototype.UNSAFE_componentWillUpdate === 'function') {
+    foundWillUpdateName = 'UNSAFE_componentWillUpdate';
+  }
+  if (
+    foundWillMountName !== null ||
+    foundWillReceivePropsName !== null ||
+    foundWillUpdateName !== null
+  ) {
+    var componentName = Component.displayName || Component.name;
+    var newApiName =
+      typeof Component.getDerivedStateFromProps === 'function'
+        ? 'getDerivedStateFromProps()'
+        : 'getSnapshotBeforeUpdate()';
+
+    throw Error(
+      'Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n' +
+        componentName +
+        ' uses ' +
+        newApiName +
+        ' but also contains the following legacy lifecycles:' +
+        (foundWillMountName !== null ? '\n  ' + foundWillMountName : '') +
+        (foundWillReceivePropsName !== null
+          ? '\n  ' + foundWillReceivePropsName
+          : '') +
+        (foundWillUpdateName !== null ? '\n  ' + foundWillUpdateName : '') +
+        '\n\nThe above lifecycles should be removed. Learn more about this warning here:\n' +
+        'https://fb.me/react-async-component-lifecycle-hooks'
+    );
+  }
+
+  // React <= 16.2 does not support static getDerivedStateFromProps.
+  // As a workaround, use cWM and cWRP to invoke the new static lifecycle.
+  // Newer versions of React will ignore these lifecycles if gDSFP exists.
+  if (typeof Component.getDerivedStateFromProps === 'function') {
+    prototype.componentWillMount = componentWillMount;
+    prototype.componentWillReceiveProps = componentWillReceiveProps;
+  }
+
+  // React <= 16.2 does not support getSnapshotBeforeUpdate.
+  // As a workaround, use cWU to invoke the new lifecycle.
+  // Newer versions of React will ignore that lifecycle if gSBU exists.
+  if (typeof prototype.getSnapshotBeforeUpdate === 'function') {
+    if (typeof prototype.componentDidUpdate !== 'function') {
+      throw new Error(
+        'Cannot polyfill getSnapshotBeforeUpdate() for components that do not define componentDidUpdate() on the prototype'
+      );
+    }
+
+    prototype.componentWillUpdate = componentWillUpdate;
+
+    var componentDidUpdate = prototype.componentDidUpdate;
+
+    prototype.componentDidUpdate = function componentDidUpdatePolyfill(
+      prevProps,
+      prevState,
+      maybeSnapshot
+    ) {
+      // 16.3+ will not execute our will-update method;
+      // It will pass a snapshot value to did-update though.
+      // Older versions will require our polyfilled will-update value.
+      // We need to handle both cases, but can't just check for the presence of "maybeSnapshot",
+      // Because for <= 15.x versions this might be a "prevContext" object.
+      // We also can't just check "__reactInternalSnapshot",
+      // Because get-snapshot might return a falsy value.
+      // So check for the explicit __reactInternalSnapshotFlag flag to determine behavior.
+      var snapshot = this.__reactInternalSnapshotFlag
+        ? this.__reactInternalSnapshot
+        : maybeSnapshot;
+
+      componentDidUpdate.call(this, prevProps, prevState, snapshot);
+    };
+  }
+
+  return Component;
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/Transition.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-transition-group/Transition.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = exports.EXITING = exports.ENTERED = exports.ENTERING = exports.EXITED = exports.UNMOUNTED = void 0;
+
+var PropTypes = _interopRequireWildcard(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _reactDom = _interopRequireDefault(__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"));
+
+var _reactLifecyclesCompat = __webpack_require__(/*! react-lifecycles-compat */ "./node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js");
+
+var _PropTypes = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/utils/PropTypes.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var UNMOUNTED = 'unmounted';
+exports.UNMOUNTED = UNMOUNTED;
+var EXITED = 'exited';
+exports.EXITED = EXITED;
+var ENTERING = 'entering';
+exports.ENTERING = ENTERING;
+var ENTERED = 'entered';
+exports.ENTERED = ENTERED;
+var EXITING = 'exiting';
+/**
+ * The Transition component lets you describe a transition from one component
+ * state to another _over time_ with a simple declarative API. Most commonly
+ * it's used to animate the mounting and unmounting of a component, but can also
+ * be used to describe in-place transition states as well.
+ *
+ * ---
+ *
+ * **Note**: `Transition` is a platform-agnostic base component. If you're using
+ * transitions in CSS, you'll probably want to use
+ * [`CSSTransition`](https://reactcommunity.org/react-transition-group/css-transition)
+ * instead. It inherits all the features of `Transition`, but contains
+ * additional features necessary to play nice with CSS transitions (hence the
+ * name of the component).
+ *
+ * ---
+ *
+ * By default the `Transition` component does not alter the behavior of the
+ * component it renders, it only tracks "enter" and "exit" states for the
+ * components. It's up to you to give meaning and effect to those states. For
+ * example we can add styles to a component when it enters or exits:
+ *
+ * ```jsx
+ * import { Transition } from 'react-transition-group';
+ *
+ * const duration = 300;
+ *
+ * const defaultStyle = {
+ *   transition: `opacity ${duration}ms ease-in-out`,
+ *   opacity: 0,
+ * }
+ *
+ * const transitionStyles = {
+ *   entering: { opacity: 0 },
+ *   entered:  { opacity: 1 },
+ * };
+ *
+ * const Fade = ({ in: inProp }) => (
+ *   <Transition in={inProp} timeout={duration}>
+ *     {state => (
+ *       <div style={{
+ *         ...defaultStyle,
+ *         ...transitionStyles[state]
+ *       }}>
+ *         I'm a fade Transition!
+ *       </div>
+ *     )}
+ *   </Transition>
+ * );
+ * ```
+ *
+ * There are 4 main states a Transition can be in:
+ *  - `'entering'`
+ *  - `'entered'`
+ *  - `'exiting'`
+ *  - `'exited'`
+ *
+ * Transition state is toggled via the `in` prop. When `true` the component
+ * begins the "Enter" stage. During this stage, the component will shift from
+ * its current transition state, to `'entering'` for the duration of the
+ * transition and then to the `'entered'` stage once it's complete. Let's take
+ * the following example (we'll use the
+ * [useState](https://reactjs.org/docs/hooks-reference.html#usestate) hook):
+ *
+ * ```jsx
+ * function App() {
+ *   const [inProp, setInProp] = useState(false);
+ *   return (
+ *     <div>
+ *       <Transition in={inProp} timeout={500}>
+ *         {state => (
+ *           // ...
+ *         )}
+ *       </Transition>
+ *       <button onClick={() => setInProp(true)}>
+ *         Click to Enter
+ *       </button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ *
+ * When the button is clicked the component will shift to the `'entering'` state
+ * and stay there for 500ms (the value of `timeout`) before it finally switches
+ * to `'entered'`.
+ *
+ * When `in` is `false` the same thing happens except the state moves from
+ * `'exiting'` to `'exited'`.
+ */
+
+exports.EXITING = EXITING;
+
+var Transition =
+/*#__PURE__*/
+function (_React$Component) {
+  _inheritsLoose(Transition, _React$Component);
+
+  function Transition(props, context) {
+    var _this;
+
+    _this = _React$Component.call(this, props, context) || this;
+    var parentGroup = context.transitionGroup; // In the context of a TransitionGroup all enters are really appears
+
+    var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
+    var initialStatus;
+    _this.appearStatus = null;
+
+    if (props.in) {
+      if (appear) {
+        initialStatus = EXITED;
+        _this.appearStatus = ENTERING;
+      } else {
+        initialStatus = ENTERED;
+      }
+    } else {
+      if (props.unmountOnExit || props.mountOnEnter) {
+        initialStatus = UNMOUNTED;
+      } else {
+        initialStatus = EXITED;
+      }
+    }
+
+    _this.state = {
+      status: initialStatus
+    };
+    _this.nextCallback = null;
+    return _this;
+  }
+
+  var _proto = Transition.prototype;
+
+  _proto.getChildContext = function getChildContext() {
+    return {
+      transitionGroup: null // allows for nested Transitions
+
+    };
+  };
+
+  Transition.getDerivedStateFromProps = function getDerivedStateFromProps(_ref, prevState) {
+    var nextIn = _ref.in;
+
+    if (nextIn && prevState.status === UNMOUNTED) {
+      return {
+        status: EXITED
+      };
+    }
+
+    return null;
+  }; // getSnapshotBeforeUpdate(prevProps) {
+  //   let nextStatus = null
+  //   if (prevProps !== this.props) {
+  //     const { status } = this.state
+  //     if (this.props.in) {
+  //       if (status !== ENTERING && status !== ENTERED) {
+  //         nextStatus = ENTERING
+  //       }
+  //     } else {
+  //       if (status === ENTERING || status === ENTERED) {
+  //         nextStatus = EXITING
+  //       }
+  //     }
+  //   }
+  //   return { nextStatus }
+  // }
+
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.updateStatus(true, this.appearStatus);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var nextStatus = null;
+
+    if (prevProps !== this.props) {
+      var status = this.state.status;
+
+      if (this.props.in) {
+        if (status !== ENTERING && status !== ENTERED) {
+          nextStatus = ENTERING;
+        }
+      } else {
+        if (status === ENTERING || status === ENTERED) {
+          nextStatus = EXITING;
+        }
+      }
+    }
+
+    this.updateStatus(false, nextStatus);
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.cancelNextCallback();
+  };
+
+  _proto.getTimeouts = function getTimeouts() {
+    var timeout = this.props.timeout;
+    var exit, enter, appear;
+    exit = enter = appear = timeout;
+
+    if (timeout != null && typeof timeout !== 'number') {
+      exit = timeout.exit;
+      enter = timeout.enter; // TODO: remove fallback for next major
+
+      appear = timeout.appear !== undefined ? timeout.appear : enter;
+    }
+
+    return {
+      exit: exit,
+      enter: enter,
+      appear: appear
+    };
+  };
+
+  _proto.updateStatus = function updateStatus(mounting, nextStatus) {
+    if (mounting === void 0) {
+      mounting = false;
+    }
+
+    if (nextStatus !== null) {
+      // nextStatus will always be ENTERING or EXITING.
+      this.cancelNextCallback();
+
+      var node = _reactDom.default.findDOMNode(this);
+
+      if (nextStatus === ENTERING) {
+        this.performEnter(node, mounting);
+      } else {
+        this.performExit(node);
+      }
+    } else if (this.props.unmountOnExit && this.state.status === EXITED) {
+      this.setState({
+        status: UNMOUNTED
+      });
+    }
+  };
+
+  _proto.performEnter = function performEnter(node, mounting) {
+    var _this2 = this;
+
+    var enter = this.props.enter;
+    var appearing = this.context.transitionGroup ? this.context.transitionGroup.isMounting : mounting;
+    var timeouts = this.getTimeouts();
+    var enterTimeout = appearing ? timeouts.appear : timeouts.enter; // no enter animation skip right to ENTERED
+    // if we are mounting and running this it means appear _must_ be set
+
+    if (!mounting && !enter) {
+      this.safeSetState({
+        status: ENTERED
+      }, function () {
+        _this2.props.onEntered(node);
+      });
+      return;
+    }
+
+    this.props.onEnter(node, appearing);
+    this.safeSetState({
+      status: ENTERING
+    }, function () {
+      _this2.props.onEntering(node, appearing);
+
+      _this2.onTransitionEnd(node, enterTimeout, function () {
+        _this2.safeSetState({
+          status: ENTERED
+        }, function () {
+          _this2.props.onEntered(node, appearing);
+        });
+      });
+    });
+  };
+
+  _proto.performExit = function performExit(node) {
+    var _this3 = this;
+
+    var exit = this.props.exit;
+    var timeouts = this.getTimeouts(); // no exit animation skip right to EXITED
+
+    if (!exit) {
+      this.safeSetState({
+        status: EXITED
+      }, function () {
+        _this3.props.onExited(node);
+      });
+      return;
+    }
+
+    this.props.onExit(node);
+    this.safeSetState({
+      status: EXITING
+    }, function () {
+      _this3.props.onExiting(node);
+
+      _this3.onTransitionEnd(node, timeouts.exit, function () {
+        _this3.safeSetState({
+          status: EXITED
+        }, function () {
+          _this3.props.onExited(node);
+        });
+      });
+    });
+  };
+
+  _proto.cancelNextCallback = function cancelNextCallback() {
+    if (this.nextCallback !== null) {
+      this.nextCallback.cancel();
+      this.nextCallback = null;
+    }
+  };
+
+  _proto.safeSetState = function safeSetState(nextState, callback) {
+    // This shouldn't be necessary, but there are weird race conditions with
+    // setState callbacks and unmounting in testing, so always make sure that
+    // we can cancel any pending setState callbacks after we unmount.
+    callback = this.setNextCallback(callback);
+    this.setState(nextState, callback);
+  };
+
+  _proto.setNextCallback = function setNextCallback(callback) {
+    var _this4 = this;
+
+    var active = true;
+
+    this.nextCallback = function (event) {
+      if (active) {
+        active = false;
+        _this4.nextCallback = null;
+        callback(event);
+      }
+    };
+
+    this.nextCallback.cancel = function () {
+      active = false;
+    };
+
+    return this.nextCallback;
+  };
+
+  _proto.onTransitionEnd = function onTransitionEnd(node, timeout, handler) {
+    this.setNextCallback(handler);
+    var doesNotHaveTimeoutOrListener = timeout == null && !this.props.addEndListener;
+
+    if (!node || doesNotHaveTimeoutOrListener) {
+      setTimeout(this.nextCallback, 0);
+      return;
+    }
+
+    if (this.props.addEndListener) {
+      this.props.addEndListener(node, this.nextCallback);
+    }
+
+    if (timeout != null) {
+      setTimeout(this.nextCallback, timeout);
+    }
+  };
+
+  _proto.render = function render() {
+    var status = this.state.status;
+
+    if (status === UNMOUNTED) {
+      return null;
+    }
+
+    var _this$props = this.props,
+        children = _this$props.children,
+        childProps = _objectWithoutPropertiesLoose(_this$props, ["children"]); // filter props for Transtition
+
+
+    delete childProps.in;
+    delete childProps.mountOnEnter;
+    delete childProps.unmountOnExit;
+    delete childProps.appear;
+    delete childProps.enter;
+    delete childProps.exit;
+    delete childProps.timeout;
+    delete childProps.addEndListener;
+    delete childProps.onEnter;
+    delete childProps.onEntering;
+    delete childProps.onEntered;
+    delete childProps.onExit;
+    delete childProps.onExiting;
+    delete childProps.onExited;
+
+    if (typeof children === 'function') {
+      return children(status, childProps);
+    }
+
+    var child = _react.default.Children.only(children);
+
+    return _react.default.cloneElement(child, childProps);
+  };
+
+  return Transition;
+}(_react.default.Component);
+
+Transition.contextTypes = {
+  transitionGroup: PropTypes.object
+};
+Transition.childContextTypes = {
+  transitionGroup: function transitionGroup() {}
+};
+Transition.propTypes =  true ? {
+  /**
+   * A `function` child can be used instead of a React element. This function is
+   * called with the current transition status (`'entering'`, `'entered'`,
+   * `'exiting'`, `'exited'`, `'unmounted'`), which can be used to apply context
+   * specific props to a component.
+   *
+   * ```jsx
+   * <Transition in={this.state.in} timeout={150}>
+   *   {state => (
+   *     <MyComponent className={`fade fade-${state}`} />
+   *   )}
+   * </Transition>
+   * ```
+   */
+  children: PropTypes.oneOfType([PropTypes.func.isRequired, PropTypes.element.isRequired]).isRequired,
+
+  /**
+   * Show the component; triggers the enter or exit states
+   */
+  in: PropTypes.bool,
+
+  /**
+   * By default the child component is mounted immediately along with
+   * the parent `Transition` component. If you want to "lazy mount" the component on the
+   * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
+   * mounted, even on "exited", unless you also specify `unmountOnExit`.
+   */
+  mountOnEnter: PropTypes.bool,
+
+  /**
+   * By default the child component stays mounted after it reaches the `'exited'` state.
+   * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
+   */
+  unmountOnExit: PropTypes.bool,
+
+  /**
+   * Normally a component is not transitioned if it is shown when the `<Transition>` component mounts.
+   * If you want to transition on the first mount set `appear` to `true`, and the
+   * component will transition in as soon as the `<Transition>` mounts.
+   *
+   * > Note: there are no specific "appear" states. `appear` only adds an additional `enter` transition.
+   */
+  appear: PropTypes.bool,
+
+  /**
+   * Enable or disable enter transitions.
+   */
+  enter: PropTypes.bool,
+
+  /**
+   * Enable or disable exit transitions.
+   */
+  exit: PropTypes.bool,
+
+  /**
+   * The duration of the transition, in milliseconds.
+   * Required unless `addEndListener` is provided.
+   *
+   * You may specify a single timeout for all transitions:
+   *
+   * ```jsx
+   * timeout={500}
+   * ```
+   *
+   * or individually:
+   *
+   * ```jsx
+   * timeout={{
+   *  appear: 500,
+   *  enter: 300,
+   *  exit: 500,
+   * }}
+   * ```
+   *
+   * - `appear` defaults to the value of `enter`
+   * - `enter` defaults to `0`
+   * - `exit` defaults to `0`
+   *
+   * @type {number | { enter?: number, exit?: number, appear?: number }}
+   */
+  timeout: function timeout(props) {
+    var pt = _PropTypes.timeoutsShape;
+    if (!props.addEndListener) pt = pt.isRequired;
+
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return pt.apply(void 0, [props].concat(args));
+  },
+
+  /**
+   * Add a custom transition end trigger. Called with the transitioning
+   * DOM node and a `done` callback. Allows for more fine grained transition end
+   * logic. **Note:** Timeouts are still used as a fallback if provided.
+   *
+   * ```jsx
+   * addEndListener={(node, done) => {
+   *   // use the css transitionend event to mark the finish of a transition
+   *   node.addEventListener('transitionend', done, false);
+   * }}
+   * ```
+   */
+  addEndListener: PropTypes.func,
+
+  /**
+   * Callback fired before the "entering" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool) -> void
+   */
+  onEnter: PropTypes.func,
+
+  /**
+   * Callback fired after the "entering" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool)
+   */
+  onEntering: PropTypes.func,
+
+  /**
+   * Callback fired after the "entered" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool) -> void
+   */
+  onEntered: PropTypes.func,
+
+  /**
+   * Callback fired before the "exiting" status is applied.
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExit: PropTypes.func,
+
+  /**
+   * Callback fired after the "exiting" status is applied.
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExiting: PropTypes.func,
+
+  /**
+   * Callback fired after the "exited" status is applied.
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExited: PropTypes.func // Name the function so it is clearer in the documentation
+
+} : undefined;
+
+function noop() {}
+
+Transition.defaultProps = {
+  in: false,
+  mountOnEnter: false,
+  unmountOnExit: false,
+  appear: false,
+  enter: true,
+  exit: true,
+  onEnter: noop,
+  onEntering: noop,
+  onEntered: noop,
+  onExit: noop,
+  onExiting: noop,
+  onExited: noop
+};
+Transition.UNMOUNTED = 0;
+Transition.EXITED = 1;
+Transition.ENTERING = 2;
+Transition.ENTERED = 3;
+Transition.EXITING = 4;
+
+var _default = (0, _reactLifecyclesCompat.polyfill)(Transition);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/utils/PropTypes.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-transition-group/utils/PropTypes.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.classNamesShape = exports.timeoutsShape = void 0;
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var timeoutsShape =  true ? _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.shape({
+  enter: _propTypes.default.number,
+  exit: _propTypes.default.number,
+  appear: _propTypes.default.number
+}).isRequired]) : undefined;
+exports.timeoutsShape = timeoutsShape;
+var classNamesShape =  true ? _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.shape({
+  enter: _propTypes.default.string,
+  exit: _propTypes.default.string,
+  active: _propTypes.default.string
+}), _propTypes.default.shape({
+  enter: _propTypes.default.string,
+  enterDone: _propTypes.default.string,
+  enterActive: _propTypes.default.string,
+  exit: _propTypes.default.string,
+  exitDone: _propTypes.default.string,
+  exitActive: _propTypes.default.string
+})]) : undefined;
+exports.classNamesShape = classNamesShape;
 
 /***/ }),
 
@@ -20920,6 +25743,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_15__);
 /* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../theme/main.scss */ "./theme/main.scss");
 /* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_theme_main_scss__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var notistack__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! notistack */ "./node_modules/notistack/build/index.js");
+/* harmony import */ var notistack__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(notistack__WEBPACK_IMPORTED_MODULE_17__);
+
 
 
 
@@ -20981,15 +25807,24 @@ function (_App) {
       var _this$props = this.props,
           Component = _this$props.Component,
           pageProps = _this$props.pageProps;
-      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_7__["Container"], null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_8___default.a, null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("title", null, "My page")), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_7__["Container"], null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_8___default.a, null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("title", null, "Home")), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11___default.a, {
         registry: this.pageContext.sheetsRegistry,
         generateClassName: this.pageContext.generateClassName
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_9__["MuiThemeProvider"], {
         theme: this.pageContext.theme,
         sheetsManager: this.pageContext.sheetsManager
-      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_10___default.a, null), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_10___default.a, null), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(notistack__WEBPACK_IMPORTED_MODULE_17__["SnackbarProvider"], {
+        maxSnack: 3
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         pageContext: this.pageContext
-      }, pageProps)))));
+      }, pageProps))))), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        id: "fb-root"
+      }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("script", {
+        async: true,
+        defer: true,
+        crossOrigin: "anonymous",
+        src: "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.3&appId=329324544364004&autoLogAppEvents=1"
+      }));
     }
   }]);
 
@@ -21034,6 +25869,36 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
       light: '#ff7961',
       main: '#f44336',
       dark: '#ba000d'
+    }
+  },
+  title: {
+    section: {
+      paddingBottom: '10px',
+      marginTop: '-24px'
+    }
+  },
+  text: {
+    wrapTwoLine: {
+      lineHeight: '16px',
+      height: '32px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '2'
+      /* number of lines to show */
+
+    },
+    wrapThreeLine: {
+      lineHeight: '16px',
+      height: '48px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '3'
+      /* number of lines to show */
+
     }
   },
   drawers: {

@@ -59,9 +59,8 @@ export default class extends React.Component {
       replace,
       disabledLocale = true
     } = this.props
-    const to = disabledLocale
-      ? route || href || this.props.as
-      : getLocaleURL(route || href || as, locale)
+    const to = route || href || this.props.as
+    // : getLocaleURL(route || href || as, locale)
     // debugger
     try {
       if (target !== '_blank' && !reload) {
@@ -90,7 +89,7 @@ export default class extends React.Component {
       color
     } = this.props
     let formatedURL = route || href || this.props.as
-    formatedURL = disabledLocale ? formatedURL : getLocaleURL(route || href || as, locale)
+    formatedURL = formatedURL
     return (
       <Link
         className={className}

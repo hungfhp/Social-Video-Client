@@ -10,13 +10,13 @@ import reducer from '../modules/profile/reducer'
 import { openLeftSideAction } from '../common/action'
 import {
   getMoviesOwn,
-  getMoviesLiked,
-  getMoviesFollowed,
-  getGroupsOwn,
+  // getMoviesLiked,
+  // getMoviesFollowed,
   getProfile
 } from '../modules/profile/action'
-// import { red } from '@material-ui/core/colors';
 // import _ from 'lodash'
+import { pushRoute } from '../components/Link'
+import { updateUrlParameter } from '../common/utils/url'
 
 @main({
   Layout: Layout,
@@ -31,12 +31,16 @@ export default class ProfilePage extends Component {
     let promises = []
     promises.push(dispatch(openLeftSideAction(false)))
     let userId = query.userId
+    const isAuthenticated = store.getState().common.isAuthenticated
+    if (!isAuthenticated) {
+      pushRoute(updateUrlParameter(`/home`, 'role', 'viewer'))
+    }
 
     if (userId === 'me') {
       userId = store.getState().common.user._id
     }
-    promises.push(dispatch(getMoviesOwn(req, userId)))
     promises.push(dispatch(getProfile(req, userId)))
+    promises.push(dispatch(getMoviesOwn(req, userId)))
     await Promise.all(promises)
 
     return { userId }

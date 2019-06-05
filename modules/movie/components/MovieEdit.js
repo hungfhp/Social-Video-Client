@@ -3,12 +3,14 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Link from '../../../components/Link'
 import { pushRoute } from '../../../components/Link'
-import MoviePlayer from '../../../components/Movie/MoviePlayer'
-import PropTypes from 'prop-types'
+// import MoviePlayer from '../../../components/Movie/MoviePlayer'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
-import { getImageMovie, getMovieViewsCount } from '../../../common/utils/helpers'
+// import { getImageMovie, getMovieViewsCount } from '../../../common/utils/helpers'
 import { updateUrlParameter } from '../../../common/utils/url'
+// import PropTypes from 'prop-types'
+// import PlayArrowIcon from '@material-ui/icons/PlayArrow'
+// import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import FieldGroup from '../../../components/Fields/FieldGroup'
 import FieldSelectMutil from '../../../components/Fields/FieldSelectMutil'
@@ -21,10 +23,10 @@ import Dropzone from 'react-dropzone'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { change } from 'redux-form'
 import ClearIcon from '@material-ui/icons/Clear'
-import Loading from '../../../components/Loading'
-
 import { connect } from 'react-redux'
 import { Field, reduxForm, getFormValues, SubmissionError } from 'redux-form'
+import { getMovieById } from '../action'
+import EditVoiceover from '../../../components/Voiceover/EditVoiceover'
 
 const MAX_SIZE_ATTACK_FILE = 10000000
 
@@ -50,20 +52,25 @@ const styles = theme => ({
     marginRight: 20
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    margin: '0px 10px -5px -10px',
+    paddingTop: '5px',
+    position: 'absolute',
+    top: '0'
   },
   thumbnailChild: {
     width: '100%',
     paddingLeft: theme.spacing.unit * 4
   },
   fileUploadedItem: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    width: '100px',
+    height: 60,
+    display: 'inline-block'
   }
 })
 
 const validate = values => {
   let errors = {}
-
   if (!values.name) {
     errors.name = 'Nhập tên phim'
   }
@@ -84,14 +91,13 @@ const validate = values => {
   form: 'movieCreate',
   touchOnBlur: false,
   validate,
-  enableReinitialize: true,
   shouldError: () => true
 })
 @connect(
   state => ({
     common: state.common
   }),
-  { getOptionsGenres, uploadFile }
+  { getOptionsGenres, uploadFile, getMovieById }
 )
 @withStyles(styles, { withTheme: true })
 export default class MovieCreate extends Component {
@@ -101,37 +107,44 @@ export default class MovieCreate extends Component {
     subEn: { value: '', label: '' },
     thumbnails: { small: '', medium: '', large: '' },
     photos: [],
-    submitError: ''
+    submitError: '',
+    uploadingMovie: false,
+    uploadingSub: false,
+    submitting: false
   }
   onSave = values => {
+    const { movie = {} } = this.props
     const data = this.formatData(values)
     this.setState({ submitError: '' })
-    fetchApi(`/movies/${this.props.movie._id}`, {
+    this.setState({ submitting: true })
+    fetchApi(`/movies/${movie._id}`, {
       method: 'PUT',
-      data: {...movie, data}
+      data
     })
       .then(res => {
-      const currentURL = window.location.href
-      pushRoute(updateUrlParameter(`/movie/${res.data.data._id}`, 'action', 'view'))
+        this.setState({ submitting: false })
+        this.props.enqueueSnackbar('Chỉnh sửa thành công.', { variant: 'success' })
+        this.props.getMovieById(movie._id)
+        pushRoute(updateUrlParameter(`/movie/${movie._id}`, 'action', 'view'))
       })
       .catch(error => {
+        this.setState({ submitting: false })
         this.setState({
           submitError: error.response && error.response.data && error.response.data.message
         })
+        this.props.enqueueSnackbar('Có lỗi xảy ra', { variant: 'warning' })
         new SubmissionError({ email: 'element.message' })
       })
   }
   formatData = data => {
-    let initData = { quality: 'HD', share: 'public', isAdult: false }
     let photos = []
-    photos.push(
-      this.state.photos.length &&
-        this.state.photos.map(photo => {
-          return photo.value
-        })
-    )
+
+    this.state.photos.length &&
+      this.state.photos.map(photo => {
+        photos.push(photo.value)
+      })
+
     let formatData = {
-      ...initData,
       ...data,
       embeds: [
         {
@@ -152,11 +165,14 @@ export default class MovieCreate extends Component {
   uploadFile = async (path, file) => {
     let formData = new FormData()
     formData.append('file', file, file.name)
-    return await this.props.uploadFile(path, formData)
+    const uploadedFile = await this.props.uploadFile(path, formData)
+    return uploadedFile
   }
   onUploadMovie = async (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length) {
-      let uploaded = await this.uploadFile('subtitle', acceptedFiles[0])
+      this.setState({ uploadingMovie: true })
+      let uploaded = await this.uploadFile('movie', acceptedFiles[0])
+      this.setState({ uploadingMovie: false })
       let movie = {
         value: uploaded.url,
         label: acceptedFiles[0].name
@@ -166,7 +182,9 @@ export default class MovieCreate extends Component {
   }
   onUploadSubtitle = async (acceptedFiles, rejectedFiles) => {
     if (acceptedFiles.length) {
+      this.setState({ uploadingSub: true })
       let uploaded = await this.uploadFile('subtitle', acceptedFiles[0])
+      this.setState({ uploadingSub: false })
       let subs = this.state.subs
       let sub = {
         value: uploaded.url,
@@ -201,11 +219,10 @@ export default class MovieCreate extends Component {
   }
   onUploadPhotos = async (acceptedFiles, rejectedFiles, index) => {
     if (acceptedFiles.length) {
-      let url = await this.uploadFile('image', acceptedFiles[0])
       if (acceptedFiles.length) {
         acceptedFiles.map(async file => {
           let uploaded = await this.uploadFile('image', file)
-          let photos = this.state.photos
+          let photos = this.state.photos || []
           photos.push({ label: file.name, value: uploaded.url })
           this.setState({
             photos
@@ -214,55 +231,103 @@ export default class MovieCreate extends Component {
       }
     }
   }
+  onRemovePhoto = index => {
+    let { photos } = this.state
+
+    photos.splice(index, 1)
+    this.setState({ photos })
+  }
 
   onUploadFileRejected = files => {
-    const { t, toastManager } = this.props
     console.log('onUploadFileRejected')
+  }
+  handleInitData = () => {
+    let initData = {}
+    const { movie = {} } = this.props
+    initData = { ...movie }
+    initData.embed = (movie.embeds.length && movie.embeds[0].embedUrl) || ''
+    initData.thumbnail_small = movie.thumbnails.small || ''
+    initData.thumbnail_medium = movie.thumbnails.medium || ''
+    initData.thumbnail_large = movie.thumbnails.large || ''
+    const photos =
+      movie.photos.length &&
+      movie.photos.map((photo, index) => {
+        return { label: `Ảnh ${index + 1}`, value: photo }
+      })
+    this.setState({ photos })
+    this.props.initialize(initData)
+  }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.movie.uploadedAt !== this.props.movie.uploadedAt) {
+      this.handleInitData()
+    }
   }
   componentDidMount() {
     this.props.getOptionsGenres()
+    this.handleInitData()
   }
   render() {
-    const {
-      classes,
-      theme,
-      movie = {},
-      common,
-      handleSubmit,
-      pristine,
-      reset,
-      submitting
-    } = this.props
+    const { classes, theme, movie = {}, common, handleSubmit, pristine, reset } = this.props
+    const { uploadingMovie, uploadingSub, submitting } = this.state
 
-    console.log(this.state)
     const optionsGenres = common.options.genres
-    const optionsQuanlities = common.options.quanlities
+    const optionsQualities = common.options.quanlities
     const optionsShares = common.options.shares
     const optionsAdults = [
       { label: 'Trên 18 tuổi', value: true },
       { label: 'Mọi người', value: false }
     ]
 
+    const selectedGenres = movie.genres.length
+      ? movie.genres.map(genre => {
+          return {
+            value: genre,
+            label: genre
+          }
+        })
+      : []
+
+    const selectedActors = movie.actors.length
+      ? movie.actors.map(genre => {
+          return {
+            value: genre,
+            label: genre
+          }
+        })
+      : []
+
+    const selectedDirectors = movie.directors.length
+      ? movie.directors.map(genre => {
+          return {
+            value: genre,
+            label: genre
+          }
+        })
+      : []
+
+    const selectedCountries = movie.countries.length
+      ? movie.countries.map(genre => {
+          return {
+            value: genre,
+            label: genre
+          }
+        })
+      : []
+
+    console.log(movie)
     return (
       <React.Fragment>
-        {submitting ? (
-          <Loading />
-        ) : (
-          <Typography color="primary" gutterBottom variant="h3">
-            Tải lên phim mới
-          </Typography>
-        )}
+        <Typography color="textPrimary" gutterBottom variant="h4">
+          Chỉnh sửa phim:{' '}
+          <Link color="primary" href={`/movie/${movie._id}`}>
+            {movie.name}
+          </Link>
+        </Typography>
         <form className={classes.form}>
           <Grid container spacing={theme.spacing.unit * 5}>
             <Grid item md={5}>
               <FormControl margin="normal" required fullWidth>
-                <Field
-                  label="Tên phim *"
-                  name="name"
-                  type="text"
-                  component={FieldGroup}
-                  autoFocus
-                />
+                <Field label="Tên phim *" name="name" type="text" component={FieldGroup} />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <Field
@@ -270,7 +335,6 @@ export default class MovieCreate extends Component {
                   name="nameOrigin"
                   type="text"
                   component={FieldGroup}
-                  autoFocus
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -279,10 +343,9 @@ export default class MovieCreate extends Component {
                   name="genres"
                   type="text"
                   component={FieldSelectMutil}
-                  // onChange={this.handleChangeGenres}
+                  selectedOptions={selectedGenres}
                   options={optionsGenres}
                   creatable
-                  autoFocus
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -292,7 +355,6 @@ export default class MovieCreate extends Component {
                   type="text"
                   multiline
                   component={FieldGroup}
-                  autoFocus
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -301,10 +363,9 @@ export default class MovieCreate extends Component {
                   name="directors"
                   type="text"
                   component={FieldSelectMutil}
-                  // onChange={this.handleChangeGenres}
+                  selectedOptions={selectedDirectors}
                   options={[]}
                   creatable
-                  autoFocus
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -313,10 +374,20 @@ export default class MovieCreate extends Component {
                   name="actors"
                   type="text"
                   component={FieldSelectMutil}
-                  // onChange={this.handleChangeGenres}
+                  selectedOptions={selectedActors}
                   options={[]}
                   creatable
-                  autoFocus
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <Field
+                  label="Quốc gia"
+                  name="countries"
+                  type="text"
+                  component={FieldSelectMutil}
+                  selectedOptions={selectedCountries}
+                  options={[]}
+                  creatable
                 />
               </FormControl>
               <Grid item container justify="space-between" spacing={theme.spacing.unit * 2}>
@@ -330,7 +401,6 @@ export default class MovieCreate extends Component {
                       InputProps={{
                         endAdornment: <InputAdornment position="end">phút</InputAdornment>
                       }}
-                      autoFocus
                     />
                   </FormControl>
                 </Grid>
@@ -344,7 +414,6 @@ export default class MovieCreate extends Component {
                       InputProps={{
                         startAdornment: <InputAdornment position="start">Năm</InputAdornment>
                       }}
-                      autoFocus
                     />
                   </FormControl>
                 </Grid>
@@ -355,10 +424,10 @@ export default class MovieCreate extends Component {
                       name="quality"
                       type="text"
                       component={FieldSelect}
-                      // onChange={this.handleChangeGenres}
-                      selectedOption={optionsQuanlities[1]}
-                      options={optionsQuanlities}
-                      autoFocus
+                      selectedOption={optionsQualities.find(quality => {
+                        return quality.value === movie.quality
+                      })}
+                      options={optionsQualities}
                     />
                   </FormControl>
                 </Grid>
@@ -369,10 +438,10 @@ export default class MovieCreate extends Component {
                       name="share"
                       type="text"
                       component={FieldSelect}
-                      // onChange={this.handleChangeGenres}
-                      selectedOption={optionsShares[2]}
+                      selectedOption={optionsShares.find(share => {
+                        return share.value === movie.share
+                      })}
                       options={optionsShares}
-                      autoFocus
                     />
                   </FormControl>
                 </Grid>
@@ -384,9 +453,10 @@ export default class MovieCreate extends Component {
                       type="text"
                       // onChange={this.handleChangeGenres}
                       component={FieldSelect}
-                      selectedOption={optionsAdults[1]}
+                      selectedOption={optionsAdults.find(isAdult => {
+                        return isAdult.value === movie.isAdult
+                      })}
                       options={optionsAdults}
-                      autoFocus
                     />
                   </FormControl>
                 </Grid>
@@ -395,43 +465,48 @@ export default class MovieCreate extends Component {
             <Grid item md={7}>
               <FormControl margin="normal" required fullWidth>
                 <Field
-                  label="Đường dẫn phim *"
+                  label="Nguồn phim *"
                   name="embed"
                   type="text"
                   component={FieldGroup}
-                  autoFocus
+                  disabled={uploadingMovie}
                 />
-                <Dropzone
-                  onDrop={this.onUploadMovie}
-                  onDropRejected={this.onUploadFileRejected}
-                  maxSize={3000000000}
-                >
-                  {({ getRootProps, getInputProps, isDragActive }) => {
-                    return (
-                      <Typography
-                        component="div"
-                        className={classes.buttonUpload}
-                        inline
-                        {...getRootProps()}
-                      >
-                        <input {...getInputProps()} />
-                        <Button aria-label="Toggle password visibility">
-                          <CloudUploadIcon />
-                        </Button>
-                      </Typography>
-                    )
-                  }}
-                </Dropzone>
+                {/* {this.state.uploadingMovie ? (
+                  <Loading loading={this.state.uploadingMovie} className={classes.buttonUpload} />
+                ) : (
+                  <Dropzone
+                    onDrop={this.onUploadMovie}
+                    onDropRejected={this.onUploadFileRejected}
+                    maxSize={3000000000}
+                  >
+                    {({ getRootProps, getInputProps, isDragActive }) => {
+                      return (
+                        <Typography
+                          component="div"
+                          className={classes.buttonUpload}
+                          inline
+                          {...getRootProps()}
+                        >
+                          <input {...getInputProps()} />
+                        <Button aria-label="Tải lên tệp">
+                            <CloudUploadIcon />
+                          </Button>
+                        </Typography>
+                      )
+                    }}
+                  </Dropzone>
+                )} */}
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <Field
-                  label="Phụ đề việt (đường dẫn hoặc file) *"
+                  label="Phụ đề việt *"
                   name="subUrl"
                   type="text"
                   component={FieldGroup}
-                  autoFocus
+                  disabled={uploadingSub}
                 />
                 <Dropzone
+                  accept=".srt,.json"
                   onDrop={this.onUploadSubtitle}
                   onDropRejected={this.onUploadFileRejected}
                   maxSize={10000000}
@@ -445,7 +520,7 @@ export default class MovieCreate extends Component {
                         {...getRootProps()}
                       >
                         <input {...getInputProps()} />
-                        <Button aria-label="Toggle password visibility">
+                        <Button aria-label="Tải lên tệp">
                           <CloudUploadIcon />
                         </Button>
                       </Typography>
@@ -453,13 +528,12 @@ export default class MovieCreate extends Component {
                   }}
                 </Dropzone>
               </FormControl>
-              <FormControl margin="normal" required fullWidth>
+              {/* <FormControl margin="normal" required fullWidth>
                 <Field
                   label="Phụ đề tiếng anh"
                   name="enSubUrl"
                   type="text"
                   component={FieldGroup}
-                  autoFocus
                 />
                 <Dropzone
                   onDrop={this.onUploadSubtitleEn}
@@ -475,21 +549,20 @@ export default class MovieCreate extends Component {
                         {...getRootProps()}
                       >
                         <input {...getInputProps()} />
-                        <Button aria-label="Toggle password visibility">
+                        <Button aria-label="Tải lên tệp">
                           <CloudUploadIcon />
                         </Button>
                       </Typography>
                     )
                   }}
                 </Dropzone>
-              </FormControl>
+              </FormControl> */}
               <FormControl margin="normal" required fullWidth>
                 <Field
                   label="Đường dẫn trailer"
                   name="trailerUrl"
                   type="text"
                   component={FieldGroup}
-                  autoFocus
                 />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
@@ -498,14 +571,9 @@ export default class MovieCreate extends Component {
                 </Typography>
 
                 <FormControl margin="none" required fullWidth className={classes.thumbnailChild}>
-                  <Field
-                    label="Nhỏ"
-                    name="thumbnail_small"
-                    type="text"
-                    component={FieldGroup}
-                    autoFocus
-                  />
+                  <Field label="Nhỏ" name="thumbnail_small" type="text" component={FieldGroup} />
                   <Dropzone
+                    accept="image/*"
                     onDrop={(accepted, rejected) =>
                       this.onUploadThumbnails(accepted, rejected, 'small')
                     }
@@ -535,9 +603,9 @@ export default class MovieCreate extends Component {
                     name="thumbnail_medium"
                     type="text"
                     component={FieldGroup}
-                    autoFocus
                   />
                   <Dropzone
+                    accept="image/*"
                     onDrop={(accepted, rejected) =>
                       this.onUploadThumbnails(accepted, rejected, 'medium')
                     }
@@ -562,14 +630,9 @@ export default class MovieCreate extends Component {
                   </Dropzone>
                 </FormControl>
                 <FormControl margin="none" required fullWidth className={classes.thumbnailChild}>
-                  <Field
-                    label="Lớn"
-                    name="thumbnail_large"
-                    type="text"
-                    component={FieldGroup}
-                    autoFocus
-                  />
+                  <Field label="Lớn" name="thumbnail_large" type="text" component={FieldGroup} />
                   <Dropzone
+                    accept="image/*"
                     onDrop={(accepted, rejected) =>
                       this.onUploadThumbnails(accepted, rejected, 'large')
                     }
@@ -594,45 +657,14 @@ export default class MovieCreate extends Component {
                   </Dropzone>
                 </FormControl>
               </FormControl>
-              {this.state.photos.map((photo, idex) => {
-                return
-                ;<FormControl margin="normal" required fullWidth>
-                  <Field
-                    label="Ảnh"
-                    name={'photos_' + index}
-                    type="text"
-                    component={FieldGroup}
-                    autoFocus
-                  />
-                  <Dropzone
-                    onDrop={this.onUploadPhotos}
-                    onDropRejected={this.onUploadFileRejected}
-                    maxSize={10000000}
-                  >
-                    {({ getRootProps, getInputProps, isDragActive }) => {
-                      return (
-                        <Typography
-                          component="div"
-                          className={classes.buttonUpload}
-                          inline
-                          {...getRootProps()}
-                        >
-                          <input {...getInputProps()} />
-                          <Button aria-label="Toggle password visibility">
-                            <CloudUploadIcon />
-                          </Button>
-                        </Typography>
-                      )
-                    }}
-                  </Dropzone>
-                </FormControl>
-              })}
+
               <FormControl margin="normal" required fullWidth>
                 <Typography color="textSecondary" variant="body1">
                   Ảnh
                 </Typography>
 
                 <Dropzone
+                  accept="image/*"
                   onDrop={this.onUploadPhotos}
                   onDropRejected={this.onUploadFileRejected}
                   maxSize={10000000}
@@ -657,13 +689,34 @@ export default class MovieCreate extends Component {
               {this.state.photos.length
                 ? this.state.photos.map((photo, index) => {
                     return (
-                      <Button key={index} variant="outlined" className={classes.fileUploadedItem}>
-                        {photo.label}
-                        <ClearIcon className={classes.rightIcon} />
-                      </Button>
+                      <Typography
+                        component="div"
+                        align="center"
+                        key={index}
+                        style={{ position: 'relative', width: '140px', display: 'inline-block' }}
+                      >
+                        <div
+                          className={classes.fileUploadedItem}
+                          style={{
+                            backgroundImage: `url('${photo.value}')`,
+                            backgroundSize: 'cover'
+                          }}
+                        />
+                        <ClearIcon
+                          onClick={() => this.onRemovePhoto(index)}
+                          className={classes.rightIcon + ' clickable'}
+                        />
+                      </Typography>
                     )
                   })
                 : null}
+
+              <Grid item xs={12} align="center">
+                <br />
+                <br />
+                <br />
+                <EditVoiceover movie={movie} voiceovers={movie.voiceovers} />
+              </Grid>
             </Grid>
           </Grid>
           <Typography align="center">
@@ -672,10 +725,10 @@ export default class MovieCreate extends Component {
               color="primary"
               className={classes.submit}
               onClick={handleSubmit(this.onSave)}
-              disabled={submitting}
+              disabled={submitting || pristine}
               size="large"
             >
-              Lưu chỉnh sửa
+              Lưu thay đổi
             </Button>
           </Typography>
         </form>
@@ -684,6 +737,4 @@ export default class MovieCreate extends Component {
   }
 }
 
-MovieCreate.propTypes = {
-  movie: PropTypes.object.isRequired
-}
+MovieCreate.propTypes = {}

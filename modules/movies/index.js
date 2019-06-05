@@ -16,6 +16,9 @@ import MovieList from './components/MovieList'
 import Loading from '../../components/Loading'
 import { getMovies } from './action'
 import RightSideMovies from '../../containers/Movie/RightSideMovies'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
+import { Typography } from '@material-ui/core'
+import SectionMovies from '../../containers/Movie/SectionMovies'
 
 const styles = theme => ({
   root: {
@@ -48,7 +51,7 @@ export default class Movies extends Component {
   state = {}
   render() {
     const { classes, theme, movies, suggestMovies } = this.props
-    console.log(movies)
+    console.log(movies.keyword)
     return (
       <React.Fragment>
         <Head>
@@ -58,7 +61,21 @@ export default class Movies extends Component {
         <div id="home" className={classes.root}>
           <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
             <Grid item md={9}>
-              {movies.loaded ? <MovieList movies={movies} /> : <Loading loading={true} />}
+              <Typography variant="h6" color="textPrimary" style={theme.title.section}>
+                Danh sách phim{' '}
+                <Typography variant="h6" inline color="primary">
+                  {movies.keyword && `"${movies.keyword}"`}
+                </Typography>
+              </Typography>
+              {movies.loaded ? (
+                <SectionMovies
+                  hasPagination={true}
+                  handlePagination={params => this.props.getMovies(params)}
+                  movies={movies}
+                />
+              ) : (
+                <Loading loading={true} />
+              )}
             </Grid>
 
             <Grid item md={3}>

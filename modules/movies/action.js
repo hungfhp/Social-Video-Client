@@ -6,11 +6,11 @@ export const getMovies = (params = { limit: 16, page: 1 }) => async (
   getState,
   { fetchApi }
 ) => {
-  let loadedData = getState().movies
-  if (!loadedData.loaded) {
-    const res = await fetchApi(`/movies`, params)
-    return dispatch(getMoviesSuccess(res.data))
-  }
+  // let loadedData = getState().movies
+  // if (!loadedData.loaded || loadedData.keyword) {
+  const res = await fetchApi(`/movies`, { params })
+  return dispatch(getMoviesSuccess({ ...res.data, keyword: '' }))
+  // }
 }
 
 export const searchMovies = (keyword, params = { limit: 16, page: 1 }) => async (
@@ -19,5 +19,5 @@ export const searchMovies = (keyword, params = { limit: 16, page: 1 }) => async 
   { fetchApi }
 ) => {
   const res = await fetchApi(`/movies/search`, { params: { ...params, search: keyword } })
-  return dispatch(getMoviesSuccess(res.data))
+  return dispatch(getMoviesSuccess({ ...res.data, keyword }))
 }

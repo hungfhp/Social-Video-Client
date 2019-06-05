@@ -74,7 +74,7 @@ class LeftSide extends Component {
     this.props.openLeftSideDrawer(false)
   }
   render() {
-    const { classes, theme, openLeftSide } = this.props
+    const { classes, theme, openLeftSide, isAuthenticated } = this.props
     return (
       <Drawer
         variant="permanent"
@@ -102,7 +102,7 @@ class LeftSide extends Component {
               <ListItemIcon>
                 <Whatshot />
               </ListItemIcon>
-              <ListItemText primary={'Trending'} />
+              <ListItemText primary={'Xu hướng'} />
             </ListItem>
           </Link>
 
@@ -111,57 +111,59 @@ class LeftSide extends Component {
               <ListItemIcon>
                 <LocalMovies />
               </ListItemIcon>
-              <ListItemText primary={'All Movies'} />
+              <ListItemText primary={'Tất cả'} />
             </ListItem>
           </Link>
+          <Divider />
 
-          <Link href="/profile/me">
-            <ListItem button key={3}>
-              <ListItemIcon>
-                <Subscriptions />
-              </ListItemIcon>
-              <ListItemText primary={'Subscriptions'} />
-            </ListItem>
-          </Link>
+          {isAuthenticated && (
+            <List>
+              <Link href="/profile/me">
+                <ListItem button key={21}>
+                  <ListItemIcon>
+                    <VideoLibrary />
+                  </ListItemIcon>
+                  <ListItemText primary={'Cá nhân'} />
+                </ListItem>
+              </Link>
 
-          <Link href="/profile/me">
-            <ListItem button key={4}>
-              <ListItemIcon>
-                <Group />
-              </ListItemIcon>
-              <ListItemText primary={'Groups'} />
-            </ListItem>
-          </Link>
-        </List>
-        <Divider />
+              <Link href="/profile/me">
+                <ListItem button key={3}>
+                  <ListItemIcon>
+                    <Subscriptions />
+                  </ListItemIcon>
+                  <ListItemText primary={'Theo dõi'} />
+                </ListItem>
+              </Link>
 
-        <List>
-          <Link href="/profile/me">
-            <ListItem button key={21}>
-              <ListItemIcon>
-                <VideoLibrary />
-              </ListItemIcon>
-              <ListItemText primary={'Library'} />
-            </ListItem>
-          </Link>
+              <Link href="/profile/me">
+                <ListItem button key={4}>
+                  <ListItemIcon>
+                    <Group />
+                  </ListItemIcon>
+                  <ListItemText primary={'Bạn bè'} />
+                </ListItem>
+              </Link>
 
-          <Link href="/profile/me">
-            <ListItem button key={22}>
-              <ListItemIcon>
-                <History />
-              </ListItemIcon>
-              <ListItemText primary={'History'} />
-            </ListItem>
-          </Link>
+              <Link href="/profile/me">
+                <ListItem button key={22}>
+                  <ListItemIcon>
+                    <History />
+                  </ListItemIcon>
+                  <ListItemText primary={'Lịch sử'} />
+                </ListItem>
+              </Link>
 
-          <Link href="/profile/me">
-            <ListItem button key={23}>
-              <ListItemIcon>
-                <ThumbUpAlt />
-              </ListItemIcon>
-              <ListItemText primary={'Liked Movies'} />
-            </ListItem>
-          </Link>
+              <Link href="/profile/me">
+                <ListItem button key={23}>
+                  <ListItemIcon>
+                    <ThumbUpAlt />
+                  </ListItemIcon>
+                  <ListItemText primary={'Đã thích'} />
+                </ListItem>
+              </Link>
+            </List>
+          )}
         </List>
       </Drawer>
     )

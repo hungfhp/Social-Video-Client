@@ -4,26 +4,21 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
-import { getImageMovie, getMovieViewsCount } from '../../common/utils/helpers'
 import Link from '../../components/Link'
 import Paper from '@material-ui/core/Paper'
 
 const styles = theme => ({
   cover: {
-    width: 80,
-    height: 104
+    width: 20,
+    height: 20
   }
 })
 
-class MovieCardSm extends Component {
+class UserItem extends Component {
   state = { expanded: false }
 
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }))
-  }
-
   render() {
-    const { classes, theme, movie } = this.props
+    const { classes, theme, user } = this.props
     return (
       <Paper elevation={1}>
         <Grid
@@ -34,11 +29,7 @@ class MovieCardSm extends Component {
           spacing={theme.spacing.unit}
         >
           <Grid item sx={3}>
-            <CardMedia
-              className={classes.cover}
-              image={getImageMovie(movie, 'small')}
-              title={movie.name}
-            />
+            <CardMedia className={classes.cover} image={user.avatarUrl} title={user.name} />
           </Grid>
           <Grid
             item
@@ -53,22 +44,17 @@ class MovieCardSm extends Component {
             <Grid item>
               <Typography variant="subtitle2">
                 <Link
-                  href={`/movie/${movie._id}`}
+                  href={`/profile/${user._id}`}
                   color="textPrimary"
                   style={theme.text.wrapTwoLine}
                 >
-                  {movie.name}
+                  {user.name}
                 </Link>
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="subtitle2" color="textSecondary" style={theme.text.wrapTwoLine}>
-                {(movie.genres && movie.genres.length && movie.genres.join(', ')) || '...'}
-              </Typography>
-            </Grid>
-            <Grid item>
               <Typography variant="subtitle2" color="textSecondary">
-                {getMovieViewsCount(movie)} lượt xem
+                10 phim
               </Typography>
             </Grid>
           </Grid>
@@ -78,9 +64,9 @@ class MovieCardSm extends Component {
   }
 }
 
-MovieCardSm.propTypes = {
+UserItem.propTypes = {
   classes: PropTypes.object.isRequired,
-  movie: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(MovieCardSm)
+export default withStyles(styles, { withTheme: true })(UserItem)

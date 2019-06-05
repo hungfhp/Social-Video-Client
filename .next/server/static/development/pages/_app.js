@@ -913,6 +913,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_15__);
 /* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../theme/main.scss */ "./theme/main.scss");
 /* harmony import */ var _theme_main_scss__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_theme_main_scss__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var notistack__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! notistack */ "notistack");
+/* harmony import */ var notistack__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(notistack__WEBPACK_IMPORTED_MODULE_17__);
+
 
 
 
@@ -974,15 +977,24 @@ function (_App) {
       var _this$props = this.props,
           Component = _this$props.Component,
           pageProps = _this$props.pageProps;
-      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_7__["Container"], null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_8___default.a, null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("title", null, "My page")), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_app__WEBPACK_IMPORTED_MODULE_7__["Container"], null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_head__WEBPACK_IMPORTED_MODULE_8___default.a, null, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("title", null, "Home")), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_jss_lib_JssProvider__WEBPACK_IMPORTED_MODULE_11___default.a, {
         registry: this.pageContext.sheetsRegistry,
         generateClassName: this.pageContext.generateClassName
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_9__["MuiThemeProvider"], {
         theme: this.pageContext.theme,
         sheetsManager: this.pageContext.sheetsManager
-      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_10___default.a, null), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_10___default.a, null), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(notistack__WEBPACK_IMPORTED_MODULE_17__["SnackbarProvider"], {
+        maxSnack: 3
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         pageContext: this.pageContext
-      }, pageProps)))));
+      }, pageProps))))), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        id: "fb-root"
+      }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("script", {
+        async: true,
+        defer: true,
+        crossOrigin: "anonymous",
+        src: "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v3.3&appId=329324544364004&autoLogAppEvents=1"
+      }));
     }
   }]);
 
@@ -1027,6 +1039,36 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["create
       light: '#ff7961',
       main: '#f44336',
       dark: '#ba000d'
+    }
+  },
+  title: {
+    section: {
+      paddingBottom: '10px',
+      marginTop: '-24px'
+    }
+  },
+  text: {
+    wrapTwoLine: {
+      lineHeight: '16px',
+      height: '32px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '2'
+      /* number of lines to show */
+
+    },
+    wrapThreeLine: {
+      lineHeight: '16px',
+      height: '48px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: '3'
+      /* number of lines to show */
+
     }
   },
   drawers: {
@@ -1274,6 +1316,17 @@ module.exports = require("next/head");
 /***/ (function(module, exports) {
 
 module.exports = require("next/router");
+
+/***/ }),
+
+/***/ "notistack":
+/*!****************************!*\
+  !*** external "notistack" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("notistack");
 
 /***/ }),
 

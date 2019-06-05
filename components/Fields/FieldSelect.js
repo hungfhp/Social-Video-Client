@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types, react/jsx-handler-names */
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -190,7 +189,7 @@ class FieldSelect extends React.Component {
   }
 
   render() {
-    const { classes, theme, label, options, creatable } = this.props
+    const { classes, theme, label, options, creatable ,disabled} = this.props
 
     const selectStyles = {
       input: base => ({
@@ -221,6 +220,7 @@ class FieldSelect extends React.Component {
               onChange={this._onChange}
               placeholder={label}
               isSearchable
+              isDisabled={disabled} 
             />
           ) : (
             <Select
@@ -238,6 +238,7 @@ class FieldSelect extends React.Component {
               onChange={this._onChange}
               placeholder={label}
               isSearchable
+              isDisabled={disabled} 
             />
           )}
         </NoSsr>

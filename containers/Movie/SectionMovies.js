@@ -4,6 +4,8 @@ import Grid from '@material-ui/core/Grid'
 import MovieCard from '../../components/Movie/MovieCard'
 import Link from '../../components/Link'
 import Typography from '@material-ui/core/Typography'
+import Loading from '../../components/Loading'
+import Pagination from '../../components/Pagination'
 
 const styles = theme => ({
   card: {
@@ -32,21 +34,45 @@ const styles = theme => ({
 
 @withStyles(styles, { withTheme: true })
 export default class SectionMovies extends Component {
+  handlePagination = params => {
+    this.props.handlePagination(params)
+  }
   render() {
-    const { classes, theme, movies = {} } = this.props
+    const { classes, theme, title, movies = {}, hasPagination } = this.props
+
+    if (movies.loaded == undefined) {
+      return null
+    }
+    if (!movies.loaded) {
+      return <Loading loading={true} />
+    }
     return (
       <React.Fragment>
+        {title && (
+          <Typography variant="h6" color="textPrimary" style={theme.title.section}>
+            {title}
+          </Typography>
+        )}
         <Grid container spacing={theme.spacing.unit * 2}>
           {movies.data && movies.data.length
             ? movies.data.map((movie, index) => {
-                return (
-                  <Grid key={index} item md={3}>
-                    <MovieCard movie={movie} />
-                  </Grid>
-                )
+                if (movie) {
+                  return (
+                    <Grid key={index} item md={3}>
+                      <MovieCard movie={movie._id ? movie : {}} />
+                    </Grid>
+                  )
+                }
               })
             : null}
         </Grid>
+        <br />
+        <hr />
+        {hasPagination && (
+          <Pagination pagination={movies.pagination} handlePagination={this.handlePagination} />
+        )}
+        <br />
+        <br />
       </React.Fragment>
     )
   }

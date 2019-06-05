@@ -9,6 +9,10 @@ import MovieCreate from './components/MovieCreate'
 import MovieEdit from './components/MovieEdit'
 import RightSideMovies from '../../containers/Movie/RightSideMovies'
 import Loading from '../../components/Loading'
+import { SnackbarProvider, withSnackbar } from 'notistack';
+
+const MovieEditWithToast = withSnackbar(MovieEdit)
+const MovieCreateWithToast = withSnackbar(MovieCreate)
 
 const styles = theme => ({
   root: {
@@ -32,20 +36,20 @@ const getPage = ({ query, ...props }) => {
         title: 'Tải lên phim mới',
         description:
           "Read our story in the Japanese car industry from our start. Understand more about our founders' ambition, vision and mission in invigorating the old industry",
-        content: <MovieCreate />
+        content: <MovieCreateWithToast />
       }
     case 'edit':
-      console.log('object')
+      console.log('edit')
       return {
-        title: 'Edit: ' + props.movie.title,
+        title: 'Chỉnh sửa: ' + props.movie.name,
         description:
           'Explore who we are, why we do this business, what we can bring to you, how you can enjoy our service and which sections we are specialized in',
-        content: <MovieEdit movie={props.movie} />
+        content: <MovieEditWithToast movie={props.movie} />
       }
     default:
       // view
       return {
-        title: props.movie.title,
+        title: props.movie.name,
         description:
           'Explore who we are, why we do this business, what we can bring to you, how you can enjoy our service and which sections we are specialized in',
         content: <MovieInfo movie={props.movie} />
@@ -59,9 +63,7 @@ const getPage = ({ query, ...props }) => {
     movie: state.movie,
     suggestMovies: state.common.suggestMovies
   }),
-  {
-    // getSuggestMovies
-  }
+  {}
 )
 @withStyles(styles, { withTheme: true })
 export default class Movie extends Component {
@@ -77,7 +79,6 @@ export default class Movie extends Component {
         </Head>
         <div id="home" className={classes.root}>
           <Grid container spacing={theme.spacing.unit * 5} alignContent="space-between">
-            {/* <Loading loading={!movie.loaded} /> */}
             <Grid item md={9}>
               {page.content}
             </Grid>

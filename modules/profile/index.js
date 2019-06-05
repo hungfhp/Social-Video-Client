@@ -3,34 +3,44 @@ import Head from 'next/head'
 import './styles.scss'
 import { connect } from 'react-redux'
 
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import Fade from '@material-ui/core/Fade'
-import FavoriteIcon from '@material-ui/icons/Favorite'
+// import Fade from '@material-ui/core/Fade'
+// import FavoriteIcon from '@material-ui/icons/Favorite'
+import Subscriptions from '@material-ui/icons/Subscriptions'
 import Grid from '@material-ui/core/Grid'
 import Loading from '../../components/Loading'
 import GroupIcon from '@material-ui/icons/Group'
-import HistoryIcon from '@material-ui/icons/History'
+// import HistoryIcon from '@material-ui/icons/History'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary'
-import SettingsIcon from '@material-ui/icons/Settings'
+// import SettingsIcon from '@material-ui/icons/Settings'
 import CastConnectedIcon from '@material-ui/icons/CastConnected'
 import SwipeableViews from 'react-swipeable-views'
-import Typography from '@material-ui/core/Typography'
+// import Typography from '@material-ui/core/Typography'
 
 import SectionMovies from '../../containers/Movie/SectionMovies'
-import Groups from './components/Groups'
-import Favorites from './components/Favorites'
+import Friends from './components/Friends'
+// import Favorites from './components/Favorites'
 import Follows from './components/Follows'
-import Likes from './components/Likes'
-import History from './components/History'
+// import Likes from './components/Likes'
+// import History from './components/History'
 import Settings from './components/Settings'
+import ViewUserProfile from './components/ViewUserProfile'
 
-import { getMoviesLiked, getMoviesFollowed, getGroupsOwn, getProfile } from './action'
+import {
+  getMoviesLiked,
+  getMoviesFollowed,
+  getProfile,
+  getRequesters,
+  getFriends,
+  getFollowers,
+  getFollowing
+} from './action'
 
 const styles = theme => ({
   root: {
@@ -49,9 +59,20 @@ const styles = theme => ({
     moviesOwn: state.profile.moviesOwn,
     moviesLiked: state.profile.moviesLiked,
     moviesFollowed: state.profile.moviesFollowed,
-    groupsOwn: state.profile.groupsOwn
+    requesters: state.profile.requesters,
+    friends: state.profile.friends,
+    followers: state.profile.followers,
+    following: state.profile.following
   }),
-  { getMoviesLiked, getMoviesFollowed, getGroupsOwn, getProfile }
+  {
+    getMoviesLiked,
+    getMoviesFollowed,
+    getProfile,
+    getRequesters,
+    getFriends,
+    getFollowers,
+    getFollowing
+  }
 )
 @withStyles(styles, { withTheme: true })
 export default class extends Component {
@@ -62,17 +83,30 @@ export default class extends Component {
   handleChange = (event, value) => {
     this.setState({ value })
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.userId !== this.props.userId) {
+      this.setState({ value: 0 })
+      this.getInitData(nextProps.userId)
+    }
+  }
+  getInitData = userId => {
+    this.props.getMoviesLiked(null, userId)
+    this.props.getMoviesFollowed(null, userId)
+    this.props.getRequesters(userId)
+    this.props.getFriends(userId)
+    this.props.getFollowers(userId)
+    this.props.getFollowing(userId)
+    this.props.getProfile(null, userId)
+  }
   componentDidMount() {
-    // this.props.getMoviesLiked(null, this.props.userId)
-    // this.props.getMoviesFollowed(null, this.props.userId)
-    // this.props.getGroupsOwn(null, this.props.userId)
-    this.props.getProfile(null, this.props.userId)
+    this.getInitData(this.props.userId)
   }
 
   render() {
-    const { classes, theme } = this.props
+    const { classes, theme, profile, user } = this.props
     const { value } = this.state
-    // console.log(this.props.profile)
+    const isOwn = profile.data._id === user._id
+    // console.log(this.props.moviesLiked.data)
     return (
       <React.Fragment>
         <Head>
@@ -84,7 +118,11 @@ export default class extends Component {
             <Grid item md={3}>
               <Paper elevation={0} className={classes.paper}>
                 {this.props.profile.loaded ? (
-                  <Settings profile={this.props.profile.data} />
+                  isOwn ? (
+                    <Settings profile={this.props.profile.data} />
+                  ) : (
+                    <ViewUserProfile profile={this.props.profile.data} />
+                  )
                 ) : (
                   <Loading loading={true} />
                 )}
@@ -98,12 +136,13 @@ export default class extends Component {
                   showLabels
                   className={classes.root}
                 >
+                  <BottomNavigationAction label="Tải lên" icon={<VideoLibraryIcon />} />
+                  <BottomNavigationAction label="Bạn bè" icon={<GroupIcon />} />
+                  <BottomNavigationAction label="Theo dõi" icon={<Subscriptions />} />
+                  <BottomNavigationAction label="Xem sau" icon={<CastConnectedIcon />} />
+                  <BottomNavigationAction label="Đã thích" icon={<ThumbUpAltIcon />} />
+
                   {/* <BottomNavigationAction label="Settings" icon={<SettingsIcon />} /> */}
-                  <BottomNavigationAction label="Movies" icon={<VideoLibraryIcon />} />
-                  <BottomNavigationAction label="Groups" icon={<GroupIcon />} />
-                  {/* <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} /> */}
-                  <BottomNavigationAction label="Follows" icon={<CastConnectedIcon />} />
-                  <BottomNavigationAction label="Likes" icon={<ThumbUpAltIcon />} />
                   {/* <BottomNavigationAction label="History" icon={<HistoryIcon />} /> */}
                 </BottomNavigation>
 
@@ -127,16 +166,19 @@ export default class extends Component {
                     )}
                   </Paper>
                   <Paper elevation={0} className={classes.paper}>
-                    {this.props.groupsOwn.loaded ? (
-                      <Groups movies={this.props.groupsOwn} />
+                    {this.props.requesters.loaded && this.props.friends.loaded ? (
+                      <Friends requesters={this.props.requesters} friends={this.props.friends} />
                     ) : (
                       <Loading loading={true} />
                     )}
                   </Paper>
-                  {/* <Paper elevation={0} className={classes.paper}>
-                  <Loading loading={!this.props.moviesOwn.loaded}/>
-                  <Favorites />
-                </Paper> */}
+                  <Paper elevation={0} className={classes.paper}>
+                    {this.props.followers.loaded && this.props.following.loaded ? (
+                      <Follows followers={this.props.followers} following={this.props.following} />
+                    ) : (
+                      <Loading loading={true} />
+                    )}
+                  </Paper>
                   <Paper elevation={0} className={classes.paper}>
                     {this.props.moviesFollowed.loaded ? (
                       <SectionMovies movies={this.props.moviesFollowed} />
